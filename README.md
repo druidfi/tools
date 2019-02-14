@@ -29,6 +29,8 @@ Or add manually following to your project's composer.json file:
 
 Command | Description
 --- | ---
+make build | Build for dev env
+make build ENV=production | Build for specified env
 make debug | Show debug information
 make down | Tear down the environment
 make help | List all make commands
