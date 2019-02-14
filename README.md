@@ -7,6 +7,7 @@ Set of tools meant for ease the development.
 - Generalized Make commands (build, up, down, etc)
 - Same command can be run on Docker container and on host
 - Extendable in your project
+- Easily Updatable
 
 ## How to use in the project
 
