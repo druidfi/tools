@@ -74,7 +74,7 @@ node_modules: package.json
 PHONY += self-update
 self-update: ## Self-update all the tools from druidfi/tools
 	$(call colorecho, "BETA: self update with Composer")
-	$(call composer_on_${RUN_ON},update druidfi/tools)
+	$(call composer_on_${RUN_ON},update druidfi/tools --no-plugins --no-scripts)
 
 define build_theme
     @echo "Implement project specific build_theme function to make/{somefile}.mk file (DEV=${DEV})"
