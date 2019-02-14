@@ -36,12 +36,11 @@ artifact: vendor ## Make tar.gz package from the current build
 	$(call colorecho, "\nCreate artifact:\n")
 	@tar -hczf artifact.tar.gz --files-from=conf/artifact/include --exclude-from=conf/artifact/exclude
 
---pre-build:
+PHONY += build
+build: $(BUILD_TARGETS) ## Build codebase(s)
 	$(call colorecho, "\nStart build for env: $(ENV)")
 	$(call colorecho, "\nFollowing targets will be run: $(BUILD_TARGETS)")
-
-PHONY += build
-build: --pre-build $(BUILD_TARGETS) ## Build codebase(s)
+	@$(MAKE) $(BUILD_TARGETS)
 	$(call colorecho, "\nBuild completed.")
 
 PHONY += clean
