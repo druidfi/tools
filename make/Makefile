@@ -47,7 +47,7 @@ build: --pre-build $(BUILD_TARGETS) ## Build codebase(s)
 PHONY += clean
 clean: ## Clean folders
 	$(call colorecho, "\nClean folders: ${CLEAN_FOLDERS}")
-	#@rm -rf ${CLEAN_FOLDERS}
+	@rm -rf ${CLEAN_FOLDERS}
 
 PHONY += debug
 debug: ## Show debug information
@@ -83,7 +83,7 @@ node_modules: package.json
 PHONY += self-update
 self-update: ## Self-update all the tools from druidfi/tools
 	$(call colorecho, "BETA: self update with Composer")
-	$(call composer_on_${RUN_ON},update druidfi/tools --no-plugins --no-scripts)
+	$(call composer_on_${RUN_ON},update druidfi/tools --no-plugins)
 
 define build_theme
     @echo "Implement project specific build_theme function to make/{somefile}.mk file (DEV=${DEV})"
