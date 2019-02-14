@@ -1,3 +1,4 @@
+BUILD_TARGETS := vendor
 CLEAN_FOLDERS += vendor
 
 PHONY += composer-update
