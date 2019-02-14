@@ -1,0 +1,9 @@
+# Ignore the folder created by PhpStorm
+.idea/*
+
+# Ignore OSX generated files
+.DS_Store
+._*
+
+!*.gitkeep
+!*.keepme
