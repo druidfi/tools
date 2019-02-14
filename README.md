@@ -18,6 +18,24 @@ Or add manually following to your project's composer.json file:
 },
 ```
 
+## Example on Makefile in your project root
+
+```
+PHONY :=
+PROJECT_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
+
+# Include project env vars
+include .env
+
+# Include druidfi/tools config
+include $(PROJECT_DIR)/vendor/druidfi/tools/make/Makefile
+
+# Include project specific make files if they exist
+-include $(PROJECT_DIR)/make/*.mk
+
+.PHONY: $(PHONY)
+```
+
 ## Update the tools
 
 TODO: there will be a command `make self-update`
