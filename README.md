@@ -2,6 +2,12 @@
 
 Set of tools meant for ease the development.
 
+## Features
+
+- Generalized Make commands (build, up, down, etc)
+- Same command can be run on Docker container and on host
+- Extendable in your project
+
 ## How to use in the project
 
 Require with Composer
@@ -17,6 +23,17 @@ Or add manually following to your project's composer.json file:
     "druidfi/tools": "dev-master"
 },
 ```
+
+## Default commands
+
+Command | Description
+--- | ---
+make debug | Show debug information
+make down | Tear down the environment
+make help | List all make commands
+make shell | Login to CLI container
+make self-update | Self-update all the tools from druidfi/tools
+make up | Launch the environment
 
 ## Example on Makefile in your project root
 

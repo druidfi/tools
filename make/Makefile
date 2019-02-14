@@ -41,7 +41,7 @@ clean: ## Clean folders
 	#@rm -rf ${CLEAN_FOLDERS}
 
 PHONY += debug
-debug: ## Debug
+debug: ## Show debug information
 	$(call colorecho, "Debug starts:")
 	$(call colorecho, "COMPOSER_BIN: ${COMPOSER_BIN}")
 	$(call colorecho, "DOCKER_COMPOSE_BIN: ${DOCKER_COMPOSE_BIN}")
@@ -63,7 +63,7 @@ endif
 	$(call colorecho, "End of debug.")
 
 PHONY += help
-help: ## Print this help
+help: ## List all make commands
 	$(call colorecho, "\nAvailable make commands:")
 	@cat $(MAKEFILE_LIST) | grep -e "^[a-zA-Z_\-]*: *.*## *" | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' | sort
 

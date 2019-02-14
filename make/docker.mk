@@ -28,7 +28,7 @@ docker-test: ## Run test targets
 	$(call call_in_root,pwd)
 
 PHONY += shell
-shell: ## Login to Drupal container
+shell: ## Login to CLI container
 ifeq ($(RUN_ON),host)
 	$(call colorecho,$(DOCKER_WARNING_INSIDE))
 else
