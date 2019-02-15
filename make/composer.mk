@@ -16,11 +16,7 @@ vendor: composer.json composer.lock ## Install Composer packages
 	$(call colorecho, "\nDo Composer install (${RUN_ON})...\n")
 	$(call composer_on_${RUN_ON},install)
 
-PHONY += test
-test: ## Run tests
-	$(call composer_on_${RUN_ON},test)
-
-ifeq ($(DOCKER_COMPOSE_YML_EXISTS),yes)
+ifneq ($(PHPUNIT_BIN),no)
 	TEST_TARGETS += test-phpunit
 
 	PHONY += test-phpunit
