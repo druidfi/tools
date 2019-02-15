@@ -35,7 +35,7 @@ Also you can add `post-update-cmd` hook to composer.json to update files:
 
 ```
 "post-update-cmd": [
-    "sh -c \"$(curl -fsSL https://raw.githubusercontent.com/druidfi/tools/master/update.sh)\""
+    "make self-update"
 ],
 ```
 
