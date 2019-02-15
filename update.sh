@@ -4,6 +4,7 @@ GITHUB=https://raw.githubusercontent.com
 REPOSITORY=druidfi/tools
 BRANCH=master
 TARGET=tools/make
+PROJECT_MAKEFILE=Makefile.project.dist
 
 declare -a files=(
   "Makefile"
@@ -39,6 +40,11 @@ main() {
   #set -e
 
   printf "${YELLOW}Start updating files from ${REPOSITORY}...${NORMAL}\n"
+
+  if [[ ! -f "Makefile" ]]; then
+    printf "\n${BLUE}[Info] ${NORMAL}Makefile does not exist, downloading it...${NORMAL}\n"
+    curl -LJs -H 'Cache-Control: no-cache' -O ${GITHUB}/${REPOSITORY}/${BRANCH}/make/${PROJECT_MAKEFILE}
+  fi
 
   if [[ ! -d ${TARGET} ]]; then
     printf "\n${BLUE}[Info] ${NORMAL}Folder ${TARGET} does not exist, creating it...${NORMAL}\n"
