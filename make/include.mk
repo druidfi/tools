@@ -5,3 +5,4 @@ ifeq ($(COMPOSER_JSON_EXISTS),yes)
 endif
 include $(DRUIDFI_TOOLS_MAKE_DIR)drupal.mk
 include $(DRUIDFI_TOOLS_MAKE_DIR)amazeeio.mk
+include $(DRUIDFI_TOOLS_MAKE_DIR)qa.mk

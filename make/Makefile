@@ -12,6 +12,7 @@ DOCKER_COMPOSE_YML_EXISTS := $(shell test -f docker-compose.yml && echo yes || e
 DRUIDFI_TOOLS_MAKE_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 ENV := dev
 PHP_BIN := $(shell which php)
+TEST_TARGETS := test-foobar
 # Shorten with https://git.io/ : https://raw.githubusercontent.com/druidfi/tools/master/update.sh
 UPDATE_SCRIPT_URL := https://git.io/fh771
 

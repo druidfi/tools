@@ -1,5 +1,7 @@
 BUILD_TARGETS := vendor
 CLEAN_FOLDERS += vendor
+COMPOSER_VENDOR_BIN := vendor/bin
+PHPUNIT_BIN := $(shell test -f vendor/bin/phpunit && echo vendor/bin/phpunit || echo no)
 
 PHONY += composer-update
 composer-update: ## Update Composer packages
@@ -18,10 +20,13 @@ PHONY += test
 test: ## Run tests
 	$(call composer_on_${RUN_ON},test)
 
-define build
-	$(call colorecho, "\nBuild ${ENV} codebase (${RUN_ON})...\n")
-	$(call composer_on_${RUN_ON},install)
-endef
+ifeq ($(DOCKER_COMPOSE_YML_EXISTS),yes)
+	TEST_TARGETS += test-phpunit
+
+	PHONY += test-phpunit
+	test-phpunit: ## Run PHPUnit tests
+		$(call call_in_root,${PHPUNIT_BIN} -c phpunit.xml.dist --testsuite unit)
+endif
 
 define composer_on_docker
 	$(call call_in_root,composer --ansi $(1))

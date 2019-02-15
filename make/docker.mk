@@ -21,7 +21,7 @@ else
 endif
 
 PHONY += docker-test
-docker-test: ## Run test targets
+docker-test: ## Run docker targets on Docker and host
 	$(call colorecho, "\nTest call_in_webroot on $(RUN_ON)")
 	$(call call_in_webroot,pwd)
 	$(call colorecho, "\nTest call_in_webroot on $(RUN_ON)")
