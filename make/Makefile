@@ -6,12 +6,9 @@ CLI_SERVICE := cli
 CLI_SHELL := sh
 CLI_USER := root
 COMPOSER_BIN := $(shell which composer || echo no)
+COMPOSER_JSON_EXISTS := $(shell test -f composer.json && echo yes || echo no)
 DOCKER_COMPOSE_BIN := $(shell which docker-compose || echo no)
-ifeq ($(shell test -f docker-compose.yml && echo yes),yes)
-    DOCKER_COMPOSE_YML_EXISTS := yes
-else
-		DOCKER_COMPOSE_YML_EXISTS := no
-endif
+DOCKER_COMPOSE_YML_EXISTS := $(shell test -f docker-compose.yml && echo yes || echo no)
 DRUIDFI_TOOLS_MAKE_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 ENV := dev
 PHP_BIN := $(shell which php)
@@ -41,6 +38,7 @@ PHONY += debug
 debug: ## Show debug information
 	@echo "${GREEN}Debug starts:${NO_COLOR}"
 	$(call dbg,COMPOSER_BIN,${COMPOSER_BIN})
+	$(call dbg,COMPOSER_JSON_EXISTS,${COMPOSER_JSON_EXISTS})
 	$(call dbg,DOCKER_COMPOSE_BIN,${DOCKER_COMPOSE_BIN})
 	$(call dbg,DOCKER_COMPOSE_YML_EXISTS,${DOCKER_COMPOSE_YML_EXISTS})
 	$(call dbg,ENV,${ENV})
