@@ -24,14 +24,11 @@ ifeq ($(DOCKER_COMPOSE_YML_EXISTS),yes)
 	# If docker-compose does not exist (e.g. inside Docker container)
 	ifeq ($(DOCKER_COMPOSE_BIN),no)
 		RUN_ON := host
-		RUN_ON_DOCKER := no
 	else
 		RUN_ON := docker
-		RUN_ON_DOCKER := yes
 	endif
 else
 	RUN_ON := host
-	RUN_ON_DOCKER := no
 endif
 
 PHONY += debug
@@ -45,12 +42,11 @@ debug: ## Show debug information
 	$(call dbg,ENV var DRUPAL_IMAGE,${DRUPAL_IMAGE})
 	$(call dbg,PHP_BIN,${PHP_BIN})
 	$(call dbg,RUN_ON,${RUN_ON})
-	$(call dbg,RUN_ON_DOCKER,${RUN_ON_DOCKER})
 	$(call dbg,CLEAN_FOLDERS,${CLEAN_FOLDERS})
 	$(call dbg,CLI_SERVICE,${CLI_SERVICE})
 	$(call dbg,CLI_USER,${CLI_USER})
 	$(call dbg,CLI_SHELL,${CLI_SHELL})
-ifeq ($(RUN_ON_DOCKER),yes)
+ifeq ($(RUN_ON),docker)
 	$(call colorecho, "We should run on Docker and not on host")
 else
 	$(call colorecho, "We should run on host and not on Docker")
