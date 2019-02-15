@@ -11,6 +11,12 @@ Set of tools meant for ease the development.
 
 ## How to use in the project
 
+Download oneliner:
+
+```
+$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/tools/master/update.sh)"
+```
+
 Require with Composer
 
 ```
