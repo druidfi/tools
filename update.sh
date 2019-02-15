@@ -45,14 +45,15 @@ main() {
 
   cd ${TARGET}
 
+  echo "Files: ${files[@]}"
+
   for i in "${!files[@]}"
   do
      file=${files[i]}
      files[${i}]="-O ${GITHUB}/${REPOSITORY}/${BRANCH}/make/${file}"
   done
 
-  #echo ${files[@]}
-  curl -LJ --progress-bar ${files[@]}
+  curl -LJ -H 'Cache-Control: no-cache' ${files[@]}
 
   printf "${YELLOW}Update complete!${NORMAL}\n"
 }
