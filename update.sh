@@ -13,6 +13,7 @@ declare -a files=(
   "composer.mk"
   "drupal.mk"
   "amazeeio.mk"
+  "qa.mk"
 )
 
 main() {
