@@ -43,7 +43,7 @@ main() {
 
   if [[ ! -f "Makefile" ]]; then
     printf "\n${BLUE}[Info] ${NORMAL}Makefile does not exist, downloading it...${NORMAL}\n"
-    curl -LJs -H 'Cache-Control: no-cache' -O ${GITHUB}/${REPOSITORY}/${BRANCH}/make/${PROJECT_MAKEFILE}
+    curl -LJs -H 'Cache-Control: no-cache' -o Makefile ${GITHUB}/${REPOSITORY}/${BRANCH}/make/${PROJECT_MAKEFILE}
   fi
 
   if [[ ! -d ${TARGET} ]]; then
