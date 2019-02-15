@@ -36,17 +36,19 @@ main() {
     NORMAL=""
   fi
 
-  set -e
+  #set -e
 
   printf "${YELLOW}Start updating files from ${REPOSITORY}...${NORMAL}\n"
 
   if [[ ! -d ${TARGET} ]]; then
+    printf "\n${BLUE}[Info] ${NORMAL}Folder ${TARGET} does not exist, creating it...${NORMAL}\n"
     mkdir -p ${TARGET}
   fi
 
   cd ${TARGET}
 
-  echo "Files: ${files[@]}"
+  printf "\n${YELLOW}Download following files:${NORMAL}\n"
+  printf '%s\n' "${files[@]}"
 
   for i in "${!files[@]}"
   do
@@ -54,9 +56,16 @@ main() {
      files[${i}]="-O ${GITHUB}/${REPOSITORY}/${BRANCH}/make/${file}"
   done
 
-  curl -LJ -H 'Cache-Control: no-cache' ${files[@]}
+  curl -LJs -H 'Cache-Control: no-cache' ${files[@]}
 
-  printf "${YELLOW}Update complete!${NORMAL}\n"
+  if [[ $? -eq 0 ]]
+  then
+    printf "\n${GREEN}[OK] ${YELLOW}Update complete!${NORMAL}\n"
+    exit 0
+  else
+    printf "\n${RED}[ERROR] ${YELLOW}Check if update.sh has correct settings.\n"
+    exit 1
+  fi
 }
 
 main
