@@ -23,4 +23,4 @@ help: ## List all make commands
 PHONY += self-update
 self-update: ## Self-update makefiles from druidfi/tools
 	$(call colorecho, "Update makefiles from druidfi/tools")
-	@sh -c "$(curl -fsSL -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/druidfi/tools/master/update.sh)"
+	@sh -c "$$(curl -fsSL -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/druidfi/tools/master/update.sh)"

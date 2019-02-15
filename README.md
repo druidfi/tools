@@ -14,7 +14,7 @@ Set of tools meant for ease the development.
 Download oneliner:
 
 ```
-$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/tools/master/update.sh)"
+$ sh -c "$(curl -fsSL -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/druidfi/tools/master/update.sh)"
 ```
 
 Require with Composer:
