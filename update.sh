@@ -8,6 +8,7 @@ TARGET=tools/make
 declare -a files=(
   "Makefile"
   "include.mk"
+  "common.mk"
   "docker.mk"
   "composer.mk"
   "drupal.mk"
