@@ -17,7 +17,7 @@ Download oneliner:
 $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/tools/master/update.sh)"
 ```
 
-Require with Composer
+Require with Composer:
 
 ```
 $ composer require druidfi/tools:dev-master
@@ -29,6 +29,14 @@ Or add manually following to your project's composer.json file:
 "require-dev": {
     "druidfi/tools": "dev-master"
 },
+```
+
+Also you can add `post-update-cmd` hook to composer.json to update files:
+
+```
+"post-update-cmd": [
+    "sh -c \"$(curl -fsSL https://raw.githubusercontent.com/druidfi/tools/master/update.sh)\""
+],
 ```
 
 ## Default commands
@@ -54,7 +62,7 @@ PROJECT_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 include .env
 
 # Include druidfi/tools config
-include $(PROJECT_DIR)/vendor/druidfi/tools/make/Makefile
+include $(PROJECT_DIR)/tools/make/Makefile
 
 # Include project specific make files if they exist
 -include $(PROJECT_DIR)/make/*.mk
@@ -70,6 +78,12 @@ TODO: there will be a command `make self-update`
 
 - https://github.com/druidfi/amazeeio-scripts
 - https://github.com/druidfi/spell
+
+## FAQ
+
+*Why cannot the makefiles be included from `vendor/druidfi/tools/make`?*
+
+As one of the operations `make clean` will remove the `vendor` folder.
 
 ## Other information
 
