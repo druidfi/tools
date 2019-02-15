@@ -20,15 +20,15 @@ drush-si: ## Site install
 	$(call drush_on_${RUN_ON}, -y si --existing-config)
 
 PHONY += drush-updb
-drush-updb: ## Get login link
+drush-updb: ## Run database updates
 	$(call colorecho, "\n- Run database updates...\n")
 	$(call drush_on_${RUN_ON},updb -y)
 
 PHONY += fresh
-fresh: build-dev sync post-install ## Build fresh development environment and sync
+fresh: build sync post-install ## Build fresh development environment and sync
 
 PHONY += new
-new: build-dev drush-si drush-uli ## Create a new empty Drupal installation from configuration
+new: build drush-si drush-uli ## Create a new empty Drupal installation from configuration
 
 PHONY += post-actions
 post-install: drush-updb drush-cim drush-uli ## Run post-install Drush actions

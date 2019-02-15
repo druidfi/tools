@@ -16,6 +16,12 @@ DRUIDFI_TOOLS_MAKE_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 ENV := dev
 PHP_BIN := $(shell which php)
 
+# Colors
+NO_COLOR=\033[0m
+GREEN=\033[0;32m
+RED=\033[0;31m
+YELLOW=\033[0;33m
+
 # If docker-compose.yml exists
 ifeq ($(DOCKER_COMPOSE_YML_EXISTS),yes)
 	# If docker-compose does not exist (e.g. inside Docker container)
@@ -33,34 +39,38 @@ endif
 
 PHONY += debug
 debug: ## Show debug information
-	$(call colorecho, "Debug starts:")
-	$(call colorecho, "COMPOSER_BIN: ${COMPOSER_BIN}")
-	$(call colorecho, "DOCKER_COMPOSE_BIN: ${DOCKER_COMPOSE_BIN}")
-	$(call colorecho, "DOCKER_COMPOSE_YML_EXISTS: ${DOCKER_COMPOSE_YML_EXISTS}")
-	$(call colorecho, "ENV: ${ENV}")
-	$(call colorecho, "ENV var DRUPAL_IMAGE: ${DRUPAL_IMAGE}")
-	$(call colorecho, "PHP_BIN: ${PHP_BIN}")
-	$(call colorecho, "RUN_ON: ${RUN_ON}")
-	$(call colorecho, "RUN_ON_DOCKER: ${RUN_ON_DOCKER}")
-	$(call colorecho, "CLEAN_FOLDERS: ${CLEAN_FOLDERS}")
-	$(call colorecho, "CLI_SERVICE: ${CLI_SERVICE}")
-	$(call colorecho, "CLI_USER: ${CLI_USER}")
-	$(call colorecho, "CLI_SHELL: ${CLI_SHELL}")
+	@echo "${GREEN}Debug starts:${NO_COLOR}"
+	$(call dbg,COMPOSER_BIN,${COMPOSER_BIN})
+	$(call dbg,DOCKER_COMPOSE_BIN,${DOCKER_COMPOSE_BIN})
+	$(call dbg,DOCKER_COMPOSE_YML_EXISTS,${DOCKER_COMPOSE_YML_EXISTS})
+	$(call dbg,ENV,${ENV})
+	$(call dbg,ENV var DRUPAL_IMAGE,${DRUPAL_IMAGE})
+	$(call dbg,PHP_BIN,${PHP_BIN})
+	$(call dbg,RUN_ON,${RUN_ON})
+	$(call dbg,RUN_ON_DOCKER,${RUN_ON_DOCKER})
+	$(call dbg,CLEAN_FOLDERS,${CLEAN_FOLDERS})
+	$(call dbg,CLI_SERVICE,${CLI_SERVICE})
+	$(call dbg,CLI_USER,${CLI_USER})
+	$(call dbg,CLI_SHELL,${CLI_SHELL})
 ifeq ($(RUN_ON_DOCKER),yes)
 	$(call colorecho, "We should run on Docker and not on host")
 else
 	$(call colorecho, "We should run on host and not on Docker")
 endif
-	$(call colorecho, "End of debug.")
+	@echo "${GREEN}End of debug.${NO_COLOR}"
 
 node_modules: package.json
 	$(call colorecho, "\n- Install node modules inside Docker container...\n")
 	$(call call_in_root, npm install --engine-strict true)
 
 define colorecho
-    @tput -T xterm setaf 3
-    @echo $1
-    @tput -T xterm sgr0
+	@tput -T xterm setaf 3
+	@echo $1
+	@tput -T xterm sgr0
+endef
+
+define dbg
+	@echo "${GREEN}${1}:${NO_COLOR} ${2}"
 endef
 
 # Include druidfi/tools make files
