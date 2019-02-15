@@ -39,6 +39,14 @@ Also you can add `post-update-cmd` hook to composer.json to update files:
 ],
 ```
 
+## Project specific
+
+Makefiles: you can add project specific Make files to `tools/make/project`.
+
+See the example below to see how they are loaded with:
+
+`-include $(PROJECT_DIR)/tools/make/project/*.mk`.
+
 ## Default commands
 
 Command | Description
@@ -58,14 +66,14 @@ make up | Launch the environment
 PHONY :=
 PROJECT_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 
-# Include project env vars
-include .env
+# Include project env vars (if exists)
+-include .env
 
 # Include druidfi/tools config
 include $(PROJECT_DIR)/tools/make/Makefile
 
-# Include project specific make files if they exist
--include $(PROJECT_DIR)/make/*.mk
+# Include project specific make files (if they exist)
+-include $(PROJECT_DIR)/tools/make/project/*.mk
 
 .PHONY: $(PHONY)
 ```
