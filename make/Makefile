@@ -12,6 +12,8 @@ DOCKER_COMPOSE_YML_EXISTS := $(shell test -f docker-compose.yml && echo yes || e
 DRUIDFI_TOOLS_MAKE_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 ENV := dev
 PHP_BIN := $(shell which php)
+# Shorten with https://git.io/ : https://raw.githubusercontent.com/druidfi/tools/master/update.sh
+UPDATE_SCRIPT_URL := https://git.io/fh771
 
 # Colors
 NO_COLOR=\033[0m
@@ -36,20 +38,19 @@ debug: ## Show debug information
 	@echo "${GREEN}Debug starts:${NO_COLOR}"
 	$(call dbg,COMPOSER_BIN,${COMPOSER_BIN})
 	$(call dbg,COMPOSER_JSON_EXISTS,${COMPOSER_JSON_EXISTS})
-	$(call dbg,DOCKER_COMPOSE_BIN,${DOCKER_COMPOSE_BIN})
-	$(call dbg,DOCKER_COMPOSE_YML_EXISTS,${DOCKER_COMPOSE_YML_EXISTS})
-	$(call dbg,ENV,${ENV})
-	$(call dbg,ENV var DRUPAL_IMAGE,${DRUPAL_IMAGE})
-	$(call dbg,PHP_BIN,${PHP_BIN})
-	$(call dbg,RUN_ON,${RUN_ON})
 	$(call dbg,CLEAN_FOLDERS,${CLEAN_FOLDERS})
 	$(call dbg,CLI_SERVICE,${CLI_SERVICE})
 	$(call dbg,CLI_USER,${CLI_USER})
 	$(call dbg,CLI_SHELL,${CLI_SHELL})
+	$(call dbg,DOCKER_COMPOSE_BIN,${DOCKER_COMPOSE_BIN})
+	$(call dbg,DOCKER_COMPOSE_YML_EXISTS,${DOCKER_COMPOSE_YML_EXISTS})
+	$(call dbg,ENV,${ENV})
+	$(call dbg,PHP_BIN,${PHP_BIN})
+	$(call dbg,RUN_ON,${RUN_ON})
 ifeq ($(RUN_ON),docker)
-	$(call colorecho, "We should run on Docker and not on host")
+	@echo "${YELLOW}Assumption: We should run on Docker and not on host${NO_COLOR}"
 else
-	$(call colorecho, "We should run on host and not on Docker")
+	@echo "${YELLOW}Assumption: We should run on host and not on Docker${NO_COLOR}"
 endif
 	@echo "${GREEN}End of debug.${NO_COLOR}"
 
