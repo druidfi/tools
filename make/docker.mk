@@ -8,7 +8,15 @@ ifeq ($(RUN_ON),host)
 else
 	$(call colorecho, "\nTear down the environment")
 	@docker-compose down -v --remove-orphans
-	@make clean
+endif
+
+PHONY += stop
+stop: ## Stop the environment
+ifeq ($(RUN_ON),host)
+	$(call colorecho,$(DOCKER_WARNING_INSIDE))
+else
+	$(call colorecho, "\nStop the environment")
+	@docker-compose stop
 endif
 
 PHONY += up
