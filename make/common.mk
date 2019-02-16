@@ -10,6 +10,17 @@ build: $(BUILD_TARGETS) ## Build codebase(s)
 	@$(MAKE) $(BUILD_TARGETS)
 	$(call colorecho, "\nBuild completed.")
 
+PHONY += build-dev
+build-dev: build
+
+PHONY += build-testing
+build-testing: ENV := testing
+build-testing: build
+
+PHONY += build-production
+build-production: ENV := production
+build-production: build
+
 PHONY += clean
 clean: ## Clean folders
 	$(call colorecho, "\nClean folders: ${CLEAN_FOLDERS}")
