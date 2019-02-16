@@ -25,10 +25,10 @@ drush-updb: ## Run database updates
 	$(call drush_on_${RUN_ON},updb -y)
 
 PHONY += fresh
-fresh: build sync post-install ## Build fresh development environment and sync
+fresh: up build sync post-install ## Build fresh development environment and sync
 
 PHONY += new
-new: build drush-si drush-uli ## Create a new empty Drupal installation from configuration
+new: up build drush-si drush-uli ## Create a new empty Drupal installation from configuration
 
 PHONY += post-actions
 post-install: drush-updb drush-cim drush-uli ## Run post-install Drush actions
