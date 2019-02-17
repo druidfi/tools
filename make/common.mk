@@ -1,7 +1,23 @@
+ARTIFACT_INCLUDE_EXISTS := $(shell test -f conf/artifact/include && echo yes || echo no)
+ARTIFACT_EXCLUDE_EXISTS := $(shell test -f conf/artifact/exclude && echo yes || echo no)
+ARTIFACT_CMD := tar -hczf artifact.tar.gz
+
+ifeq ($(ARTIFACT_INCLUDE_EXISTS),yes)
+	ARTIFACT_CMD := ${ARTIFACT_CMD} --files-from=conf/artifact/include
+else
+	ARTIFACT_CMD := ${ARTIFACT_CMD} *
+endif
+
+ifeq ($(ARTIFACT_EXCLUDE_EXISTS),yes)
+	ARTIFACT_CMD := ${ARTIFACT_CMD} --exclude-from=conf/artifact/exclude
+endif
+
 PHONY += artifact
-artifact: vendor ## Make tar.gz package from the current build
-	$(call colorecho, "\nCreate artifact:\n")
-	@tar -hczf artifact.tar.gz --files-from=conf/artifact/include --exclude-from=conf/artifact/exclude
+# This command can always be run on host
+artifact: RUN_ON := host
+artifact: build ## Make tar.gz package from the current build
+	$(call colorecho, "\nCreate artifact (${RUN_ON}):\n")
+	@${ARTIFACT_CMD}
 
 PHONY += build
 build: $(BUILD_TARGETS) ## Build codebase(s)
