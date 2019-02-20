@@ -23,7 +23,7 @@ PHONY += build
 build: $(BUILD_TARGETS) ## Build codebase(s)
 	$(call colorecho, "\nStart build for env: $(ENV)")
 	$(call colorecho, "- Following targets will be run: $(BUILD_TARGETS)")
-	@$(MAKE) $(BUILD_TARGETS)
+	@$(MAKE) $(BUILD_TARGETS) ENV=$(ENV)
 	$(call colorecho, "\nBuild completed.")
 
 PHONY += build-dev

@@ -1,7 +1,7 @@
 BUILD_TARGETS := node_modules
 
-node_modules: package.json
-	$(call colorecho, "\n-So npm install (${RUN_ON})...\n")
+node_modules: package.json ## Install NPM packages
+	$(call colorecho, "\n-Do npm install (${RUN_ON})...\n")
 	$(call npm_on_${RUN_ON},install --engine-strict true)
 
 define npm_on_docker
