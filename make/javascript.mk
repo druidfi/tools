@@ -1,4 +1,4 @@
-BUILD_TARGETS := node_modules
+BUILD_TARGETS += node_modules
 
 node_modules: package.json ## Install NPM packages
 	$(call colorecho, "\n-Do npm install (${RUN_ON})...\n")
