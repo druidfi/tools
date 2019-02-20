@@ -11,13 +11,15 @@ Set of tools meant for ease the development.
 
 ## How to use in the project
 
-Download oneliner:
+Download oneliner (source is [update.sh](update.sh)):
 
 ```
 $ sh -c "$(curl -fsSL -H 'Cache-Control: no-cache' https://git.io/fh771)"
 ```
 
-Require with Composer:
+### Require with Composer
+
+You can also install druidfi/tools with Composer by requiring it:
 
 ```
 $ composer require druidfi/tools:dev-master
@@ -57,7 +59,7 @@ make debug | Show debug information
 make down | Tear down the environment
 make help | List all make commands
 make shell | Login to CLI container
-make self-update | Self-update all the tools from druidfi/tools
+make self-update | Self-update all the tools from druidfi/tools. See [update.sh](update.sh).
 make up | Launch the environment
 
 ## Example on Makefile in your project root
