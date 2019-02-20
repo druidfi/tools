@@ -11,6 +11,7 @@ DOCKER_COMPOSE_BIN := $(shell which docker-compose || echo no)
 DOCKER_COMPOSE_YML_EXISTS := $(shell test -f docker-compose.yml && echo yes || echo no)
 DRUIDFI_TOOLS_MAKE_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 ENV := dev
+PACKAGE_JSON_EXISTS := $(shell test -f package.json && echo yes || echo no)
 PHP_BIN := $(shell which php)
 TEST_TARGETS := test-foobar
 # Shorten with https://git.io/ : https://raw.githubusercontent.com/druidfi/tools/master/update.sh
@@ -54,10 +55,6 @@ else
 	@echo "${YELLOW}Assumption: We should run on host and not on Docker${NO_COLOR}"
 endif
 	@echo "${GREEN}End of debug.${NO_COLOR}"
-
-node_modules: package.json
-	$(call colorecho, "\n- Install node modules inside Docker container...\n")
-	$(call call_in_root, npm install --engine-strict true)
 
 define colorecho
 	@tput -T xterm setaf 3
