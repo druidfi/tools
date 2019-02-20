@@ -1,5 +1,10 @@
 BUILD_TARGETS := vendor
 CLEAN_FOLDERS += vendor
+ifeq ($(ENV),production)
+	COMPOSER_ARGS := --no-dev --optimize-autoloader --prefer-dist --no-suggest
+else
+	COMPOSER_ARGS := --dev --no-suggest
+endif
 COMPOSER_VENDOR_BIN := vendor/bin
 PHPUNIT_BIN := ${COMPOSER_VENDOR_BIN}/phpunit
 PHPUNIT_BIN_EXISTS := $(shell test -f ${PHPUNIT_BIN} && echo yes || echo no)
@@ -21,9 +26,9 @@ else
 	@echo "- ${YELLOW}${PHPCBF_BIN} does not exist! ${RED}[ERROR]${NO_COLOR}"
 endif
 
-vendor: composer.json composer.lock ## Install Composer packages
+vendor: ## Install Composer packages
 	$(call colorecho, "\nDo Composer install (${RUN_ON})...\n")
-	$(call composer_on_${RUN_ON},install)
+	$(call composer_on_${RUN_ON},install ${COMPOSER_ARGS})
 
 PHONY += test-phpunit
 test-phpunit: ## Run PHPUnit tests

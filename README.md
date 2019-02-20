@@ -82,7 +82,11 @@ include $(PROJECT_DIR)/tools/make/Makefile
 
 ## Update the tools
 
-TODO: there will be a command `make self-update`
+Update general tools by downloading new versions of the files:
+
+```
+$ make self-update
+```
 
 ## Where this is used
 

@@ -13,3 +13,4 @@ versions: ## Show software versions inside the Drupal container
 	$(call composer_on_${RUN_ON}, --version && echo " ")
 	$(call drush_on_${RUN_ON},--version)
 	$(call call_in_root,echo 'NPM version: '|tr '\n' ' ' && npm --version)
+	$(call call_in_root,echo 'Yarn version: '|tr '\n' ' ' && yarn --version)
