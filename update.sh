@@ -12,6 +12,7 @@ declare -a files=(
   "common.mk"
   "docker.mk"
   "composer.mk"
+  "javascript.mk"
   "drupal.mk"
   "amazeeio.mk"
   "qa.mk"
