@@ -36,14 +36,14 @@ post-install: drush-updb drush-cim drush-uli ## Run post-install Drush actions
 PHONY += sync
 sync: ## Sync database and files
 	$(call colorecho, "\nSync database from @$(DRUPAL_SYNC_SOURCE)...\n")
-	$(call drush_on_${RUN_ON},sql:sync -y @$(DRUPAL_SYNC_SOURCE) @self)
+	$(call drush_on_${RUN_ON},sql-sync -y @$(DRUPAL_SYNC_SOURCE) @self)
 	$(call colorecho, "Sync files from @$(DRUPAL_SYNC_SOURCE)...\n")
 	$(call drush_on_${RUN_ON},rsync -y --mode=akzu @$(DRUPAL_SYNC_SOURCE):%files @self:%files)
 
 define drush_on_docker
-	$(call call_in_webroot, drush --ansi $(1))
+	$(call docker_run_cmd,drush --ansi --strict=0 $(1))
 endef
 
 define drush_on_host
-	drush --ansi $(1)
+	drush --ansi --strict=0 $(1)
 endef

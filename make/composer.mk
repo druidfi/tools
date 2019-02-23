@@ -45,7 +45,7 @@ else
 endif
 
 define composer_on_docker
-	$(call call_in_root,composer --ansi $(1))
+	$(call docker_run_cmd,cd ${DOCKER_PROJECT_ROOT} && composer --ansi $(1))
 endef
 
 define composer_on_host
