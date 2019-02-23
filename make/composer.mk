@@ -12,6 +12,11 @@ TEST_TARGETS += fix test-phpunit
 PHPCBF_BIN := ${COMPOSER_VENDOR_BIN}/phpcbf
 PHPCBF_BIN_EXISTS := $(shell test -f ${PHPCBF_BIN} && echo yes || echo no)
 
+PHONY += composer-info
+composer-info: ## Composer info
+	$(call colorecho, "\nDo Composer info (${RUN_ON})...\n")
+	$(call composer_on_${RUN_ON},info)
+
 PHONY += composer-update
 composer-update: ## Update Composer packages
 	$(call colorecho, "\nDo Composer update (${RUN_ON})...\n")
