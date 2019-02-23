@@ -1,4 +1,6 @@
-BUILD_TARGETS += node_modules
+ifeq (${PACKAGE_JSON_EXISTS},yes)
+	BUILD_TARGETS += node_modules
+endif
 
 node_modules: package.json ## Install NPM packages
 	$(call colorecho, "\n-Do npm install (${RUN_ON})...\n")
