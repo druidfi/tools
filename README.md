@@ -90,7 +90,6 @@ $ make self-update
 
 ## Where this is used
 
-- https://github.com/druidfi/amazeeio-scripts
 - https://github.com/druidfi/spell
 
 ## FAQ
