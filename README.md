@@ -14,7 +14,7 @@ Set of tools meant for ease the development.
 Download oneliner (source is [update.sh](update.sh)):
 
 ```
-$ sh -c "$(curl -fsSL -H 'Cache-Control: no-cache' https://git.io/fh771)"
+$ bash -c "$(curl -fsSL -H 'Cache-Control: no-cache' https://git.io/fh771)"
 ```
 
 ### Require with Composer
