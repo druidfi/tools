@@ -62,3 +62,7 @@ define call_in_root
     @${DOCKER_COMPOSER_EXEC} -u ${CLI_USER} ${CLI_SERVICE} ${CLI_SHELL} -c ". ~/.bash_envvars && cd /var/www/drupal/public_html && PATH=`pwd`/vendor/bin:\$$PATH && $(1)"
 endef
 endif
+
+define docker_run_cmd
+    ${DOCKER_COMPOSER_EXEC} -u ${CLI_USER} ${CLI_SERVICE} ${CLI_SHELL} -c "$(1)"
+endef
