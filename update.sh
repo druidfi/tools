@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+VERSION=2019-02-25-1
 DEBUG=0
 GITHUB=https://raw.githubusercontent.com
 REPOSITORY=druidfi/tools
@@ -40,9 +41,7 @@ main() {
     NORMAL=""
   fi
 
-  #set -e
-
-  printf "${YELLOW}Start updating files from ${REPOSITORY}...${NORMAL}\n"
+  printf "${YELLOW}${REPOSITORY} updater (version ${VERSION})${NORMAL}\n"
 
   if [[ ! -f "Makefile" ]]; then
     printf "\n${BLUE}[Info] ${NORMAL}Makefile does not exist, downloading it...${NORMAL}\n"
