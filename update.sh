@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
+DEBUG=0
 GITHUB=https://raw.githubusercontent.com
 REPOSITORY=druidfi/tools
 BRANCH=master
 TARGET=tools/make
 PROJECT_MAKEFILE=Makefile.project.dist
+REPOSITORY_URL=https://github.com/druidfi/tools
 
 declare -a files=(
   "Makefile"
@@ -54,14 +56,19 @@ main() {
 
   cd ${TARGET}
 
-  printf "\n${YELLOW}Download following files:${NORMAL}\n"
+  printf "\n${YELLOW}Download following files from ${REPOSITORY_URL}:${NORMAL}\n"
   printf '%s\n' "${files[@]}"
 
   for i in "${!files[@]}"
   do
      file=${files[i]}
-     files[${i}]="-O ${GITHUB}/${REPOSITORY}/${BRANCH}/make/${file}"
+     timestamp=$(date +%s)
+     files[${i}]="-O ${GITHUB}/${REPOSITORY}/${BRANCH}/make/${file}?t=${timestamp}"
   done
+
+  if [[ ${DEBUG} -eq 1 ]]; then
+    printf "DEBUG: curl -LJs ${files[@]}"
+  fi
 
   curl -LJs -H 'Cache-Control: no-cache' ${files[@]}
 
