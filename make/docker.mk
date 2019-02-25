@@ -1,6 +1,6 @@
 DOCKER_COMPOSER_EXEC := docker-compose exec -T
 DOCKER_WARNING_INSIDE := "\nYou are inside the Docker container!\n"
-DOCKER_PROJECT_ROOT := /var/www/drupal/public_html
+DOCKER_PROJECT_ROOT := /app
 
 PHONY += down
 down: ## Tear down the environment
