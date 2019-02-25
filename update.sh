@@ -63,14 +63,17 @@ main() {
   do
      file=${files[i]}
      timestamp=$(date +%s)
-     files[${i}]="-O ${GITHUB}/${REPOSITORY}/${BRANCH}/make/${file}?t=${timestamp}"
+     urls[${i}]="${GITHUB}/${REPOSITORY}/${BRANCH}/make/${file}?t=${timestamp}"
   done
 
-  if [[ ${DEBUG} -eq 1 ]]; then
-    printf "DEBUG: curl -LJs ${files[@]}"
-  fi
-
-  curl -LJs -H 'Cache-Control: no-cache' ${files[@]}
+  for i in "${!files[@]}"
+  do
+    if [[ ${DEBUG} -eq 1 ]]; then
+      printf "DEBUG: curl -LJs -o ${files[i]} ${urls[i]}\n"
+    else
+      curl -LJs -o ${files[i]} ${urls[i]}
+    fi
+  done
 
   if [[ $? -eq 0 ]]
   then
