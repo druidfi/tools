@@ -1,4 +1,4 @@
-DOCKER_COMPOSER_EXEC := docker-compose exec -T
+DOCKER_COMPOSE_EXEC := docker-compose exec -T
 DOCKER_WARNING_INSIDE := "\nYou are inside the Docker container!\n"
 DOCKER_PROJECT_ROOT := /app
 
@@ -44,7 +44,7 @@ endif
 
 ifeq ($(RUN_ON),docker)
 define docker_run_cmd
-    @${DOCKER_COMPOSER_EXEC} -u ${CLI_USER} ${CLI_SERVICE} ${CLI_SHELL} -c "$(1)"
+    @${DOCKER_COMPOSE_EXEC} -u ${CLI_USER} ${CLI_SERVICE} ${CLI_SHELL} -c "$(1)"
 endef
 else
 define docker_run_cmd
