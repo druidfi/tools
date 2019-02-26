@@ -5,7 +5,11 @@ drush-cex: ## Export configuration
 PHONY += drush-cim
 drush-cim: ## Import configuration
 	$(call colorecho, "\n- Import configuration...\n")
+ifeq (${DRUPAL_VERSION},7)
+	@echo "- \"drush cim\" is not Drupal 7 command ${YELLOW}[warning]${NO_COLOR}"
+else
 	$(call drush_on_${RUN_ON},cim -y)
+endif
 
 PHONY += drush-status
 drush-status: ## Show Drupal status information
