@@ -1,3 +1,5 @@
+SYNC_TARGETS += drush-sync
+
 PHONY += drush-cex
 drush-cex: ## Export configuration
 	$(call drush_on_docker,cex -y)
@@ -37,8 +39,8 @@ new: up build drush-si drush-uli ## Create a new empty Drupal installation from 
 PHONY += post-actions
 post-install: drush-updb drush-cim drush-uli ## Run post-install Drush actions
 
-PHONY += sync
-sync: ## Sync database and files
+PHONY += drush-sync
+drush-sync: ## Sync database and files
 	$(call colorecho, "\nSync database from @$(DRUPAL_SYNC_SOURCE)...\n")
 	$(call drush_on_${RUN_ON},sql-sync -y @$(DRUPAL_SYNC_SOURCE) @self)
 	$(call colorecho, "Sync files from @$(DRUPAL_SYNC_SOURCE)...\n")
