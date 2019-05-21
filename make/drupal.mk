@@ -2,11 +2,16 @@ SYNC_TARGETS += drush-sync
 
 PHONY += drush-cex
 drush-cex: ## Export configuration
-	$(call drush_on_docker,cex -y)
+	$(call colorecho, "\n- Export configuration (${RUN_ON})...\n")
+ifeq (${DRUPAL_VERSION},7)
+	@echo "- \"drush cex\" is not Drupal 7 command ${YELLOW}[warning]${NO_COLOR}"
+else
+	$(call drush_on_${RUN_ON},cex -y)
+endif
 
 PHONY += drush-cim
 drush-cim: ## Import configuration
-	$(call colorecho, "\n- Import configuration...\n")
+	$(call colorecho, "\n- Import configuration (${RUN_ON})...\n")
 ifeq (${DRUPAL_VERSION},7)
 	@echo "- \"drush cim\" is not Drupal 7 command ${YELLOW}[warning]${NO_COLOR}"
 else
@@ -57,5 +62,5 @@ define drush_on_docker
 endef
 
 define drush_on_host
-	drush --ansi --strict=0 $(1)
+	@drush --ansi --strict=0 $(1)
 endef
