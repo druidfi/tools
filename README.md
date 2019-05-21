@@ -17,30 +17,6 @@ Download oneliner (source is [update.sh](update.sh)):
 $ bash -c "$(curl -fsSL -H 'Cache-Control: no-cache' https://git.io/fh771)"
 ```
 
-### Require with Composer
-
-You can also install druidfi/tools with Composer by requiring it:
-
-```
-$ composer require druidfi/tools:dev-master
-```
-
-Or add manually following to your project's composer.json file:
-
-```
-"require-dev": {
-    "druidfi/tools": "dev-master"
-},
-```
-
-Also you can add `post-update-cmd` hook to composer.json to update files:
-
-```
-"post-update-cmd": [
-    "make self-update"
-],
-```
-
 ## Project specific
 
 Makefiles: you can add project specific Make files to `tools/make/project`.
@@ -94,7 +70,7 @@ $ make self-update
 
 ## FAQ
 
-*Why cannot the makefiles be included from `vendor/druidfi/tools/make`?*
+*Why cannot the makefiles be included with Composer and from `vendor/druidfi/tools/make`?*
 
 As one of the operations `make clean` will remove the `vendor` folder.
 
