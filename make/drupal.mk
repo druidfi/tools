@@ -22,8 +22,14 @@ drush-uli: ## Get login link
 	$(call colorecho, "\n- Login to your site with:\n")
 	$(call drush_on_${RUN_ON},uli)
 
+PHONY += drush-si
+ifeq ($(DRUPAL_VERSION),7)
+    DRUSH_SI := -y
+else
+    DRUSH_SI := -y --existing-config
+endif
 drush-si: ## Site install
-	$(call drush_on_${RUN_ON}, -y si --existing-config)
+	$(call drush_on_${RUN_ON},si ${DRUSH_SI})
 
 PHONY += drush-updb
 drush-updb: ## Run database updates
@@ -36,7 +42,7 @@ fresh: up build sync post-install ## Build fresh development environment and syn
 PHONY += new
 new: up build drush-si drush-uli ## Create a new empty Drupal installation from configuration
 
-PHONY += post-actions
+PHONY += post-install
 post-install: drush-updb drush-cim drush-uli ## Run post-install Drush actions
 
 PHONY += drush-sync
