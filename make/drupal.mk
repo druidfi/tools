@@ -29,9 +29,9 @@ drush-uli: ## Get login link
 
 PHONY += drush-si
 ifeq ($(DRUPAL_VERSION),7)
-    DRUSH_SI := -y
+    drush-si: DRUSH_SI := -y
 else
-    DRUSH_SI := -y --existing-config
+    drush-si: DRUSH_SI := -y --existing-config
 endif
 drush-si: ## Site install
 	$(call drush_on_${RUN_ON},si ${DRUSH_SI})
