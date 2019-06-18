@@ -3,6 +3,7 @@ PROJECT_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 
 # Include project env vars (if exists)
 -include .env
+-include .env.local
 
 # Include druidfi/tools config
 include $(PROJECT_DIR)/tools/make/Makefile
