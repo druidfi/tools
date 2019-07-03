@@ -2,7 +2,7 @@ TEST_TARGETS += lint
 LINT_PATHS_JS += ./$(DRUPAL_WEBROOT)/modules/custom/*/js
 LINT_PATHS_JS += ./$(DRUPAL_WEBROOT)/themes/custom/*/js
 
-PHONY += lint-php
+PHONY += lint
 lint: lint-php lint-js ## Check code style
 
 PHONY += lint-js
