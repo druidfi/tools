@@ -38,7 +38,7 @@ endif
 
 PHONY += debug
 debug: ## Show debug information
-	@echo "${GREEN}Debug starts:${NO_COLOR}"
+	@printf "${GREEN}Debug starts:${NO_COLOR}\n"
 	$(call dbg,COMPOSER_BIN,${COMPOSER_BIN})
 	$(call dbg,COMPOSER_JSON_EXISTS,${COMPOSER_JSON_EXISTS})
 	$(call dbg,CLEAN_FOLDERS,${CLEAN_FOLDERS})
@@ -52,11 +52,11 @@ debug: ## Show debug information
 	$(call dbg,RUN_ON,${RUN_ON})
 	$(call dbg,UNAME_S,${UNAME_S})
 ifeq ($(RUN_ON),docker)
-	@echo "${YELLOW}Assumption: We should run on Docker and not on host${NO_COLOR}"
+	@printf "${YELLOW}Assumption: We should run on Docker and not on host${NO_COLOR}\n"
 else
-	@echo "${YELLOW}Assumption: We should run on host and not on Docker${NO_COLOR}"
+	@printf "${YELLOW}Assumption: We should run on host and not on Docker${NO_COLOR}\n"
 endif
-	@echo "${GREEN}End of debug.${NO_COLOR}"
+	@printf "${GREEN}End of debug.${NO_COLOR}\n"
 
 define colorecho
 	@tput -T xterm setaf 3
@@ -65,7 +65,7 @@ define colorecho
 endef
 
 define dbg
-	@echo "${GREEN}${1}:${NO_COLOR} ${2}"
+	@printf "${GREEN}${1}:${NO_COLOR} ${2}\n"
 endef
 
 define warn
