@@ -68,5 +68,9 @@ define dbg
 	@echo "${GREEN}${1}:${NO_COLOR} ${2}"
 endef
 
+define warn
+	@printf "${YELLOW}[warning]${NO_COLOR} ${1}\n"
+endef
+
 # Include druidfi/tools make files
 include $(DRUIDFI_TOOLS_MAKE_DIR)include.mk
