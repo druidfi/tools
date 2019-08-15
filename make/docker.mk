@@ -1,11 +1,11 @@
 DOCKER_COMPOSE_EXEC := docker-compose exec -T
-DOCKER_WARNING_INSIDE := "\nYou are inside the Docker container!\n"
+DOCKER_WARNING_INSIDE := You are inside the Docker container!
 DOCKER_PROJECT_ROOT := /app
 
 PHONY += down
 down: ## Tear down the environment
 ifeq ($(RUN_ON),host)
-	$(call colorecho,$(DOCKER_WARNING_INSIDE))
+	$(call warn,$(DOCKER_WARNING_INSIDE))
 else
 	$(call colorecho, "\nTear down the environment")
 	@docker-compose down -v --remove-orphans
@@ -14,7 +14,7 @@ endif
 PHONY += stop
 stop: ## Stop the environment
 ifeq ($(RUN_ON),host)
-	$(call colorecho,$(DOCKER_WARNING_INSIDE))
+	$(call warn,$(DOCKER_WARNING_INSIDE))
 else
 	$(call colorecho, "\nStop the environment")
 	@docker-compose stop
@@ -23,7 +23,7 @@ endif
 PHONY += up
 up: ## Launch the environment
 ifeq ($(RUN_ON),host)
-	$(call colorecho,$(DOCKER_WARNING_INSIDE))
+	$(call warn,$(DOCKER_WARNING_INSIDE))
 else
 	$(call colorecho, "\nStart up the container(s)\n")
 	@docker-compose up -d --remove-orphans
@@ -37,7 +37,7 @@ docker-test: ## Run docker targets on Docker and host
 PHONY += shell
 shell: ## Login to CLI container
 ifeq ($(RUN_ON),host)
-	$(call colorecho,$(DOCKER_WARNING_INSIDE))
+	$(call warn,$(DOCKER_WARNING_INSIDE))
 else
 	@docker-compose exec -u ${CLI_USER} ${CLI_SERVICE} ${CLI_SHELL}
 endif
