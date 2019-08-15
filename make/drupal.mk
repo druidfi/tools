@@ -1,5 +1,7 @@
 SYNC_TARGETS += drush-sync
 
+DRUPAL_CONF_EXISTS := $(shell test -f conf/cmi/core.extension.yml && echo yes || echo no)
+
 PHONY += drush-cex
 drush-cex: ## Export configuration
 	$(call colorecho, "\n- Export configuration (${RUN_ON})...\n")
@@ -28,10 +30,10 @@ drush-uli: ## Get login link
 	$(call drush_on_${RUN_ON},uli)
 
 PHONY += drush-si
-ifeq ($(DRUPAL_VERSION),7)
-    drush-si: DRUSH_SI := -y
-else
+ifeq ($(DRUPAL_CONF_EXISTS)$(DRUPAL_VERSION),yes8)
     drush-si: DRUSH_SI := -y --existing-config
+else
+    drush-si: DRUSH_SI := -y
 endif
 drush-si: ## Site install
 	$(call drush_on_${RUN_ON},si ${DRUSH_SI})
