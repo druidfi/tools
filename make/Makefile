@@ -17,6 +17,7 @@ TEST_TARGETS := test-foobar
 UNAME_S := $(shell uname -s)
 # Shorten with https://git.io/ : https://raw.githubusercontent.com/druidfi/tools/master/update.sh
 UPDATE_SCRIPT_URL := https://git.io/fh771
+WEBROOT := public
 
 # Detect additional tooling
 AMAZEEIO_LEGACY := $(shell test -f .amazeeio.yml && echo yes || echo no)
@@ -69,6 +70,7 @@ debug: ## Show debug information
 	$(call dbg,AMAZEEIO_LAGOON,${AMAZEEIO_LAGOON})
 	$(call dbg,WODBY,${WODBY})
 	$(call dbg,SYSTEM,${SYSTEM})
+	$(call dbg,WEBROOT,${WEBROOT})
 	$(call dbg,UNAME_S,${UNAME_S})
 ifeq ($(RUN_ON),docker)
 	@printf "${YELLOW}Assumption: We should run on Docker and not on host${NO_COLOR}\n"
