@@ -42,6 +42,15 @@ else
 	@docker-compose exec -u ${CLI_USER} ${CLI_SERVICE} ${CLI_SHELL}
 endif
 
+PHONY += versions
+versions: ## Show software versions inside the Drupal container
+	$(call step,Software versions on ${RUN_ON}:)
+	$(call docker_run_cmd,php -v && echo " ")
+	$(call composer_on_${RUN_ON}, --version && echo " ")
+	$(call drush_on_${RUN_ON},--version)
+	$(call docker_run_cmd,echo 'NPM version: '|tr '\n' ' ' && npm --version)
+	$(call docker_run_cmd,echo 'Yarn version: '|tr '\n' ' ' && yarn --version)
+
 ifeq ($(RUN_ON),docker)
 define docker_run_cmd
 	@${DOCKER_COMPOSE_EXEC} -u ${CLI_USER} ${CLI_SERVICE} ${CLI_SHELL} -c "$(1)"
