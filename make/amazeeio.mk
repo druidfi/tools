@@ -1,6 +1,4 @@
-LAGOON := $(shell test -f .lagoon.yml && echo yes || echo no)
-
-ifeq ($(LAGOON),yes)
+ifeq ($(AMAZEEIO_LAGOON),yes)
 	CLI_SERVICE := cli
 else
 	CLI_SERVICE := drupal
