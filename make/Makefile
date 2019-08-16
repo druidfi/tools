@@ -18,6 +18,21 @@ UNAME_S := $(shell uname -s)
 # Shorten with https://git.io/ : https://raw.githubusercontent.com/druidfi/tools/master/update.sh
 UPDATE_SCRIPT_URL := https://git.io/fh771
 
+# Detect additional tooling
+AMAZEEIO_LEGACY := $(shell test -f .amazeeio.yml && echo yes || echo no)
+AMAZEEIO_LAGOON := $(shell test -f .lagoon.yml && echo yes || echo no)
+WODBY := $(shell test -f wodby.yml && echo yes || echo no)
+
+ifeq ($(AMAZEEIO_LEGACY),yes)
+	SYSTEM := AMAZEEIO
+else ifeq ($(AMAZEEIO_LAGOON),yes)
+	SYSTEM := AMAZEEIO
+else ifeq ($(WODBY),yes)
+	SYSTEM := WODBY
+else
+	SYSTEM := WHOKNOWS
+endif
+
 # Colors
 NO_COLOR=\033[0m
 GREEN=\033[0;32m
@@ -50,6 +65,10 @@ debug: ## Show debug information
 	$(call dbg,ENV,${ENV})
 	$(call dbg,PHP_BIN,${PHP_BIN})
 	$(call dbg,RUN_ON,${RUN_ON})
+	$(call dbg,AMAZEEIO_LEGACY,${AMAZEEIO_LEGACY})
+	$(call dbg,AMAZEEIO_LAGOON,${AMAZEEIO_LAGOON})
+	$(call dbg,WODBY,${WODBY})
+	$(call dbg,SYSTEM,${SYSTEM})
 	$(call dbg,UNAME_S,${UNAME_S})
 ifeq ($(RUN_ON),docker)
 	@printf "${YELLOW}Assumption: We should run on Docker and not on host${NO_COLOR}\n"
