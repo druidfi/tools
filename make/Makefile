@@ -58,12 +58,6 @@ else
 endif
 	@printf "${GREEN}End of debug.${NO_COLOR}\n"
 
-define colorecho
-	@tput -T xterm setaf 3
-	@echo $1
-	@tput -T xterm sgr0
-endef
-
 define dbg
 	@printf "${GREEN}${1}:${NO_COLOR} ${2}\n"
 endef
