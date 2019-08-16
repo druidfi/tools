@@ -4,6 +4,10 @@ DRUPAL_NEW_TARGETS := up build drush-si drush-uli
 DRUPAL_POST_INSTALL_TARGETS := drush-updb drush-cim drush-uli
 SYNC_TARGETS += drush-sync
 
+ifdef DRUPAL_WEBROOT
+	WEBROOT := $(DRUPAL_WEBROOT)
+endif
+
 PHONY += drush-cex
 drush-cex: ## Export configuration
 ifeq (${DRUPAL_VERSION},7)
@@ -80,9 +84,9 @@ ifeq ($(DRUPAL_SYNC_FILES),yes)
 endif
 
 define drush_on_docker
-	$(call docker_run_cmd,drush --ansi --strict=0 $(1))
+	$(call docker_run_cmd,cd ${DOCKER_PROJECT_ROOT}/${WEBROOT} && drush --ansi --strict=0 $(1))
 endef
 
 define drush_on_host
-	@drush --ansi --strict=0 $(1)
+	@drush -r ${WEBROOT} --ansi --strict=0 $(1)
 endef
