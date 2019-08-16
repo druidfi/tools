@@ -7,7 +7,7 @@ down: ## Tear down the environment
 ifeq ($(RUN_ON),host)
 	$(call warn,$(DOCKER_WARNING_INSIDE))
 else
-	$(call colorecho, "\nTear down the environment")
+	$(call step,Tear down the environment...)
 	@docker-compose down -v --remove-orphans
 endif
 
@@ -16,7 +16,7 @@ stop: ## Stop the environment
 ifeq ($(RUN_ON),host)
 	$(call warn,$(DOCKER_WARNING_INSIDE))
 else
-	$(call colorecho, "\nStop the environment")
+	$(call step,Stop the container(s)...)
 	@docker-compose stop
 endif
 
@@ -25,13 +25,13 @@ up: ## Launch the environment
 ifeq ($(RUN_ON),host)
 	$(call warn,$(DOCKER_WARNING_INSIDE))
 else
-	$(call colorecho, "\nStart up the container(s)\n")
+	$(call step,Start up the container(s)...)
 	@docker-compose up -d --remove-orphans
 endif
 
 PHONY += docker-test
 docker-test: ## Run docker targets on Docker and host
-	$(call colorecho, "\nTest docker_run_cmd on $(RUN_ON)")
+	$(call step,Test docker_run_cmd on $(RUN_ON))
 	$(call docker_run_cmd,pwd && echo \$$PATH)
 
 PHONY += shell

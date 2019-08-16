@@ -16,7 +16,7 @@ amazeeio-env: ## Print Amazee.io env variables
 
 PHONY += versions
 versions: ## Show software versions inside the Drupal container
-	$(call colorecho, "\nSoftware versions on ${RUN_ON}:\n")
+	$(call step,Software versions on ${RUN_ON}:)
 	$(call docker_run_cmd,php -v && echo " ")
 	$(call composer_on_${RUN_ON}, --version && echo " ")
 	$(call drush_on_${RUN_ON},--version)

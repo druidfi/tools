@@ -68,8 +68,12 @@ define dbg
 	@printf "${GREEN}${1}:${NO_COLOR} ${2}\n"
 endef
 
+define step
+	@printf "\n${YELLOW}${1}${NO_COLOR}\n\n"
+endef
+
 define warn
-	@printf "${YELLOW}[warning]${NO_COLOR} ${1}\n"
+	@printf "\n${YELLOW}[warning]${NO_COLOR} ${1}\n\n"
 endef
 
 # Include druidfi/tools make files
