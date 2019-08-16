@@ -88,5 +88,5 @@ define drush_on_docker
 endef
 
 define drush_on_host
-	@drush -r ${WEBROOT} --ansi --strict=0 $(1)
+	@drush -r $$PWD/${WEBROOT} --ansi --strict=0 $(1)
 endef
