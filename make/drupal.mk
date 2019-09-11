@@ -2,6 +2,7 @@ DRUPAL_CONF_EXISTS := $(shell test -f conf/cmi/core.extension.yml && echo yes ||
 DRUPAL_FRESH_TARGETS := up build sync post-install
 DRUPAL_NEW_TARGETS := up build drush-si drush-uli
 DRUPAL_POST_INSTALL_TARGETS := drush-updb drush-cim drush-uli
+DRUPAL_SYNC_FILES := yes
 SYNC_TARGETS += drush-sync
 
 ifdef DRUPAL_WEBROOT
@@ -74,7 +75,6 @@ post-install: ## Run post-install Drush actions
 	@$(MAKE) $(DRUPAL_POST_INSTALL_TARGETS)
 
 PHONY += drush-sync
-drush-sync: DRUPAL_SYNC_FILES := yes
 drush-sync: ## Sync database and files
 	$(call step,Sync database from @$(DRUPAL_SYNC_SOURCE)...)
 	$(call drush_on_${RUN_ON},sql-sync -y @$(DRUPAL_SYNC_SOURCE) @self)
