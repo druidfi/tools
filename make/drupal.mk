@@ -52,7 +52,7 @@ PHONY += drush-si
 ifeq ($(DRUPAL_CONF_EXISTS)$(DRUPAL_VERSION),yes8)
     drush-si: DRUSH_SI := -y --existing-config
 else
-    drush-si: DRUSH_SI := -y
+    drush-si: DRUSH_SI := -y minimal
 endif
 drush-si: ## Site install
 	$(call drush_on_${RUN_ON},si ${DRUSH_SI})
