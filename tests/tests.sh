@@ -9,7 +9,7 @@ do
     #COMPARE=$(cat "${item}")
     MAKE_TARGET=$(head -n1 "${item}")
     EXPECTED=$(tail -n +3 "${item}")
-    OUTPUT=$(make -n --directory=make ${MAKE_TARGET})
+    OUTPUT=$(make -n --no-print-directory --directory=make ${MAKE_TARGET})
     #printf "%s" "${COMPARE}\n"
     #printf "\n\n1: %s\n" "${MAKE_TARGET}"
     #printf "2: %s\n" "${EXPECTED}"
