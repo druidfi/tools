@@ -1,0 +1,6 @@
+language: minimal
+
+script:
+
+  # Run tests.
+  - tests/tests.sh

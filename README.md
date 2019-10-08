@@ -74,6 +74,16 @@ $ make self-update
 
 As one of the operations `make clean` will remove the `vendor` folder.
 
+## Developing
+
+Run tests:
+
+```
+tests/tests.sh && echo "success" || echo "fail"
+```
+
+Read more about testing [here](tests/README.md).
+
 ## Other information
 
 This project is found from the Packagist: https://packagist.org/packages/druidfi/tools

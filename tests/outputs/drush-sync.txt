@@ -1,0 +1,6 @@
+drush-sync
+---
+printf "\n\033[0;33mSync database from @production...\033[0m\n\n"
+drush -r $PWD/public --ansi --strict=0 sql-sync -y @production @self
+printf "\n\033[0;33mSync files from @production...\033[0m\n\n"
+drush -r $PWD/public --ansi --strict=0 -y rsync --mode=akzu @production:%files @self:%files
