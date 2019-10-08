@@ -3,6 +3,8 @@ DRUPAL_FRESH_TARGETS := up build sync post-install
 DRUPAL_NEW_TARGETS := up build drush-si drush-uli
 DRUPAL_POST_INSTALL_TARGETS := drush-updb drush-cim drush-uli
 DRUPAL_SYNC_FILES := yes
+DRUPAL_SYNC_SOURCE ?= production
+DRUPAL_VERSION ?= 8
 SYNC_TARGETS += drush-sync
 
 ifdef DRUPAL_WEBROOT

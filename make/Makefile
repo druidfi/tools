@@ -2,9 +2,6 @@
 
 BUILD_TARGETS :=
 CLEAN_FOLDERS := node_modules
-CLI_SERVICE := cli
-CLI_SHELL := sh
-CLI_USER := root
 COMPOSER_BIN := $(shell which composer || echo no)
 COMPOSER_JSON_EXISTS := $(shell test -f composer.json && echo yes || echo no)
 DOCKER_COMPOSE_BIN := $(shell which docker-compose || echo no)
