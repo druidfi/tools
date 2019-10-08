@@ -1,5 +1,7 @@
 # druidfi/tools
 
+[![Build Status](https://travis-ci.com/druidfi/tools.svg?branch=master)](https://travis-ci.com/druidfi/tools)
+
 Set of tools meant for ease the development.
 
 ## Features
