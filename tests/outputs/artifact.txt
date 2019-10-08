@@ -1,0 +1,4 @@
+artifact
+---
+printf "\n\033[0;33mCreate artifact (host)...\033[0m\n\n"
+tar -hczf artifact.tar.gz *
