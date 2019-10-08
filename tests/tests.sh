@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-TEST_FILES=($(find tests/outputs -type f))
+TEST_FILES=($(find tests/outputs -type f | sort -n))
 TMP_FILE=/tmp/druidfi-tools-comparison.txt
 
 for item in ${TEST_FILES[*]}
