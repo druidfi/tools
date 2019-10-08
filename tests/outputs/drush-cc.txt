@@ -1,0 +1,4 @@
+drush-cc
+---
+printf "\n\033[0;33mClearing caches...\033[0m\n\n"
+drush -r $PWD/public --ansi --strict=0 cr

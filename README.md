@@ -1,5 +1,7 @@
 # druidfi/tools
 
+[![Build Status](https://travis-ci.com/druidfi/tools.svg?branch=master)](https://travis-ci.com/druidfi/tools)
+
 Set of tools meant for ease the development.
 
 ## Features
@@ -73,6 +75,16 @@ $ make self-update
 *Why cannot the makefiles be included with Composer and from `vendor/druidfi/tools/make`?*
 
 As one of the operations `make clean` will remove the `vendor` folder.
+
+## Developing
+
+Run tests:
+
+```
+tests/tests.sh && echo "success" || echo "fail"
+```
+
+Read more about testing [here](tests/README.md).
 
 ## Other information
 

@@ -1,6 +1,9 @@
+CLI_SERVICE ?= cli
+CLI_SHELL ?= sh
+CLI_USER ?= root
 DOCKER_COMPOSE_EXEC := docker-compose exec -T
+DOCKER_PROJECT_ROOT ?= /app
 DOCKER_WARNING_INSIDE := You are inside the Docker container!
-DOCKER_PROJECT_ROOT := /app
 
 PHONY += down
 down: ## Tear down the environment
@@ -41,6 +44,10 @@ ifeq ($(RUN_ON),host)
 else
 	@docker-compose exec -u ${CLI_USER} ${CLI_SERVICE} ${CLI_SHELL}
 endif
+
+PHONY += ssh-check
+ssh-check: ## Check SSH keys on CLI container
+	$(call docker_run_cmd,ssh-add -L)
 
 PHONY += versions
 versions: ## Show software versions inside the Drupal container
