@@ -10,3 +10,6 @@ script:
 
   # Run installer/updater
   - ./update.sh --debug --branch $BRANCH
+
+  # Diff main Makefile
+  - diff debug/Makefile make/Makefile.project.dist
