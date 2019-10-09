@@ -5,8 +5,8 @@
 .DS_Store
 ._*
 
-# update.sh test folder
-tools
+# update.sh debug folder
+debug
 
 !*.gitkeep
 !*.keepme

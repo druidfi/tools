@@ -17,12 +17,12 @@ do
 
     if [ "${OUTPUT}" = "${EXPECTED}" ]
     then
-      printf "\e[1;33mOutput was expected for: make %s\e[0m\n" "${MAKE_TARGET}"
+      printf "\e[0;33mOutput was expected for: make %s\e[0m\n" "${MAKE_TARGET}"
     else
-      printf "\n\e[1;31mOutput failed for: for: make %s\e[0m\n\n" "${MAKE_TARGET}"
-      printf "\e[1;33mExpect:\e[0m\n%s\n" "${EXPECTED}"
-      printf "\e[1;33mActual:\e[0m\n%s\n" "${OUTPUT}"
-      printf "\n\e[1;31mDiff:\e[0m\n"
+      printf "\n\e[0;31mOutput failed for: for: make %s\e[0m\n\n" "${MAKE_TARGET}"
+      printf "\e[0;33mExpect:\e[0m\n%s\n" "${EXPECTED}"
+      printf "\e[0;33mActual:\e[0m\n%s\n" "${OUTPUT}"
+      printf "\n\e[0;31mDiff:\e[0m\n"
       echo "${OUTPUT}" > "${TMP_FILE}"
       diff -y --suppress-common-lines "${item}" "${TMP_FILE}"
       rm "${TMP_FILE}"
@@ -30,5 +30,5 @@ do
     fi
 done
 
-printf "\e[1;33mDone\e[0m\n"
+printf "\e[0;33mDone\e[0m\n"
 exit 0

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION=2019-08-16-2
+VERSION=2019-10-08-1
 DEBUG=0
 GITHUB=https://raw.githubusercontent.com
 REPOSITORY=druidfi/tools
@@ -8,6 +8,20 @@ BRANCH=master
 TARGET=tools/make
 PROJECT_MAKEFILE=Makefile.project.dist
 REPOSITORY_URL=https://github.com/druidfi/tools
+
+while true; do
+  case "$1" in
+    -d | --debug ) DEBUG=1; shift ;;
+    -b | --branch ) BRANCH="$2"; shift ;;
+    * ) break ;;
+  esac
+done
+
+RED="[0;31m"
+GREEN="[0;32m"
+YELLOW="[0;33m"
+NORMAL="[0m"
+CYAN="[0;36m"
 
 declare -a files=(
   "Makefile"
@@ -22,40 +36,34 @@ declare -a files=(
 )
 
 main() {
-  if which tput >/dev/null 2>&1; then
-      ncolors=$(tput colors)
-  fi
-  if [[ -t 1 ]] && [[ -n "$ncolors" ]] && [[ "$ncolors" -ge 8 ]]; then
-    RED="$(tput setaf 1)"
-    GREEN="$(tput setaf 2)"
-    YELLOW="$(tput setaf 3)"
-    BLUE="$(tput setaf 4)"
-    BOLD="$(tput bold)"
-    NORMAL="$(tput sgr0)"
-  else
-    RED=""
-    GREEN=""
-    YELLOW=""
-    BLUE=""
-    BOLD=""
-    NORMAL=""
+  if [[ ${DEBUG} -eq 1 ]]; then
+    mkdir -p debug
+    cd debug || exit
   fi
 
-  printf "${YELLOW}${REPOSITORY} updater (version ${VERSION})${NORMAL}\n"
+  printf "\n\e%s%s updater (version %s)\e%s\n\n" "${YELLOW}" "${REPOSITORY}" "${VERSION}" "${NORMAL}"
 
-  if [[ ! -f "Makefile" ]]; then
-    printf "\n${BLUE}[Info] ${NORMAL}Makefile does not exist, downloading it...${NORMAL}\n"
-    curl -LJs -H 'Cache-Control: no-cache' -o Makefile ${GITHUB}/${REPOSITORY}/${BRANCH}/make/${PROJECT_MAKEFILE}
+  info "Download main Makefile..."
+
+  if [[ ${DEBUG} -eq 1 ]]; then
+    debug "curl -LJs -H 'Cache-Control: no-cache' -o Makefile ${GITHUB}/${REPOSITORY}/${BRANCH}/make/${PROJECT_MAKEFILE}"
   fi
+
+  curl -LJs -H 'Cache-Control: no-cache' -o Makefile ${GITHUB}/${REPOSITORY}/${BRANCH}/make/${PROJECT_MAKEFILE}
 
   if [[ ! -d ${TARGET} ]]; then
-    printf "\n${BLUE}[Info] ${NORMAL}Folder ${TARGET} does not exist, creating it...${NORMAL}\n"
-    mkdir -p ${TARGET}
+    info "Folder ${TARGET} does not exist, creating it..."
+
+    if [[ ${DEBUG} -eq 1 ]]; then
+      debug "mkdir -p ${TARGET}"
+    fi
+
+    mkdir -p "${TARGET}"
   fi
 
-  cd ${TARGET}
+  cd "${TARGET}" || exit
 
-  printf "\n${YELLOW}Download following files from ${REPOSITORY_URL}:${NORMAL}\n"
+  info "Download following files from ${REPOSITORY_URL}:"
   printf '%s\n' "${files[@]}"
 
   for i in "${!files[@]}"
@@ -68,20 +76,28 @@ main() {
   for i in "${!files[@]}"
   do
     if [[ ${DEBUG} -eq 1 ]]; then
-      printf "DEBUG: curl -LJs -o ${files[i]} ${urls[i]}\n"
-    else
-      curl -LJs -o ${files[i]} ${urls[i]}
+      debug "curl -LJs -o ${files[i]} ${urls[i]}"
     fi
+
+    curl -LJs -o "${files[i]}" "${urls[i]}"
   done
 
   if [[ $? -eq 0 ]]
   then
-    printf "\n${GREEN}[OK] ${YELLOW}Update complete!${NORMAL}\n"
+    printf "\n\e%s[OK]\e%s Update complete!\e%s\n" "${GREEN}" "${YELLOW}" "${NORMAL}"
     exit 0
   else
-    printf "\n${RED}[ERROR] ${YELLOW}Check if update.sh has correct settings.\n"
+    printf "\n\e%s[ERROR]\e%s Check if update.sh has correct settings\n" "${RED}" "${NORMAL}"
     exit 1
   fi
+}
+
+info() {
+  printf "\e%s[Info]\e%s %s\n" "${YELLOW}" "${NORMAL}" "${1}"
+}
+
+debug() {
+  printf "\e%s[Debug]\e%s %s\n" "${CYAN}" "${NORMAL}" "${1}"
 }
 
 main
