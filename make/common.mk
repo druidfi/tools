@@ -15,7 +15,7 @@ endif
 PHONY += artifact
 # This command can always be run on host
 artifact: RUN_ON := host
-artifact: build ## Make tar.gz package from the current build
+artifact: ## Make tar.gz package from the current build
 	$(call step,Create artifact (${RUN_ON})...)
 	@${ARTIFACT_CMD}
 

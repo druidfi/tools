@@ -7,6 +7,7 @@ DRUPAL_SYNC_SOURCE ?= production
 DRUPAL_VERSION ?= 8
 SYNC_TARGETS += drush-sync
 
+# TODO Remove this when DRUPAL_WEBROOT vars are removed from projects
 ifdef DRUPAL_WEBROOT
 	WEBROOT := $(DRUPAL_WEBROOT)
 endif
