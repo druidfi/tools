@@ -9,7 +9,12 @@ script:
   - tests/tests.sh
 
   # Run installer/updater
+  # Debug mode downloads files from this branch to ./debug folder
   - ./update.sh --debug --branch $BRANCH
 
   # Diff main Makefile
   - diff debug/Makefile make/Makefile.project.dist
+
+  # Test that downloaded files exist
+  - test -f debug/tools/make/doesnotexist.mk
+  - test -f debug/tools/make/common.mk
