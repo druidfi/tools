@@ -16,5 +16,12 @@ script:
   - diff debug/Makefile make/Makefile.project.dist
 
   # Test that downloaded files exist
-  - test -f debug/tools/make/doesnotexist.mk
+  - test -f debug/tools/make/amazeeio.mk
   - test -f debug/tools/make/common.mk
+  - test -f debug/tools/make/composer.mk
+  - test -f debug/tools/make/docker.mk
+  - test -f debug/tools/make/drupal.mk
+  - test -f debug/tools/make/include.mk
+  - test -f debug/tools/make/javascript.mk
+  - test -f debug/tools/make/Makefile.mk
+  - test -f debug/tools/make/qa.mk
