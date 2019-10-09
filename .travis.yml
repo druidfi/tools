@@ -9,4 +9,4 @@ script:
   - tests/tests.sh
 
   # Run installer/updater
-  - ./update.sh --debug --branch
+  - ./update.sh --debug --branch $BRANCH
