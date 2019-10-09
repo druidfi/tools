@@ -23,5 +23,5 @@ script:
   - test -f debug/tools/make/drupal.mk
   - test -f debug/tools/make/include.mk
   - test -f debug/tools/make/javascript.mk
-  - test -f debug/tools/make/Makefile.mk
+  - test -f debug/tools/make/Makefile
   - test -f debug/tools/make/qa.mk
