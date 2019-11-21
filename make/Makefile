@@ -58,6 +58,7 @@ debug: ## Show debug information
 	$(call dbg,CLI_SERVICE,${CLI_SERVICE})
 	$(call dbg,CLI_USER,${CLI_USER})
 	$(call dbg,CLI_SHELL,${CLI_SHELL})
+	$(call dbg,DOCKER_PROJECT_ROOT,${DOCKER_PROJECT_ROOT})
 	$(call dbg,DOCKER_COMPOSE_BIN,${DOCKER_COMPOSE_BIN})
 	$(call dbg,DOCKER_COMPOSE_YML_EXISTS,${DOCKER_COMPOSE_YML_EXISTS})
 	$(call dbg,ENV,${ENV})
