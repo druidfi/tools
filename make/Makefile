@@ -49,6 +49,10 @@ else
 	RUN_ON := host
 endif
 
+ifeq ($(CI),true)
+	RUN_ON := host
+endif
+
 PHONY += debug
 debug: ## Show debug information
 	@printf "${GREEN}Debug starts:${NO_COLOR}\n"
