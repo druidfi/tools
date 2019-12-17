@@ -1,6 +1,7 @@
 ARTIFACT_INCLUDE_EXISTS := $(shell test -f conf/artifact/include && echo yes || echo no)
 ARTIFACT_EXCLUDE_EXISTS := $(shell test -f conf/artifact/exclude && echo yes || echo no)
 ARTIFACT_CMD := tar -hczf artifact.tar.gz
+SSH_OPTS ?= -o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
 
 ifeq ($(ARTIFACT_EXCLUDE_EXISTS),yes)
 	ARTIFACT_CMD := ${ARTIFACT_CMD} --exclude-from=conf/artifact/exclude
@@ -50,6 +51,13 @@ PHONY += self-update
 self-update: ## Self-update makefiles from druidfi/tools
 	$(call step,Update makefiles from druidfi/tools)
 	@bash -c "$$(curl -fsSL ${UPDATE_SCRIPT_URL})"
+
+PHONY += shell-%
+shell-%: OPTS = $(INSTANCE_$*_OPTS)
+shell-%: USER = $(INSTANCE_$*_USER)
+shell-%: HOST = $(INSTANCE_$*_HOST)
+shell-%: ## ## Login to remote instance
+	ssh $(OPTS) $(USER)@$(HOST)
 
 PHONY += self-update
 sync: ## Sync data from other environments
