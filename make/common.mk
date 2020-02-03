@@ -56,7 +56,7 @@ PHONY += shell-%
 shell-%: OPTS = $(INSTANCE_$*_OPTS)
 shell-%: USER = $(INSTANCE_$*_USER)
 shell-%: HOST = $(INSTANCE_$*_HOST)
-shell-%: ## ## Login to remote instance
+shell-%: ## Login to remote instance
 	ssh $(OPTS) $(USER)@$(HOST)
 
 PHONY += self-update

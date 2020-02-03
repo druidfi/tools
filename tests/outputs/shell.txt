@@ -1,0 +1,3 @@
+shell RUN_ON=docker
+---
+docker-compose exec -u root cli sh
