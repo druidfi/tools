@@ -7,6 +7,11 @@ DRUPAL_SYNC_FILES ?= yes
 DRUPAL_SYNC_SOURCE ?= production
 DRUPAL_VERSION ?= 8
 SYNC_TARGETS += drush-sync
+LINT_PATHS_JS += ./$(WEBROOT)/modules/custom/*/js
+LINT_PATHS_JS += ./$(WEBROOT)/themes/custom/*/js
+LINT_PATHS_PHP += -v $(CURDIR)/drush:/app/drush:cached
+LINT_PATHS_PHP += -v $(CURDIR)/$(WEBROOT)/modules/custom:/app/$(WEBROOT)/modules/custom:cached
+LINT_PATHS_PHP += -v $(CURDIR)/$(WEBROOT)/themes/custom:/app/$(WEBROOT)/themes/custom:cached
 
 # TODO Remove this when DRUPAL_WEBROOT vars are removed from projects
 ifdef DRUPAL_WEBROOT
@@ -15,7 +20,7 @@ endif
 
 PHONY += drush-cex
 drush-cex: ## Export configuration
-ifeq (${DRUPAL_VERSION},7)
+ifeq ($(DRUPAL_VERSION),7)
 	$(call warn,\"drush cex\" is not Drupal 7 command\n)
 else
 	$(call step,Export configuration (${RUN_ON})...)
@@ -24,7 +29,7 @@ endif
 
 PHONY += drush-cim
 drush-cim: ## Import configuration
-ifeq (${DRUPAL_VERSION},7)
+ifeq ($(DRUPAL_VERSION),7)
 	$(call warn,\"drush cim\" is not Drupal 7 command\n)
 else
 	$(call step,Import configuration (${RUN_ON})...)
@@ -37,7 +42,7 @@ drush-cc: drush-cr ## Clear caches (alias for drush-cr)
 PHONY += drush-cr
 drush-cr: ## Clear caches
 	$(call step,Clearing caches...)
-ifeq (${DRUPAL_VERSION},7)
+ifeq ($(DRUPAL_VERSION),7)
 	$(call drush_on_${RUN_ON},cc all)
 else
 	$(call drush_on_${RUN_ON},cr)
