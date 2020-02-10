@@ -10,7 +10,6 @@ DRUIDFI_TOOLS_MAKE_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 ENV := dev
 PACKAGE_JSON_EXISTS := $(shell test -f package.json && echo yes || echo no)
 PHP_BIN := $(shell which php)
-TEST_TARGETS := test-foobar
 UNAME_S := $(shell uname -s)
 # Shorten with https://git.io/ : https://raw.githubusercontent.com/druidfi/tools/master/update.sh
 UPDATE_SCRIPT_URL := https://git.io/fh771
@@ -39,12 +38,12 @@ YELLOW=\033[0;33m
 
 # If docker-compose.yml exists
 ifeq ($(DOCKER_COMPOSE_YML_EXISTS),yes)
-	# If docker-compose does not exist (e.g. inside Docker container)
-	ifeq ($(DOCKER_COMPOSE_BIN),no)
-		RUN_ON := host
-	else
-		RUN_ON := docker
-	endif
+# If docker-compose does not exist (e.g. inside Docker container)
+ifeq ($(DOCKER_COMPOSE_BIN),no)
+	RUN_ON := host
+else
+	RUN_ON := docker
+endif
 else
 	RUN_ON := host
 endif
