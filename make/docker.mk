@@ -1,12 +1,6 @@
-ifndef CLI_SERVICE
 CLI_SERVICE := cli
-endif
-ifndef CLI_SERVICE
 CLI_SHELL := sh
-endif
-ifndef CLI_USER
 CLI_USER := root
-endif
 DOCKER_COMPOSE_EXEC := docker-compose exec -T
 DOCKER_PROJECT_ROOT ?= /app
 DOCKER_WARNING_INSIDE := You are inside the Docker container!
