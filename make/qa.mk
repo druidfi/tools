@@ -3,7 +3,7 @@ TEST_TARGETS += lint-php lint-js test-phpunit
 PHONY += fix
 fix: ## Fix code style
 	$(call step,Fix code with PHP Code Beautifier and Fixer...)
-	@$(MAKE) phpcs CMD=phpcbf FLAGS='.'
+	@docker run --rm -it $(subst $(space),'',$(LINT_PATHS_PHP)) druidfi/drupal-qa:8 bash -c "phpcbf ."
 
 PHONY += lint
 lint: lint-php lint-js ## Check code style
@@ -22,7 +22,7 @@ lint-js: ## Check code style for JS files
 PHONY += lint-php
 lint-php: ## Check code style for PHP files
 	$(call step,Check code style for PHP files...)
-	@$(MAKE) phpcs CMD=phpcs FLAGS='-n .'
+	@docker run --rm -it $(subst $(space),'',$(LINT_PATHS_PHP)) druidfi/drupal-qa:8 bash -c "phpcs -n ."
 	$(call test_result,lint-php,"[OK]")
 
 PHONY += test
@@ -30,13 +30,6 @@ test: ## Run tests
 	$(call step,Run tests:\n- Following test targets will be run: $(TEST_TARGETS))
 	@$(MAKE) $(TEST_TARGETS)
 	$(call step,Tests completed.)
-
-PHONY += phpcs
-phpcs: IMG := druidfi/drupal-qa:8
-phpcs: CMD ?= phpcs
-phpcs: FLAGS ?= -n .
-phpcs:
-	@docker run --rm -it $(subst $(space),'',$(LINT_PATHS_PHP)) $(IMG) bash -c "${CMD} ${FLAGS}"
 
 PHONY += test-phpunit
 test-phpunit: IMG := druidfi/drupal-qa:8
