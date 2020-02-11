@@ -27,6 +27,19 @@ See the example below to see how they are loaded with:
 
 `-include $(PROJECT_DIR)/tools/make/project/*.mk`.
 
+### Override variables
+
+You can also add `tools/make/override.mk` to override variables.
+
+For example if you want to force certain CLI values for your local setup even if something is autodetected:
+
+```
+# Custom Docker CLI container
+CLI_SERVICE := app
+CLI_USER := druid
+DOCKER_PROJECT_ROOT := /app
+```
+
 ## Default commands
 
 Command | Description
