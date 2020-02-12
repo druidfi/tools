@@ -32,10 +32,17 @@ test: ## Run tests
 	$(call step,Tests completed.)
 
 PHONY += test-phpunit
-test-phpunit: IMG := druidfi/drupal-qa:8
+test-phpunit: TESTSUITES := unit,kernel,functional
 test-phpunit: ## Run PHPUnit tests
 	$(call step,Run PHPUnit tests...)
-	@docker run --rm -it -v "$(CURDIR)":/app:cached $(IMG) bash -c "phpunit -c phpunit.xml.dist --testsuite unit"
+ifeq ($(CI),true)
+	@docker run --rm -it --network=host \
+		-e SIMPLETEST_BASE_URL=http://127.0.0.1:8080 -e SIMPLETEST_DB=mysql://root@127.0.0.1/drupal \
+		-v "$(CURDIR)":/app:cached $(DRUPAL_IMAGE) \
+		bash -c "vendor/bin/phpunit -c /app/phpunit.xml.dist --testsuite $(TESTSUITES)"
+else
+	$(call docker_run_cmd,cd ${DOCKER_PROJECT_ROOT} && vendor/bin/phpunit -c /app/phpunit.xml.dist --testsuite $(TESTSUITES))
+endif
 	$(call test_result,test-phpunit,"[OK]")
 
 define test_result
