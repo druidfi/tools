@@ -44,9 +44,9 @@ endif
 	$(call test_result,test-phpunit,"[OK]")
 
 PHONY += test-phpunit-locally
-test-phpunit-locally: SIMPLETEST_DB := mysql://drupal:drupal@docker.amazee.io:32781/drupal
+test-phpunit-locally: TESTSUITES := unit,kernel,functional
 test-phpunit-locally:
-	@SIMPLETEST_BASE_URL=http://$(DRUPAL_HOSTNAME) SIMPLETEST_DB=$(SIMPLETEST_DB) \
+	@SIMPLETEST_BASE_URL=http://$(DRUPAL_HOSTNAME) SIMPLETEST_DB=mysql://$(DB_URL) \
     		vendor/bin/phpunit -c $(CURDIR)/phpunit.xml.dist --testsuite $(TESTSUITES)
 
 define test_result
