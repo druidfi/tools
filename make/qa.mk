@@ -38,9 +38,16 @@ test-phpunit: ## Run PHPUnit tests
 ifeq ($(CI),true)
 	vendor/bin/phpunit -c phpunit.xml.dist --testsuite $(TESTSUITES)
 else
-	$(call docker_run_cmd,cd ${DOCKER_PROJECT_ROOT} && vendor/bin/phpunit -c /app/phpunit.xml.dist --testsuite $(TESTSUITES))
+	$(call docker_run_cmd,${DOCKER_PROJECT_ROOT}/vendor/bin/phpunit -c $(DOCKER_PROJECT_ROOT)/phpunit.xml.dist \
+		--testsuite $(TESTSUITES))
 endif
 	$(call test_result,test-phpunit,"[OK]")
+
+PHONY += test-phpunit-locally
+test-phpunit-locally: SIMPLETEST_DB := mysql://drupal:drupal@docker.amazee.io:32781/drupal
+test-phpunit-locally:
+	@SIMPLETEST_BASE_URL=http://$(DRUPAL_HOSTNAME) SIMPLETEST_DB=$(SIMPLETEST_DB) \
+    		vendor/bin/phpunit -c $(CURDIR)/phpunit.xml.dist --testsuite $(TESTSUITES)
 
 define test_result
 	@echo "\n${YELLOW}${1}:${NO_COLOR} ${GREEN}${2}${NO_COLOR}"
