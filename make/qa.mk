@@ -36,10 +36,7 @@ test-phpunit: TESTSUITES := unit,kernel,functional
 test-phpunit: ## Run PHPUnit tests
 	$(call step,Run PHPUnit tests...)
 ifeq ($(CI),true)
-	@docker run --rm -it --network=host \
-		-e SIMPLETEST_BASE_URL=http://127.0.0.1:8080 -e SIMPLETEST_DB=mysql://root@127.0.0.1/drupal \
-		-v "$(CURDIR)":/app:cached $(DRUPAL_IMAGE) \
-		bash -c "vendor/bin/phpunit -c /app/phpunit.xml.dist --testsuite $(TESTSUITES)"
+	vendor/bin/phpunit -c phpunit.xml.dist --testsuite $(TESTSUITES)
 else
 	$(call docker_run_cmd,cd ${DOCKER_PROJECT_ROOT} && vendor/bin/phpunit -c /app/phpunit.xml.dist --testsuite $(TESTSUITES))
 endif
