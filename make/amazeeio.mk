@@ -6,6 +6,7 @@ ifeq ($(AMAZEEIO_LAGOON),yes)
 	INSTANCE_test_USER ?= project-name-branch
 	INSTANCE_test_HOST ?= $(INSTANCE_prod_HOST)
 	INSTANCE_test_OPTS ?= $(INSTANCE_prod_OPTS)
+	DB_PORT := $(shell cut -d':' -f2 <<<"$(shell docker-compose port mariadb 3306)")
 else
 	CLI_SERVICE := drupal
 	CLI_USER := drupal
@@ -16,9 +17,11 @@ else
     INSTANCE_test_USER ?= sitegroup_branch
     INSTANCE_test_HOST ?= $(INSTANCE_prod_HOST)
     INSTANCE_test_OPTS ?= $(SSH_OPTS)
+    DB_PORT := $(shell cut -d':' -f2 <<<"$(shell docker-compose port drupal 3306)")
 endif
 
 CLI_SHELL := bash
+DB_URL := drupal:drupal@docker.amazee.io:$(DB_PORT)/drupal
 
 PHONY += amazeeio-env
 amazeeio-env: ## Print Amazee.io env variables
