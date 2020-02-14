@@ -9,9 +9,9 @@ DRUPAL_VERSION ?= 8
 SYNC_TARGETS += drush-sync
 LINT_PATHS_JS += ./$(WEBROOT)/modules/custom/*/js
 LINT_PATHS_JS += ./$(WEBROOT)/themes/custom/*/js
-LINT_PATHS_PHP += -v $(CURDIR)/drush:/app/drush:cached
-LINT_PATHS_PHP += -v $(CURDIR)/$(WEBROOT)/modules/custom:/app/$(WEBROOT)/modules/custom:cached
-LINT_PATHS_PHP += -v $(CURDIR)/$(WEBROOT)/themes/custom:/app/$(WEBROOT)/themes/custom:cached
+LINT_PATHS_PHP += -v $(CURDIR)/drush:/app/drush:ro,consistent
+LINT_PATHS_PHP += -v $(CURDIR)/$(WEBROOT)/modules/custom:/app/$(WEBROOT)/modules/custom:ro,consistent
+LINT_PATHS_PHP += -v $(CURDIR)/$(WEBROOT)/themes/custom:/app/$(WEBROOT)/themes/custom:ro,consistent
 
 # TODO Remove this when DRUPAL_WEBROOT vars are removed from projects
 ifdef DRUPAL_WEBROOT
