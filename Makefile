@@ -13,4 +13,9 @@ release: ## Make a new release of druidfi/tools
 	@git add update.sh
 	@git commit -m "Updated version to $(VERSION)"
 
+PHONY += test
+test: ## Run tests
+	$(call step,Run tests)
+	@tests/tests.sh
+
 .PHONY: $(PHONY)
