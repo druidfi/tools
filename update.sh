@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION=2020-02-14-2
+VERSION=2020-03-14-11-04
 DEBUG=0
 GITHUB=https://raw.githubusercontent.com
 REPOSITORY=druidfi/tools
@@ -25,6 +25,7 @@ CYAN="[0;36m"
 
 declare -a files=(
   "Makefile"
+  "utils.mk"
   "include.mk"
   "common.mk"
   "docker.mk"
