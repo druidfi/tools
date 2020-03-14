@@ -1,3 +1,5 @@
 #!/bin/sh
 
-make test release
+make test
+make release
+exit 0
