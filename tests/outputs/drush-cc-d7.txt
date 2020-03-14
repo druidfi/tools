@@ -1,4 +1,4 @@
 drush-cc DRUPAL_VERSION=7
 ---
 printf "\n\033[0;33mClearing caches...\033[0m\n\n"
-drush -r $PWD/public --ansi --strict=0 cc all
+drush -r /app/public --ansi --strict=0 cc all
