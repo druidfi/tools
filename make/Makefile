@@ -30,12 +30,6 @@ else
 	SYSTEM := WHOKNOWS
 endif
 
-# Colors
-NO_COLOR=\033[0m
-GREEN=\033[0;32m
-RED=\033[0;31m
-YELLOW=\033[0;33m
-
 # If docker-compose.yml exists
 ifeq ($(DOCKER_COMPOSE_YML_EXISTS),yes)
 # If docker-compose does not exist (e.g. inside Docker container)
@@ -80,17 +74,7 @@ else
 endif
 	@printf "${GREEN}End of debug.${NO_COLOR}\n"
 
-define dbg
-	@printf "${GREEN}${1}:${NO_COLOR} ${2}\n"
-endef
-
-define step
-	@printf "\n${YELLOW}${1}${NO_COLOR}\n\n"
-endef
-
-define warn
-	@printf "\n${YELLOW}[warning]${NO_COLOR} ${1}\n\n"
-endef
+include $(DRUIDFI_TOOLS_MAKE_DIR)utils.mk
 
 # Include druidfi/tools make files
 include $(DRUIDFI_TOOLS_MAKE_DIR)include.mk

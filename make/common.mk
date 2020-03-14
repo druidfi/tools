@@ -42,11 +42,6 @@ clean: ## Clean folders
 	$(call step,Clean folders:\n- Following folders will be removed: ${CLEAN_FOLDERS})
 	@rm -rf ${CLEAN_FOLDERS}
 
-PHONY += help
-help: ## List all make commands
-	$(call step,Available make commands:)
-	@cat $(MAKEFILE_LIST) | grep -e "^[a-zA-Z_\-]*: *.*## *" | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' | sort
-
 PHONY += self-update
 self-update: ## Self-update makefiles from druidfi/tools
 	$(call step,Update makefiles from druidfi/tools)
