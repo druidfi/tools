@@ -91,10 +91,16 @@ As one of the operations `make clean` will remove the `vendor` folder.
 
 ## Developing
 
+Set Git hook. This will run tests pre-push and if all is good, then update version.
+
+```
+$ ln -sf ../../hooks/pre-push .git/hooks/pre-push
+```
+
 Run tests:
 
 ```
-tests/tests.sh && echo "success" || echo "fail"
+$ make test
 ```
 
 Read more about testing [here](tests/README.md).
