@@ -1,0 +1,4 @@
+mmfix MODULE=some_missing_module DRUPAL_VERSION=7
+---
+printf "\n\033[0;33mRemove missing module 'some_missing_module'\033[0m\n\n"
+drush -r /app/public --ansi --strict=0 sql-query \"DELETE from system where type = 'module' AND name = 'some_missing_module';\"

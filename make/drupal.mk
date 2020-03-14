@@ -96,6 +96,15 @@ ifeq ($(DRUPAL_SYNC_FILES),yes)
 	$(call drush_on_${RUN_ON},-y rsync --mode=akzu @$(DRUPAL_SYNC_SOURCE):%files @self:%files)
 endif
 
+mmfix: MODULE := MISSING_MODULE
+mmfix:
+	$(call step,Remove missing module '$(MODULE)')
+ifeq ($(DRUPAL_VERSION),7)
+	$(call drush_on_${RUN_ON},sql-query \"DELETE from system where type = 'module' AND name = '$(MODULE)';\")
+else
+	$(call drush_on_${RUN_ON},sql-query \"DELETE FROM key_value WHERE collection='system.schema' AND name='module_name';\")
+endif
+
 define drush_on_docker
 	$(call docker_run_cmd,cd ${DOCKER_PROJECT_ROOT}/${WEBROOT} && drush --ansi --strict=0 $(1))
 endef
