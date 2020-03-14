@@ -1,7 +1,11 @@
 DRUPAL_CONF_EXISTS := $(shell test -f conf/cmi/core.extension.yml && echo yes || echo no)
 DRUPAL_FRESH_TARGETS := up build sync post-install
 DRUPAL_NEW_TARGETS := up build drush-si drush-uli
+ifeq ($(DRUPAL_VERSION),7)
+DRUPAL_POST_INSTALL_TARGETS := drush-updb drush-cr drush-uli
+else
 DRUPAL_POST_INSTALL_TARGETS := drush-updb drush-cim drush-uli
+endif
 DRUPAL_PROFILE ?= minimal
 DRUPAL_SYNC_FILES ?= yes
 DRUPAL_SYNC_SOURCE ?= production
@@ -97,5 +101,5 @@ define drush_on_docker
 endef
 
 define drush_on_host
-	@drush -r $$PWD/${WEBROOT} --ansi --strict=0 $(1)
+	@drush -r ${DOCKER_PROJECT_ROOT}/${WEBROOT} --ansi --strict=0 $(1)
 endef
