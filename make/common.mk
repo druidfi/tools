@@ -30,12 +30,12 @@ PHONY += build-dev
 build-dev: build
 
 PHONY += build-testing
-build-testing: ENV := testing
-build-testing: build
+build-testing:
+	@$(MAKE) build ENV=testing
 
 PHONY += build-production
-build-production: ENV := production
-build-production: build
+build-production:
+	@$(MAKE) build ENV=production
 
 PHONY += clean
 clean: ## Clean folders
