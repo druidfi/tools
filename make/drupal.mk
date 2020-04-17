@@ -22,12 +22,17 @@ ifdef DRUPAL_WEBROOT
 	WEBROOT := $(DRUPAL_WEBROOT)
 endif
 
+PHONY += drupal-update
+drupal-update: ## Update Drupal core with Composer
+	$(call step,Update Drupal core with Composer...)
+	@composer update "drupal/core-*" --with-dependencies
+
 PHONY += drush-cex
 drush-cex: ## Export configuration
 ifeq ($(DRUPAL_VERSION),7)
 	$(call warn,\"drush cex\" is not Drupal 7 command\n)
 else
-	$(call step,Export configuration (${RUN_ON})...)
+	$(call step,Export configuration...)
 	$(call drush_on_${RUN_ON},cex -y)
 endif
 
@@ -36,12 +41,12 @@ drush-cim: ## Import configuration
 ifeq ($(DRUPAL_VERSION),7)
 	$(call warn,\"drush cim\" is not Drupal 7 command\n)
 else
-	$(call step,Import configuration (${RUN_ON})...)
+	$(call step,Import configuration...)
 	$(call drush_on_${RUN_ON},cim -y)
 endif
 
 PHONY += drush-cc
-drush-cc: drush-cr ## Clear caches (alias for drush-cr)
+drush-cc: drush-cr
 
 PHONY += drush-cr
 drush-cr: ## Clear caches
