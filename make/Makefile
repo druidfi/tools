@@ -15,6 +15,10 @@ UNAME_S := $(shell uname -s)
 UPDATE_SCRIPT_URL := https://git.io/fh771
 WEBROOT ?= public
 
+# Detect app
+IS_DRUPAL := $(shell test -f $(WEBROOT)/sites/default/settings.php && echo yes || echo no)
+IS_WP := $(shell test -f $(WEBROOT)/wp-settings.php && echo yes || echo no)
+
 # Detect additional tooling
 AMAZEEIO_LEGACY := $(shell test -f .amazeeio.yml && echo yes || echo no)
 AMAZEEIO_LAGOON := $(shell test -f .lagoon.yml && echo yes || echo no)
@@ -61,6 +65,8 @@ debug: ## Show debug information
 	$(call dbg,ENV,${ENV})
 	$(call dbg,PHP_BIN,${PHP_BIN})
 	$(call dbg,RUN_ON,${RUN_ON})
+	$(call dbg,IS_DRUPAL,${IS_DRUPAL})
+	$(call dbg,IS_WP,${IS_WP})
 	$(call dbg,AMAZEEIO_LEGACY,${AMAZEEIO_LEGACY})
 	$(call dbg,AMAZEEIO_LAGOON,${AMAZEEIO_LAGOON})
 	$(call dbg,WODBY,${WODBY})
