@@ -64,7 +64,11 @@ drush-status: ## Show Drupal status information
 PHONY += drush-uli
 drush-uli: ## Get login link
 	$(call step,Login to your site with:)
+ifeq ($(DRUPAL_VERSION),7)
 	$(call drush_on_${RUN_ON},uli)
+else
+	$(call drush_on_${RUN_ON},uli admin/reports/status)
+endif
 
 PHONY += drush-si
 ifeq ($(DRUPAL_CONF_EXISTS)$(DRUPAL_VERSION),yes8)
