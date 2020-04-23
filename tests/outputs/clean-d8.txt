@@ -1,0 +1,4 @@
+clean IS_DRUPAL=yes DRUPAL_VERSION=8
+---
+printf "\n\033[0;33mClean folders:\n- Following folders will be removed: node_modules public/core public/libraries public/modules/contrib public/profiles public/themes/contrib\033[0m\n\n"
+rm -rf node_modules public/core public/libraries public/modules/contrib public/profiles public/themes/contrib

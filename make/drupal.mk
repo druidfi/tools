@@ -5,6 +5,11 @@ ifeq ($(DRUPAL_VERSION),7)
 DRUPAL_POST_INSTALL_TARGETS := drush-updb drush-cr drush-uli
 else
 DRUPAL_POST_INSTALL_TARGETS := drush-updb drush-cim drush-uli
+CLEAN_FOLDERS += ${WEBROOT}/core
+CLEAN_FOLDERS += ${WEBROOT}/libraries
+CLEAN_FOLDERS += ${WEBROOT}/modules/contrib
+CLEAN_FOLDERS += ${WEBROOT}/profiles
+CLEAN_FOLDERS += ${WEBROOT}/themes/contrib
 endif
 DRUPAL_PROFILE ?= minimal
 DRUPAL_SYNC_FILES ?= yes
