@@ -1,6 +1,6 @@
 drush-sync IS_DRUPAL=yes
 ---
-printf "\n\033[0;33mSync database from @production...\033[0m\n\n"
+printf "\n⚡ \033[0;33mSync database from @production...\033[0m\n\n"
 drush -r /app/public --ansi --strict=0 sql-sync -y --structure-tables-key=common @production @self
-printf "\n\033[0;33mSync files from @production...\033[0m\n\n"
+printf "\n⚡ \033[0;33mSync files from @production...\033[0m\n\n"
 drush -r /app/public --ansi --strict=0 -y rsync --mode=akzu @production:%files @self:%files

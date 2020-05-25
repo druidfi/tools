@@ -1,4 +1,4 @@
 drush-cr IS_DRUPAL=yes RUN_ON=docker AMAZEEIO_LEGACY=yes
 ---
-printf "\n\033[0;33mClearing caches...\033[0m\n\n"
+printf "\n⚡ \033[0;33mClearing caches...\033[0m\n\n"
 docker-compose exec -T -u drupal drupal bash -c "cd /var/www/drupal/public_html/public && drush --ansi --strict=0 cr"
