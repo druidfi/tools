@@ -116,6 +116,7 @@ endif
 endif
 
 PHONY += drush-download-dump
+drush-download-dump: DOCKER_COMPOSE_EXEC := docker-compose exec
 drush-download-dump: ## Download database dump to dump.sql
 	$(call drush_on_${RUN_ON},-Dssh.tty=0 @$(DRUPAL_SYNC_SOURCE) sql-dump > ${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
 
