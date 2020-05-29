@@ -103,12 +103,21 @@ post-install: ## Run post-install Drush actions
 
 PHONY += drush-sync
 drush-sync: ## Sync database and files
+ifeq ($(DUMP_SQL_EXISTS),yes)
+	$(call step,Import local SQL dump...)
+	$(call drush_on_${RUN_ON},sql-cli < ${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
+else
 	$(call step,Sync database from @$(DRUPAL_SYNC_SOURCE)...)
 	$(call drush_on_${RUN_ON},sql-sync -y --structure-tables-key=common @$(DRUPAL_SYNC_SOURCE) @self)
 ifeq ($(DRUPAL_SYNC_FILES),yes)
 	$(call step,Sync files from @$(DRUPAL_SYNC_SOURCE)...)
 	$(call drush_on_${RUN_ON},-y rsync --mode=akzu @$(DRUPAL_SYNC_SOURCE):%files @self:%files)
 endif
+endif
+
+PHONY += drush-download-dump
+drush-download-dump: ## Download database dump to dump.sql
+	$(call drush_on_${RUN_ON},-Dssh.tty=0 @$(DRUPAL_SYNC_SOURCE) sql-dump > ${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
 
 mmfix: MODULE := MISSING_MODULE
 mmfix:

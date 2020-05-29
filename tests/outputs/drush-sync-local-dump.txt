@@ -1,0 +1,4 @@
+drush-sync IS_DRUPAL=yes DUMP_SQL_EXISTS=yes
+---
+printf "\n⚡ \033[0;33mImport local SQL dump...\033[0m\n\n"
+drush -r /app/public --ansi --strict=0 sql-cli < /app/dump.sql

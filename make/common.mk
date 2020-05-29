@@ -1,6 +1,8 @@
 ARTIFACT_INCLUDE_EXISTS := $(shell test -f conf/artifact/include && echo yes || echo no)
 ARTIFACT_EXCLUDE_EXISTS := $(shell test -f conf/artifact/exclude && echo yes || echo no)
 ARTIFACT_CMD := tar -hczf artifact.tar.gz
+DUMP_SQL_FILENAME := dump.sql
+DUMP_SQL_EXISTS := $(shell test -f $(DUMP_SQL_FILENAME) && echo yes || echo no)
 SSH_OPTS ?= -o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
 
 ifeq ($(ARTIFACT_EXCLUDE_EXISTS),yes)
