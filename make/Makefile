@@ -62,6 +62,7 @@ debug: ## Show debug information
 	$(call dbg,DOCKER_PROJECT_ROOT,${DOCKER_PROJECT_ROOT})
 	$(call dbg,DOCKER_COMPOSE_BIN,${DOCKER_COMPOSE_BIN})
 	$(call dbg,DOCKER_COMPOSE_YML_EXISTS,${DOCKER_COMPOSE_YML_EXISTS})
+	$(call dbg,DOCKER_COMPOSE,${DOCKER_COMPOSE})
 	$(call dbg,ENV,${ENV})
 	$(call dbg,PHP_BIN,${PHP_BIN})
 	$(call dbg,RUN_ON,${RUN_ON})
