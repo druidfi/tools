@@ -24,6 +24,15 @@ else
 	@$(DOCKER_COMPOSE) down -v --remove-orphans
 endif
 
+PHONY += ps
+ps: ## Show docker-compose ps
+ifeq ($(RUN_ON),host)
+	$(call warn,$(DOCKER_WARNING_INSIDE))
+else
+	$(call step,Show docker-compose ps...)
+	@$(DOCKER_COMPOSE) ps
+endif
+
 PHONY += stop
 stop: ## Stop the environment
 ifeq ($(RUN_ON),host)
