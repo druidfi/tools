@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION=2020-09-06-10-34
+VERSION=2020-09-08-13-51
 DEBUG=0
 GITHUB=https://raw.githubusercontent.com
 REPOSITORY=druidfi/tools
@@ -32,6 +32,7 @@ declare -a files=(
   "composer.mk"
   "javascript.mk"
   "drupal.mk"
+  "symfony.mk"
   "amazeeio.mk"
   "qa.mk"
   "wordpress.mk"

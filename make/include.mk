@@ -11,6 +11,10 @@ ifeq ($(IS_DRUPAL),yes)
 include $(DRUIDFI_TOOLS_MAKE_DIR)drupal.mk
 endif
 
+ifeq ($(IS_SYMFONY),yes)
+include $(DRUIDFI_TOOLS_MAKE_DIR)symfony.mk
+endif
+
 ifeq ($(IS_WP),yes)
 include $(DRUIDFI_TOOLS_MAKE_DIR)wordpress.mk
 endif

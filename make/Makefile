@@ -17,6 +17,7 @@ WEBROOT ?= public
 
 # Detect app
 IS_DRUPAL := $(shell test -f $(WEBROOT)/sites/default/settings.php && echo yes || echo no)
+IS_SYMFONY := $(shell test -f config/bundles.php && echo yes || echo no)
 IS_WP := $(shell test -f $(WEBROOT)/wp-settings.php && echo yes || echo no)
 
 # Detect additional tooling
@@ -67,6 +68,7 @@ debug: ## Show debug information
 	$(call dbg,PHP_BIN,${PHP_BIN})
 	$(call dbg,RUN_ON,${RUN_ON})
 	$(call dbg,IS_DRUPAL,${IS_DRUPAL})
+	$(call dbg,IS_SYMFONY,${IS_SYMFONY})
 	$(call dbg,IS_WP,${IS_WP})
 	$(call dbg,AMAZEEIO_LEGACY,${AMAZEEIO_LEGACY})
 	$(call dbg,AMAZEEIO_LAGOON,${AMAZEEIO_LAGOON})
