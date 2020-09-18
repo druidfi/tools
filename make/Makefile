@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := help
 
 BUILD_TARGETS :=
-CLEAN_FOLDERS := node_modules
+CLEAN_FOLDERS :=
 COMPOSER_BIN := $(shell which composer || echo no)
 COMPOSER_JSON_EXISTS := $(shell test -f composer.json && echo yes || echo no)
 DOCKER_COMPOSE_BIN := $(shell which docker-compose > /dev/null 2>&1 && which docker-compose || echo no)
