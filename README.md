@@ -1,6 +1,6 @@
 # druidfi/tools
 
-[![Build Status](https://travis-ci.com/druidfi/tools.svg?branch=master)](https://travis-ci.com/druidfi/tools)
+![Tests](https://github.com/druidfi/tools/workflows/Tests/badge.svg)
 
 Set of tools meant for ease the development.
 
