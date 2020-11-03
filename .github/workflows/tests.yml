@@ -1,0 +1,43 @@
+name: Run tests
+
+on: [push]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Run tests
+        run: tests/tests.sh
+
+      # Debug mode downloads files from this branch to ./debug folder
+      - name: Run updater
+        run: |
+          ./update.sh --debug --branch $GITHUB_REF
+          diff debug/Makefile make/Makefile.project.dist
+
+      - name: Test that downloaded files exist
+        run: |
+          test -f debug/tools/make/amazeeio.mk
+          test -f debug/tools/make/common.mk
+          test -f debug/tools/make/composer.mk
+          test -f debug/tools/make/docker.mk
+          test -f debug/tools/make/drupal.mk
+          test -f debug/tools/make/include.mk
+          test -f debug/tools/make/javascript.mk
+          test -f debug/tools/make/Makefile
+          test -f debug/tools/make/qa.mk
+          test -f debug/tools/make/symfony.mk
+          test -f debug/tools/make/utils.mk
+          test -f debug/tools/make/wordpress.mk
