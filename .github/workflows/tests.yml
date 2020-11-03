@@ -28,14 +28,9 @@ jobs:
 
       # Debug mode downloads files from this branch to ./debug folder
       - name: Run updater
-        run: |
-          ./update.sh --debug --branch $GITHUB_REF
-          ls -lah ./debug/
-          cat make/Makefile.project.dist
-          cat debug/Makefile
-          diff debug/Makefile make/Makefile.project.dist
+        run: ./update.sh --debug --branch ${GITHUB_REF##*/}
 
-      - name: Test that downloaded files exist
+      - name: Test that downloaded files exist in debug folder
         run: |
           test -f debug/tools/make/amazeeio.mk
           test -f debug/tools/make/common.mk
@@ -49,3 +44,6 @@ jobs:
           test -f debug/tools/make/symfony.mk
           test -f debug/tools/make/utils.mk
           test -f debug/tools/make/wordpress.mk
+
+      - name: Diff main Makefile
+        run: diff debug/Makefile make/Makefile.project.dist
