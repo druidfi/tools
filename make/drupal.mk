@@ -116,7 +116,7 @@ PHONY += drush-sync-db
 drush-sync-db: ## Sync database
 ifeq ($(DUMP_SQL_EXISTS),yes)
 	$(call step,Import local SQL dump...)
-	$(call drush_on_${RUN_ON},sql-cli < ${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
+	$(call drush_on_${RUN_ON},sql-query --file=${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
 else
 	$(call step,Sync database from @$(DRUPAL_SYNC_SOURCE)...)
 	$(call drush_on_${RUN_ON},sql-sync -y --structure-tables-key=common @$(DRUPAL_SYNC_SOURCE) @self)
