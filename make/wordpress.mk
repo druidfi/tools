@@ -1,9 +1,10 @@
 WP_FRESH_TARGETS := up build sync post-install
-WP_POST_INSTALL_TARGETS := prepare
+BUILD_TARGETS += set-files
 WP_CONF_PATH := conf
 WP_DELETE_PLUGINS := akismet hello
 WP_DELETE_THEMES := twentynineteen twentyseventeen
 WP_SQL_READY := yes
+WP_POST_INSTALL_TARGETS := prepare
 DUMP_SQL_FILENAME := wordpress.sql
 DUMP_SQL_EXISTS := $(shell test -f $(DUMP_SQL_FILENAME) && echo yes || echo no)
 SYNC_TARGETS += wp-sync-db wp-sync-files
@@ -16,12 +17,15 @@ PHONY += post-install
 post-install: ## Run post-install actions
 	@$(MAKE) $(WP_POST_INSTALL_TARGETS)
 
-PHONY += prepare
-prepare:
+PHONY += set-files
+set-files:
 	$(call step,Remove obsolete files)
 	@rm -f $(WEBROOT)/*.{txt,html} $(WEBROOT)/composer.json && printf "Files deleted.\n"
 	$(call step,Copy $(WP_CONF_PATH)/wp-config.php to $(WEBROOT)...)
 	@cp -v $(WP_CONF_PATH)/wp-config.php $(WEBROOT)/wp-config.php
+
+PHONY += prepare
+prepare:
 	$(call step,Delete inactivated plugins)
 	$(call wp,plugin delete $(WP_DELETE_PLUGINS))
 	$(call step,Delete inactivated themes)

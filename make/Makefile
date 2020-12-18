@@ -18,7 +18,7 @@ WEBROOT ?= public
 # Detect app
 IS_DRUPAL ?= $(shell test -f $(WEBROOT)/sites/default/settings.php && echo yes || echo no)
 IS_SYMFONY ?= $(shell test -f config/bundles.php && echo yes || echo no)
-IS_WP ?= $(shell test -f $(WEBROOT)/wp-settings.php && echo yes || echo no)
+IS_WP ?= $(shell (test -f $(WEBROOT)/wp-settings.php || test -f conf/wp-config.php) && echo yes || echo no)
 
 # Detect additional tooling
 AMAZEEIO_LEGACY := $(shell test -f .amazeeio.yml && echo yes || echo no)
