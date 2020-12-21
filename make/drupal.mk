@@ -33,7 +33,7 @@ endif
 PHONY += drupal-update
 drupal-update: ## Update Drupal core with Composer
 	$(call step,Update Drupal core with Composer...)
-	@composer update "drupal/core-*" --with-dependencies
+	@composer update -W "drupal/core-*"
 
 PHONY += drush-cex
 drush-cex: ## Export configuration
