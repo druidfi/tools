@@ -104,7 +104,3 @@ $ make test
 ```
 
 Read more about testing [here](tests/README.md).
-
-## Other information
-
-This project is found from the Packagist: https://packagist.org/packages/druidfi/tools
