@@ -24,6 +24,8 @@ LINT_PATHS_JS += ./$(WEBROOT)/themes/custom/*/js
 LINT_PATHS_PHP += -v $(CURDIR)/drush:/app/drush:rw,consistent
 LINT_PATHS_PHP += -v $(CURDIR)/$(WEBROOT)/modules/custom:/app/$(WEBROOT)/modules/custom:rw,consistent
 LINT_PATHS_PHP += -v $(CURDIR)/$(WEBROOT)/themes/custom:/app/$(WEBROOT)/themes/custom:rw,consistent
+LINT_PHP_TARGETS += lint-drupal
+FIX_TARGETS += fix-drupal
 
 # TODO Remove this when DRUPAL_WEBROOT vars are removed from projects
 ifdef DRUPAL_WEBROOT
@@ -140,6 +142,21 @@ PHONY += drush-download-dump
 drush-download-dump: DOCKER_COMPOSE_EXEC := docker-compose exec
 drush-download-dump: ## Download database dump to dump.sql
 	$(call drush_on_${RUN_ON},-Dssh.tty=0 @$(DRUPAL_SYNC_SOURCE) sql-dump > ${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
+
+PHONY += fix-drupal
+fix-drupal: IMG := druidfi/qa:php-$(PHP_VERSION)
+fix-drupal: VOLUMES := $(subst $(space),,$(LINT_PATHS_PHP))
+fix-drupal: ## Fix Drupal code style
+	$(call step,Fix Drupal code style...)
+	@docker run --rm -it $(VOLUMES) $(IMG) bash -c "phpcbf --runtime-set drupal_core_version $(DRUPAL_VERSION) ."
+
+PHONY += lint-drupal
+lint-drupal: PHP_VERSION := $(shell docker run --rm -it $(DRUPAL_IMAGE) bash -c "php -v | grep ^PHP | cut -d' ' -f2 | cut -c0-3")
+lint-drupal: IMG := druidfi/qa:php-$(PHP_VERSION)
+lint-drupal: VOLUMES := $(subst $(space),,$(LINT_PATHS_PHP))
+lint-drupal: ## Lint Drupal code style
+	$(call step,Lint Drupal code style with $(PHP_VERSION)...)
+	@docker run --rm -it $(VOLUMES) $(IMG) bash -c "phpcs --runtime-set drupal_core_version $(DRUPAL_VERSION) ."
 
 mmfix: MODULE := MISSING_MODULE
 mmfix:
