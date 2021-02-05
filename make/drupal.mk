@@ -138,6 +138,11 @@ else
 endif
 endif
 
+PHONY += drush-create-dump
+drush-create-dump: FLAGS := --structure-tables-key=common --extra-dump=--no-tablespaces
+drush-create-dump: ## Create database dump to dump.sql
+	$(call drush_on_${RUN_ON},sql-dump $(FLAGS) --result-file=${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
+
 PHONY += drush-download-dump
 drush-download-dump: DOCKER_COMPOSE_EXEC := docker-compose exec
 drush-download-dump: ## Download database dump to dump.sql
