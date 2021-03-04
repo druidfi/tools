@@ -33,9 +33,14 @@ declare -a files=(
   "javascript.mk"
   "drupal.mk"
   "symfony.mk"
-  "amazeeio.mk"
+  "lagoon.mk"
   "qa.mk"
   "wordpress.mk"
+  "kubectl.mk"
+)
+
+declare -a remove_files=(
+  "amazeeio.mk"
 )
 
 main() {
@@ -83,6 +88,17 @@ main() {
     fi
 
     curl -LJs -o "${files[i]}" "${urls[i]}"
+  done
+
+  for i in "${!remove_files[@]}"
+  do
+    if [[ ${DEBUG} -eq 1 ]]; then
+      debug "Remove ${remove_files[i]}"
+    fi
+
+    if [ -f "${remove_files[i]}" ]; then
+      rm "${remove_files[i]}"
+    fi
   done
 
   if [[ $? -eq 0 ]]

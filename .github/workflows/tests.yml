@@ -26,13 +26,16 @@ jobs:
       - name: Run tests
         run: tests/tests.sh
 
+      - name: Create file to be removed
+        run: mkdir -p debug/tools/make && touch debug/tools/make/amazeeio.mk
+
       # Debug mode downloads files from this branch to ./debug folder
       - name: Run updater
         run: ./update.sh --debug --branch ${GITHUB_REF##*/}
 
       - name: Test that downloaded files exist in debug folder
         run: |
-          test -f debug/tools/make/amazeeio.mk
+          test -f debug/tools/make/lagoon.mk
           test -f debug/tools/make/common.mk
           test -f debug/tools/make/composer.mk
           test -f debug/tools/make/docker.mk
@@ -44,6 +47,9 @@ jobs:
           test -f debug/tools/make/symfony.mk
           test -f debug/tools/make/utils.mk
           test -f debug/tools/make/wordpress.mk
+
+      - name: Test that removed file does not exist in debug folder
+        run: test ! -f debug/tools/make/amazeeio.mk
 
       - name: Diff main Makefile
         run: diff debug/Makefile make/Makefile.project.dist

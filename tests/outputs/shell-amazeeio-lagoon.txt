@@ -1,3 +1,3 @@
-shell RUN_ON=docker AMAZEEIO_LAGOON=yes
+shell RUN_ON=docker LAGOON=yes
 ---
 docker-compose exec -u root cli bash
