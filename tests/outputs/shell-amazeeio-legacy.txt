@@ -1,3 +1,0 @@
-shell RUN_ON=docker AMAZEEIO_LEGACY=yes
----
-docker-compose exec -u drupal drupal bash

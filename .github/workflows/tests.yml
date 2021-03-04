@@ -26,13 +26,16 @@ jobs:
       - name: Run tests
         run: tests/tests.sh
 
+      - name: Create file to be removed
+        run: touch debug/tools/make/amazeeio.mk
+
       # Debug mode downloads files from this branch to ./debug folder
       - name: Run updater
         run: ./update.sh --debug --branch ${GITHUB_REF##*/}
 
       - name: Test that downloaded files exist in debug folder
         run: |
-          test -f debug/tools/make/amazeeio.mk
+          test -f debug/tools/make/lagoon.mk
           test -f debug/tools/make/common.mk
           test -f debug/tools/make/composer.mk
           test -f debug/tools/make/docker.mk

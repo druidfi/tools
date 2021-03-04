@@ -23,6 +23,6 @@ ifeq ($(IS_WP),yes)
 include $(DRUIDFI_TOOLS_MAKE_DIR)wordpress.mk
 endif
 
-ifeq ($(SYSTEM),AMAZEEIO)
-include $(DRUIDFI_TOOLS_MAKE_DIR)amazeeio.mk
+ifeq ($(SYSTEM),LAGOON)
+include $(DRUIDFI_TOOLS_MAKE_DIR)lagoon.mk
 endif
