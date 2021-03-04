@@ -48,5 +48,8 @@ jobs:
           test -f debug/tools/make/utils.mk
           test -f debug/tools/make/wordpress.mk
 
+      - name: Test that removed file does not exist in debug folder
+        run: test ! -f debug/tools/make/amazeeio.mk
+
       - name: Diff main Makefile
         run: diff debug/Makefile make/Makefile.project.dist
