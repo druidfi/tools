@@ -27,7 +27,7 @@ jobs:
         run: tests/tests.sh
 
       - name: Create file to be removed
-        run: touch debug/tools/make/amazeeio.mk
+        run: mkdir -p debug/tools/make && touch debug/tools/make/amazeeio.mk
 
       # Debug mode downloads files from this branch to ./debug folder
       - name: Run updater
