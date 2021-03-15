@@ -149,18 +149,18 @@ drush-download-dump: ## Download database dump to dump.sql
 	$(call drush_on_${RUN_ON},-Dssh.tty=0 @$(DRUPAL_SYNC_SOURCE) sql-dump > ${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
 
 PHONY += fix-drupal
-fix-drupal: PHP_VERSION := $(shell docker run --rm -it $(DRUPAL_IMAGE) bash -c "php -v | grep ^PHP | cut -d' ' -f2 | cut -c0-3")
-fix-drupal: IMG := druidfi/qa:php-$(PHP_VERSION)
 fix-drupal: VOLUMES := $(subst $(space),,$(LINT_PATHS_PHP))
 fix-drupal: ## Fix Drupal code style
+	$(eval PHP_VERSION := $(shell docker run --rm -it $(DRUPAL_IMAGE) bash -c "php -v | grep ^PHP | cut -d' ' -f2 | cut -c0-3"))
+	$(eval IMG := druidfi/qa:php-$(PHP_VERSION))
 	$(call step,Fix Drupal code style...)
 	@docker run --rm -it $(VOLUMES) $(IMG) bash -c "phpcbf --runtime-set drupal_core_version $(DRUPAL_VERSION) ."
 
 PHONY += lint-drupal
-lint-drupal: PHP_VERSION := $(shell docker run --rm -it $(DRUPAL_IMAGE) bash -c "php -v | grep ^PHP | cut -d' ' -f2 | cut -c0-3")
-lint-drupal: IMG := druidfi/qa:php-$(PHP_VERSION)
 lint-drupal: VOLUMES := $(subst $(space),,$(LINT_PATHS_PHP))
 lint-drupal: ## Lint Drupal code style
+	$(eval PHP_VERSION := $(shell docker run --rm -it $(DRUPAL_IMAGE) bash -c "php -v | grep ^PHP | cut -d' ' -f2 | cut -c0-3"))
+	$(eval IMG := druidfi/qa:php-$(PHP_VERSION))
 	$(call step,Lint Drupal code style with $(PHP_VERSION)...)
 	@docker run --rm -it $(VOLUMES) $(IMG) bash -c "phpcs --runtime-set drupal_core_version $(DRUPAL_VERSION) ."
 
