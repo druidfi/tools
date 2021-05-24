@@ -26,6 +26,11 @@ else
 	$(call node_run,install --engine-strict true)
 endif
 
+PHONY += js-outdated
+js-outdated: ## Show outdated JS packages
+	$(call step,Show outdated JS packages with $(JS_PACKAGE_MANAGER)...)
+	$(call node_run,outdated)
+
 ifeq ($(INSTALLED_NODE_VERSION),$(NODE_VERSION))
 define node_run
 	$(call sub_step,Using local $(JS_PACKAGE_MANAGER)...)
