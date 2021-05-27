@@ -1,7 +1,7 @@
 BUILD_TARGETS += js-install
 CLEAN_FOLDERS += node_modules
 JS_PACKAGE_MANAGER ?= yarn
-INSTALLED_NODE_VERSION := $(shell node --version | cut -c2-3 || echo no)
+INSTALLED_NODE_VERSION := $(shell which node && node --version | cut -c2-3 || echo no)
 NODE_BIN := $(shell which node || echo no)
 NPM_BIN := $(shell which npm || echo no)
 YARN_BIN := $(shell which yarn || echo no)
@@ -25,11 +25,6 @@ ifeq ($(JS_PACKAGE_MANAGER),yarn)
 else
 	$(call node_run,install --engine-strict true)
 endif
-
-PHONY += js-outdated
-js-outdated: ## Show outdated JS packages
-	$(call step,Show outdated JS packages with $(JS_PACKAGE_MANAGER)...)
-	$(call node_run,outdated)
 
 ifeq ($(INSTALLED_NODE_VERSION),$(NODE_VERSION))
 define node_run
