@@ -18,7 +18,7 @@ sf-cw: ## Warm Symfony caches
 	$(call sf_console_on_${RUN_ON},cache:warmup)
 
 PHONY += sf-open
-sf-open: ## Warm Symfony caches
+sf-open: ## Create link to Symfony application
 	$(call step,See your Symfony application with: https://$(APP_HOST))
 
 PHONY += sf-update
