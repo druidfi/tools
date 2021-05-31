@@ -10,3 +10,4 @@ debug
 
 !*.gitkeep
 !*.keepme
+/tests/druidfi-tools-comparison.txt

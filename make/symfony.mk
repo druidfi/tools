@@ -1,7 +1,8 @@
 SF_FRESH_TARGETS := up build sf-cw sf-about sf-open
 FIX_TARGETS += fix-symfony
 LINT_PHP_TARGETS += lint-symfony
-CLEAN_FOLDERS += var assets/node_modules
+CLEAN_FOLDERS += var
+PACKAGE_JSON_PATH := assets
 
 PHONY += sf-about
 sf-about: ## Displays information about the current project
@@ -18,7 +19,7 @@ sf-cw: ## Warm Symfony caches
 	$(call sf_console_on_${RUN_ON},cache:warmup)
 
 PHONY += sf-open
-sf-open: ## Create link to Symfony application
+sf-open: ## Warm Symfony caches
 	$(call step,See your Symfony application with: https://$(APP_HOST))
 
 PHONY += sf-update

@@ -1,4 +1,4 @@
 drush-uli IS_DRUPAL=yes DRUPAL_VERSION=8
 ---
 printf "\n⚡ \033[0;33mLogin to your site with:\033[0m\n\n"
-drush -r /app/public --ansi --strict=0 uli admin/reports/status
+cd ./public && drush --ansi --strict=0 uli admin/reports/status
