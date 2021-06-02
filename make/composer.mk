@@ -1,5 +1,5 @@
 BUILD_TARGETS := composer-install
-CLEAN_FOLDERS += vendor
+CLEAN_FOLDERS += $(COMPOSER_JSON_PATH)/vendor
 
 PHONY += composer-info
 composer-info: ## Composer info
