@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION=2020-11-03-15-49
+VERSION=2021-08-23-09-43
 DEBUG=0
 GITHUB=https://raw.githubusercontent.com
 REPOSITORY=druidfi/tools
@@ -29,6 +29,7 @@ declare -a files=(
   "include.mk"
   "common.mk"
   "docker.mk"
+  "downloader.mk"
   "composer.mk"
   "javascript.mk"
   "drupal.mk"

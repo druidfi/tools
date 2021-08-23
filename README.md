@@ -16,7 +16,7 @@ Set of tools meant for ease the development.
 Download oneliner (source is [update.sh](update.sh)):
 
 ```
-$ bash -c "$(curl -fsSL -H 'Cache-Control: no-cache' https://git.io/fh771)"
+bash -c "$(curl -fsSL -H 'Cache-Control: no-cache' https://git.io/fh771)"
 ```
 
 ## Project specific
@@ -76,7 +76,7 @@ include $(PROJECT_DIR)/tools/make/Makefile
 Update general tools by downloading new versions of the files:
 
 ```
-$ make self-update
+make self-update
 ```
 
 ## Where this is used
@@ -94,13 +94,13 @@ As one of the operations `make clean` will remove the `vendor` folder.
 Set Git hook. This will run tests pre-commit and if all is good, then update version.
 
 ```
-$ ln -sf ../../hooks/pre-commit .git/hooks/pre-commit
+ln -sf ../../hooks/pre-commit .git/hooks/pre-commit
 ```
 
 Run tests:
 
 ```
-$ make test
+make test
 ```
 
 Read more about testing [here](tests/README.md).
