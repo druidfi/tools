@@ -18,4 +18,9 @@ test: ## Run tests
 	$(call step,Run tests)
 	@tests/tests.sh
 
+PHONY += test-linux
+test-linux: ## Run tests on Linux
+	@docker build . -t druidfi/tools-tester
+	@docker run --rm -it --name druidfi-tools-linux -v $(PWD)/:/tools druidfi/tools-tester tests/tests.sh
+
 .PHONY: $(PHONY)
