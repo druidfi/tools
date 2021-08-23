@@ -20,7 +20,7 @@ do
       rm -f ${TMP_FILE}
       echo "$(head -n2 "${item}")" > "${TMP_FILE}"
       echo "${OUTPUT}" >> "${TMP_FILE}"
-      diff -y --suppress-common-lines "${item}" "${TMP_FILE}" | cat -te
+      diff -y --suppress-common-lines ${item} ${TMP_FILE} | cat -te
       printf "\n\e[0;31mEnding tests...\e[0m\n"
       exit 1
     fi
