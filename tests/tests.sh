@@ -17,7 +17,7 @@ do
       printf "\e[0;33mExpect:\e[0m\n%s\n" "${EXPECTED}"
       printf "\e[0;33mActual:\e[0m\n%s\n" "${OUTPUT}"
       printf "\e[0;33mDiff:\e[0m\n"
-      rm ${TMP_FILE}
+      rm -f ${TMP_FILE}
       echo "$(head -n2 "${item}")" > "${TMP_FILE}"
       echo "${OUTPUT}" >> "${TMP_FILE}"
       diff -y --suppress-common-lines "${item}" "${TMP_FILE}" | cat -te
