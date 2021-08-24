@@ -1,8 +1,8 @@
 download-dump DUMP_SQL_EXISTS=no DOWNLOADER_PROJECT=project PWD=/path
 ---
 printf "\n⚡ \033[0;33mDownload & extract database dump...\033[0m\n\n"
-docker run -it --rm -v /path/tmp:/app/downloads druidfi/backupper-downloader download project \
+docker run -it --rm -v /path/tmp:/app/downloads druidfi/cli download project \
 	&& gunzip tmp/dump.sql.gz \
 	&& mv tmp/dump.sql dump.sql \
 	&& rm -rf tmp \
-	|| (printf "\n⚠️  Downloader image "druidfi/backupper-downloader" was not found!\n\n   Get it from https://github.com/druidfi/backupper/releases/tag/latest\n\n" && exit 1)
+	|| (printf "\n⚠️  Downloader image "druidfi/cli" was not found!\n\n   Get it from https://github.com/druidfi/cli/releases/tag/latest\n\n" && exit 1)

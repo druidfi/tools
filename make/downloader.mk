@@ -1,5 +1,5 @@
-DOWNLOADER_IMAGE := druidfi/backupper-downloader
-DOWNLOADER_URL := https://github.com/druidfi/backupper/releases/tag/latest
+DOWNLOADER_IMAGE := druidfi/cli
+DOWNLOADER_URL := https://github.com/druidfi/cli/releases/tag/latest
 DOWNLOADER_ERROR := Downloader image "$(DOWNLOADER_IMAGE)" was not found!\n\n   Get it from $(DOWNLOADER_URL)\n\n
 
 DRUPAL_FRESH_TARGETS := download-dump $(DRUPAL_FRESH_TARGETS)
