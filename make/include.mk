@@ -31,6 +31,4 @@ ifeq ($(PACKAGE_JSON_EXISTS),yes)
 include $(DRUIDFI_TOOLS_MAKE_DIR)javascript.mk
 endif
 
-ifdef DOWNLOADER_PROJECT
-include $(DRUIDFI_TOOLS_MAKE_DIR)downloader.mk
-endif
+include $(DRUIDFI_TOOLS_MAKE_DIR)druid-cli.mk
