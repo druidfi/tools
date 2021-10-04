@@ -24,9 +24,8 @@ artifact: ## Make tar.gz package from the current build
 
 PHONY += build
 build: $(BUILD_TARGETS) ## Build codebase(s)
-	$(call step,Start build for env: $(ENV)\n- Following targets will be run: $(BUILD_TARGETS))
+	$(call group_step,Build ($(ENV)):${NO_COLOR} $(BUILD_TARGETS))
 	@$(MAKE) $(BUILD_TARGETS) ENV=$(ENV)
-	$(call step,Build completed.)
 
 PHONY += build-dev
 build-dev: build
@@ -59,6 +58,5 @@ shell-%: ## Login to remote instance
 
 PHONY += sync
 sync: ## Sync data from other environments
-	$(call step,Start sync:\n- Following targets will be run: $(SYNC_TARGETS))
+	$(call group_step,Sync:${NO_COLOR} $(SYNC_TARGETS))
 	@$(MAKE) $(SYNC_TARGETS) ENV=$(ENV)
-	$(call step,Sync completed.)

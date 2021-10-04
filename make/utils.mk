@@ -14,12 +14,20 @@ define dbg
 	@printf "${GREEN}${1}:${NO_COLOR} ${2}\n"
 endef
 
+define group_step
+	@printf "\n🌟 ${YELLOW}${1}${NO_COLOR}\n"
+endef
+
 define step
-	@printf "\n⚡ ${YELLOW}${1}${NO_COLOR}\n\n"
+	@printf "\n⭐ ${YELLOW}${1}${NO_COLOR}\n"
 endef
 
 define sub_step
-	@printf "\n   ${YELLOW}${1}${NO_COLOR}\n\n"
+	@printf "\n   ${YELLOW}${1}${NO_COLOR}\n"
+endef
+
+define output
+	@echo "${1}"
 endef
 
 define warn
