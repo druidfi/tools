@@ -1,4 +1,4 @@
 drush-cr IS_DRUPAL=yes RUN_ON=docker
 ---
 printf "\n⚡ \033[0;33mClearing caches...\033[0m\n\n"
-docker-compose exec -T -u root cli sh -c "cd /app/public && drush --ansi --strict=0 cr"
+docker compose exec -u root cli sh -c "drush --ansi --strict=0 cr"

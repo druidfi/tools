@@ -4,7 +4,7 @@ BUILD_TARGETS :=
 CLEAN_FOLDERS :=
 COMPOSER_BIN := $(shell which composer || echo no)
 COMPOSER_JSON_PATH ?= .
-DOCKER_COMPOSE_BIN := $(shell which docker-compose > /dev/null 2>&1 && which docker-compose || echo no)
+DOCKER_BIN := $(shell which docker > /dev/null 2>&1 && which docker || echo no)
 DOCKER_COMPOSE_YML_EXISTS := $(shell test -f docker-compose.yml && echo yes || echo no)
 DRUIDFI_TOOLS_MAKE_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 ENV := dev
@@ -34,12 +34,12 @@ endif
 
 # If docker-compose.yml exists
 ifeq ($(DOCKER_COMPOSE_YML_EXISTS),yes)
-# If docker-compose does not exist (e.g. inside Docker container)
-ifeq ($(DOCKER_COMPOSE_BIN),no)
-	RUN_ON := host
-else
-	RUN_ON := docker
-endif
+		# If docker binary does not exist (e.g. inside Docker container)
+		ifeq ($(DOCKER_BIN),no)
+			RUN_ON := host
+		else
+			RUN_ON := docker
+		endif
 else
 	RUN_ON := host
 endif
