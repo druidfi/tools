@@ -5,17 +5,17 @@ CLEAN_FOLDERS += $(COMPOSER_JSON_PATH)/var
 
 PHONY += sf-about
 sf-about: ## Displays information about the current project
-	$(call sf_console_on_${RUN_ON},about)
+	$(call sf_console,about)
 
 PHONY += sf-cc
 sf-cc: ## Clear Symfony caches
 	$(call step,Clear Symfony caches...)
-	$(call sf_console_on_${RUN_ON},cache:clear)
+	$(call sf_console,cache:clear)
 
 PHONY += sf-cw
 sf-cw: ## Warm Symfony caches
 	$(call step,Warm Symfony caches...)
-	$(call sf_console_on_${RUN_ON},cache:warmup)
+	$(call sf_console,cache:warmup)
 
 PHONY += sf-open
 sf-open: ## Warm Symfony caches
@@ -24,7 +24,7 @@ sf-open: ## Warm Symfony caches
 PHONY += sf-update
 sf-update: ## Update Symfony packages with Composer
 	$(call step,Update Symfony packages with Composer...)
-	@composer update -W "doctrine/*" "symfony/*" "twig/*" --no-scripts
+	$(call composer,update -W "doctrine/*" "symfony/*" "twig/*" --no-scripts)
 
 PHONY += fresh
 fresh: ## Build fresh development environment
@@ -41,10 +41,12 @@ lint-symfony: ## Lint Symfony code style
 	$(call step,Lint Symfony code style...)
 	@docker run --rm -it -v $(VOLUMES) druidfi/qa:php-$(call get_php_version) bash -c "phpcs ."
 
-define sf_console_on_docker
+ifeq ($(RUN_ON),docker)
+define sf_console
 	$(call docker_run_cmd,bin/console --ansi $(1))
 endef
-
-define sf_console_on_host
+else
+define sf_console
 	@bin/console --ansi $(1)
 endef
+endif
