@@ -4,7 +4,7 @@ DRUPAL_NEW_TARGETS := up build drush-si drush-uli
 ifeq ($(DRUPAL_VERSION),7)
 DRUPAL_POST_INSTALL_TARGETS := drush-updb drush-cr drush-uli
 else
-DRUPAL_POST_INSTALL_TARGETS := drush-updb drush-cim drush-uli
+DRUPAL_POST_INSTALL_TARGETS := drush-deploy
 CLEAN_FOLDERS += ${WEBROOT}/core
 CLEAN_FOLDERS += ${WEBROOT}/libraries
 CLEAN_FOLDERS += ${WEBROOT}/modules/contrib
@@ -143,7 +143,7 @@ drush-create-dump: ## Create database dump to dump.sql
 
 PHONY += drush-download-dump
 drush-download-dump: ## Download database dump to dump.sql
-	$(call drush,-Dssh.tty=0 @$(DRUPAL_SYNC_SOURCE) sql-dump > ${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
+	$(call drush,-Dssh.tty=0 @$(DRUPAL_SYNC_SOURCE) sql-dump --structure-tables-key=common > ${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
 
 PHONY += fix-drupal
 fix-drupal: VOLUMES := $(subst $(space),,$(LINT_PATHS_PHP))
