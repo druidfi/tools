@@ -38,7 +38,7 @@ ifeq ($(DRUPAL_VERSION),7)
 	$(call warn,\"drush cex\" is not Drupal 7 command\n)
 else
 	$(call step,Export configuration...)
-	$(call drush_on_${RUN_ON},cex -y)
+	$(call drush,cex -y)
 endif
 
 PHONY += drush-cim
@@ -47,7 +47,7 @@ ifeq ($(DRUPAL_VERSION),7)
 	$(call warn,\"drush cim\" is not Drupal 7 command\n)
 else
 	$(call step,Import configuration...)
-	$(call drush_on_${RUN_ON},cim -y)
+	$(call drush,cim -y)
 endif
 
 PHONY += drush-cc
@@ -57,22 +57,22 @@ PHONY += drush-cr
 drush-cr: ## Clear caches
 	$(call step,Clearing caches...)
 ifeq ($(DRUPAL_VERSION),7)
-	$(call drush_on_${RUN_ON},cc all)
+	$(call drush,cc all)
 else
-	$(call drush_on_${RUN_ON},cr)
+	$(call drush,cr)
 endif
 
 PHONY += drush-status
 drush-status: ## Show Drupal status information
-	$(call drush_on_${RUN_ON},status)
+	$(call drush,status)
 
 PHONY += drush-uli
 drush-uli: ## Get login link
 	$(call step,Login to your site with:)
 ifeq ($(DRUPAL_VERSION),7)
-	$(call drush_on_${RUN_ON},uli)
+	$(call drush,uli)
 else
-	$(call drush_on_${RUN_ON},uli admin/reports/status)
+	$(call drush,uli admin/reports/status)
 endif
 
 PHONY += drush-si
@@ -82,17 +82,17 @@ else
     drush-si: DRUSH_SI := -y $(DRUPAL_PROFILE)
 endif
 drush-si: ## Site install
-	$(call drush_on_${RUN_ON},si ${DRUSH_SI})
+	$(call drush,si ${DRUSH_SI})
 
 PHONY += drush-deploy
 drush-deploy: ## Run Drush deploy
 	$(call step,Run Drush deploy...)
-	$(call drush_on_${RUN_ON},deploy)
+	$(call drush,deploy)
 
 PHONY += drush-updb
 drush-updb: ## Run database updates
 	$(call step,Run database updates...)
-	$(call drush_on_${RUN_ON},updb -y)
+	$(call drush,updb -y)
 
 PHONY += fresh
 fresh: ## Build fresh development environment and sync
@@ -113,13 +113,13 @@ PHONY += drush-sync-db
 drush-sync-db: ## Sync database
 ifeq ($(DUMP_SQL_EXISTS),yes)
 	$(call step,Import local SQL dump...)
-	$(call drush_on_${RUN_ON},sql-query --file=${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
+	$(call drush,sql-query --file=${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
 else
 	$(call step,Sync database from @$(DRUPAL_SYNC_SOURCE)...)
 ifeq ($(DRUPAL_VERSION),7)
-	$(call drush_on_${RUN_ON},sql-drop -y)
+	$(call drush,sql-drop -y)
 endif
-	$(call drush_on_${RUN_ON},sql-sync -y --structure-tables-key=common @$(DRUPAL_SYNC_SOURCE) @self)
+	$(call drush,sql-sync -y --structure-tables-key=common @$(DRUPAL_SYNC_SOURCE) @self)
 endif
 
 PHONY += drush-sync-files
@@ -130,20 +130,20 @@ ifeq ($(DRUPAL_VERSION),7)
 	@chmod 0755 ${WEBROOT}/sites/default
 	@mkdir -p ${WEBROOT}/sites/default/files
 	@chmod 0777 ${WEBROOT}/sites/default/files
-	$(call drush_on_${RUN_ON},-y rsync --exclude-paths=$(DRUSH_RSYNC_EXCLUDE) --mode=$(DRUSH_RSYNC_MODE) @$(DRUPAL_SYNC_SOURCE):%files @self:%files)
+	$(call drush,-y rsync --exclude-paths=$(DRUSH_RSYNC_EXCLUDE) --mode=$(DRUSH_RSYNC_MODE) @$(DRUPAL_SYNC_SOURCE):%files @self:%files)
 else
-	$(call drush_on_${RUN_ON},-y rsync --exclude-paths=$(DRUSH_RSYNC_EXCLUDE) --mode=$(DRUSH_RSYNC_MODE) @$(DRUPAL_SYNC_SOURCE):%files @self:%files $(DRUSH_RSYNC_OPTS))
+	$(call drush,-y rsync --exclude-paths=$(DRUSH_RSYNC_EXCLUDE) --mode=$(DRUSH_RSYNC_MODE) @$(DRUPAL_SYNC_SOURCE):%files @self:%files $(DRUSH_RSYNC_OPTS))
 endif
 endif
 
 PHONY += drush-create-dump
 drush-create-dump: FLAGS := --structure-tables-key=common --extra-dump=--no-tablespaces
 drush-create-dump: ## Create database dump to dump.sql
-	$(call drush_on_${RUN_ON},sql-dump $(FLAGS) --result-file=${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
+	$(call drush,sql-dump $(FLAGS) --result-file=${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
 
 PHONY += drush-download-dump
 drush-download-dump: ## Download database dump to dump.sql
-	$(call drush_on_${RUN_ON},-Dssh.tty=0 @$(DRUPAL_SYNC_SOURCE) sql-dump > ${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
+	$(call drush,-Dssh.tty=0 @$(DRUPAL_SYNC_SOURCE) sql-dump > ${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
 
 PHONY += fix-drupal
 fix-drupal: VOLUMES := $(subst $(space),,$(LINT_PATHS_PHP))
@@ -162,21 +162,23 @@ mmfix: MODULE := MISSING_MODULE
 mmfix:
 	$(call step,Remove missing module '$(MODULE)')
 ifeq ($(DRUPAL_VERSION),7)
-	$(call drush_on_${RUN_ON},sql-query \"DELETE from system where type = 'module' AND name = '$(MODULE)';\")
+	$(call drush,sql-query \"DELETE from system where type = 'module' AND name = '$(MODULE)';\")
 else
-	$(call drush_on_${RUN_ON},sql-query \"DELETE FROM key_value WHERE collection='system.schema' AND name='module_name';\")
+	$(call drush,sql-query \"DELETE FROM key_value WHERE collection='system.schema' AND name='$(MODULE)';\")
 endif
 
+ifeq ($(RUN_ON),docker)
 ifeq ($(DRUPAL_VERSION),7)
-define drush_on_docker
+define drush
 	$(call docker_run_cmd,cd ${DOCKER_PROJECT_ROOT}/${WEBROOT} && drush --ansi --strict=0 $(1))
 endef
 else
-define drush_on_docker
+define drush
 	$(call docker_run_cmd,drush --ansi --strict=0 $(1))
 endef
 endif
-
-define drush_on_host
+else
+define drush
 	@cd $(COMPOSER_JSON_PATH)/${WEBROOT} && drush --ansi --strict=0 $(1)
 endef
+endif
