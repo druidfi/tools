@@ -33,3 +33,8 @@ endef
 define warn
 	@printf "\n⚠️  ${1}\n\n"
 endef
+
+define copy
+	$(call output,Copy $(1) >> $(2))
+	@cp $(1) $(2)
+endef

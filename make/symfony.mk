@@ -3,6 +3,16 @@ FIX_TARGETS += fix-symfony
 LINT_PHP_TARGETS += lint-symfony
 CLEAN_FOLDERS += $(COMPOSER_JSON_PATH)/var
 
+PHONY += encore-dev
+encore-dev: ## Do Encore development build
+	$(call step,Do Encore development build...)
+	$(call node_run,dev)
+
+PHONY += encore-watch
+encore-watch: ## Run Encore watch
+	$(call step,Do Encore watch...)
+	$(call node_run,watch)
+
 PHONY += sf-about
 sf-about: ## Displays information about the current project
 	$(call sf_console,about)
@@ -16,6 +26,12 @@ PHONY += sf-cw
 sf-cw: ## Warm Symfony caches
 	$(call step,Warm Symfony caches...)
 	$(call sf_console,cache:warmup)
+
+PHONY += sf-db-init
+sf-db-init: ## Setup database schema and load fixtures
+	$(call step,Setup database schema...)
+	$(call sf_console,doctrine:schema:update --force)
+	$(call sf_console,doctrine:fixtures:load -n)
 
 PHONY += sf-open
 sf-open: ## Warm Symfony caches
@@ -44,10 +60,10 @@ lint-symfony: ## Lint Symfony code style
 
 ifeq ($(RUN_ON),docker)
 define sf_console
-	$(call docker_run_cmd,bin/console --ansi $(1))
+	$(call docker_run_cmd,bin/console $(1))
 endef
 else
 define sf_console
-	@bin/console --ansi $(1)
+	@bin/console
 endef
 endif
