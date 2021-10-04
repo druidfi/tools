@@ -19,7 +19,8 @@ sf-cw: ## Warm Symfony caches
 
 PHONY += sf-open
 sf-open: ## Warm Symfony caches
-	$(call step,See your Symfony application with: https://$(APP_HOST))
+	$(call step,See your Symfony application with:\n)
+	$(call output,https://$(APP_HOST))
 
 PHONY += sf-update
 sf-update: ## Update Symfony packages with Composer
