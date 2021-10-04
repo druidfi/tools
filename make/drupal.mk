@@ -30,7 +30,7 @@ FIX_TARGETS += fix-drupal
 PHONY += drupal-update
 drupal-update: ## Update Drupal core with Composer
 	$(call step,Update Drupal core with Composer...)
-	$(call composer_on_${RUN_ON},update -W "drupal/core-*")
+	$(call composer,update -W "drupal/core-*")
 
 PHONY += drush-cex
 drush-cex: ## Export configuration
