@@ -3,17 +3,17 @@ CLEAN_FOLDERS += $(COMPOSER_JSON_PATH)/vendor
 
 PHONY += composer-info
 composer-info: ## Composer info
-	$(call step,Do Composer info...)
+	$(call step,Do Composer info...\n)
 	$(call composer,info)
 
 PHONY += composer-update
 composer-update: ## Update Composer packages
-	$(call step,Do Composer update...)
+	$(call step,Do Composer update...\n)
 	$(call composer,update)
 
 PHONY += composer-install
 composer-install: ## Install Composer packages
-	$(call step,Do Composer install...)
+	$(call step,Do Composer install...\n)
 ifeq ($(ENV),production)
 	$(call composer,install --no-dev --optimize-autoloader --prefer-dist)
 else
@@ -22,7 +22,7 @@ endif
 
 PHONY += composer-outdated
 composer-outdated: ## Show outdated Composer packages
-	$(call step,Show outdated Composer packages...)
+	$(call step,Show outdated Composer packages...\n)
 	$(call composer,outdated --direct)
 
 ifeq ($(RUN_ON),docker)

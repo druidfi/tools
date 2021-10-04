@@ -1,4 +1,4 @@
 mmfix IS_DRUPAL=yes MODULE=some_missing_module
 ---
-printf "\n⚡ \033[0;33mRemove missing module 'some_missing_module'\033[0m\n\n"
+printf "\n⭐ \033[0;33mRemove missing module 'some_missing_module'\033[0m\n"
 cd ./public && drush --ansi --strict=0 sql-query \"DELETE FROM key_value WHERE collection='system.schema' AND name='some_missing_module';\"

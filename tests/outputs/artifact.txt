@@ -1,4 +1,4 @@
 artifact
 ---
-printf "\n⚡ \033[0;33mCreate artifact...\033[0m\n\n"
+printf "\n⭐ \033[0;33mCreate artifact...\033[0m\n"
 tar -hczf artifact.tar.gz *

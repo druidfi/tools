@@ -24,7 +24,7 @@ sf-open: ## Warm Symfony caches
 
 PHONY += sf-update
 sf-update: ## Update Symfony packages with Composer
-	$(call step,Update Symfony packages with Composer...)
+	$(call step,Update Symfony packages with Composer...\n)
 	$(call composer,update -W "doctrine/*" "symfony/*" "twig/*" --no-scripts)
 
 PHONY += fresh
@@ -33,13 +33,13 @@ fresh: ## Build fresh development environment
 
 PHONY += fix-symfony
 fix-symfony: ## Fix Symfony code style
-	$(call step,Fix Symfony code style in ./src ...)
+	$(call step,Fix Symfony code style in ./src ...\n)
 	@docker run --rm -it -v $(CURDIR)/src:/app/src:rw,consistent druidfi/qa:php-$(call get_php_version) bash -c "php-cs-fixer -vvvv fix src"
 
 PHONY += lint-symfony
 lint-symfony: VOLUMES := $(CURDIR)/src:/app/src:rw,consistent
 lint-symfony: ## Lint Symfony code style
-	$(call step,Lint Symfony code style...)
+	$(call step,Lint Symfony code style...\n)
 	@docker run --rm -it -v $(VOLUMES) druidfi/qa:php-$(call get_php_version) bash -c "phpcs ."
 
 ifeq ($(RUN_ON),docker)
