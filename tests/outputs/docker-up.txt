@@ -1,0 +1,4 @@
+up RUN_ON=docker
+---
+printf "\n⚡ \033[0;33mStart up the container(s)...\033[0m\n\n"
+docker compose up -d --remove-orphans
