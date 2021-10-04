@@ -31,17 +31,15 @@ fresh: ## Build fresh development environment
 	@$(MAKE) $(SF_FRESH_TARGETS)
 
 PHONY += fix-symfony
-fix-symfony: IMG := druidfi/qa:php-7.4
 fix-symfony: ## Fix Symfony code style
 	$(call step,Fix Symfony code style in ./src ...)
-	@docker run --rm -it -v $(CURDIR)/src:/app/src:rw,consistent $(IMG) bash -c "php-cs-fixer -vvvv fix src"
+	@docker run --rm -it -v $(CURDIR)/src:/app/src:rw,consistent druidfi/qa:php-$(call get_php_version) bash -c "php-cs-fixer -vvvv fix src"
 
 PHONY += lint-symfony
-lint-symfony: IMG := druidfi/qa:php-7.4
 lint-symfony: VOLUMES := $(CURDIR)/src:/app/src:rw,consistent
 lint-symfony: ## Lint Symfony code style
 	$(call step,Lint Symfony code style...)
-	@docker run --rm -it -v $(VOLUMES) $(IMG) bash -c "phpcs ."
+	@docker run --rm -it -v $(VOLUMES) druidfi/qa:php-$(call get_php_version) bash -c "phpcs ."
 
 define sf_console_on_docker
 	$(call docker_run_cmd,bin/console --ansi $(1))

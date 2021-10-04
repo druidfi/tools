@@ -27,15 +27,10 @@ LINT_PATHS_PHP += -v $(CURDIR)/$(WEBROOT)/themes/custom:/app/$(WEBROOT)/themes/c
 LINT_PHP_TARGETS += lint-drupal
 FIX_TARGETS += fix-drupal
 
-# TODO Remove this when DRUPAL_WEBROOT vars are removed from projects
-ifdef DRUPAL_WEBROOT
-	WEBROOT := $(DRUPAL_WEBROOT)
-endif
-
 PHONY += drupal-update
 drupal-update: ## Update Drupal core with Composer
 	$(call step,Update Drupal core with Composer...)
-	@composer update -W "drupal/core-*"
+	$(call composer_on_${RUN_ON},update -W "drupal/core-*")
 
 PHONY += drush-cex
 drush-cex: ## Export configuration
@@ -147,26 +142,22 @@ drush-create-dump: ## Create database dump to dump.sql
 	$(call drush_on_${RUN_ON},sql-dump $(FLAGS) --result-file=${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
 
 PHONY += drush-download-dump
-drush-download-dump: DOCKER_COMPOSE_EXEC := docker-compose exec
 drush-download-dump: ## Download database dump to dump.sql
 	$(call drush_on_${RUN_ON},-Dssh.tty=0 @$(DRUPAL_SYNC_SOURCE) sql-dump > ${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
 
 PHONY += fix-drupal
 fix-drupal: VOLUMES := $(subst $(space),,$(LINT_PATHS_PHP))
 fix-drupal: ## Fix Drupal code style
-	$(eval PHP_VERSION := $(shell docker run --rm -it $(DRUPAL_IMAGE) bash -c "php -v | grep ^PHP | cut -d' ' -f2 | cut -c0-3"))
-	$(eval IMG := druidfi/qa:php-$(PHP_VERSION))
 	$(call step,Fix Drupal code style...)
-	@docker run --rm -it $(VOLUMES) $(IMG) bash -c "phpcbf --runtime-set drupal_core_version $(DRUPAL_VERSION) ."
+	@docker run --rm -it $(VOLUMES) druidfi/qa:php-$(call get_php_version) bash -c "phpcbf --runtime-set drupal_core_version $(DRUPAL_VERSION) ."
 
 PHONY += lint-drupal
 lint-drupal: VOLUMES := $(subst $(space),,$(LINT_PATHS_PHP))
 lint-drupal: ## Lint Drupal code style
-	$(eval PHP_VERSION := $(shell docker run --rm -it $(DRUPAL_IMAGE) bash -c "php -v | grep ^PHP | cut -d' ' -f2 | cut -c0-3"))
-	$(eval IMG := druidfi/qa:php-$(PHP_VERSION))
-	$(call step,Lint Drupal code style with $(PHP_VERSION)...)
-	@docker run --rm -it $(VOLUMES) $(IMG) bash -c "phpcs --runtime-set drupal_core_version $(DRUPAL_VERSION) ."
+	$(call step,Lint Drupal code style with...)
+	@docker run --rm -it $(VOLUMES) druidfi/qa:php-$(call get_php_version) bash -c "phpcs --runtime-set drupal_core_version $(DRUPAL_VERSION) ."
 
+PHONY += mmfix
 mmfix: MODULE := MISSING_MODULE
 mmfix:
 	$(call step,Remove missing module '$(MODULE)')
@@ -176,9 +167,15 @@ else
 	$(call drush_on_${RUN_ON},sql-query \"DELETE FROM key_value WHERE collection='system.schema' AND name='module_name';\")
 endif
 
+ifeq ($(DRUPAL_VERSION),7)
 define drush_on_docker
 	$(call docker_run_cmd,cd ${DOCKER_PROJECT_ROOT}/${WEBROOT} && drush --ansi --strict=0 $(1))
 endef
+else
+define drush_on_docker
+	$(call docker_run_cmd,drush --ansi --strict=0 $(1))
+endef
+endif
 
 define drush_on_host
 	@cd $(COMPOSER_JSON_PATH)/${WEBROOT} && drush --ansi --strict=0 $(1)
