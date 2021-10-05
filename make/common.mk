@@ -6,13 +6,13 @@ DUMP_SQL_EXISTS := $(shell test -f $(DUMP_SQL_FILENAME) && echo yes || echo no)
 SSH_OPTS ?= -o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
 
 ifeq ($(ARTIFACT_EXCLUDE_EXISTS),yes)
-	ARTIFACT_CMD := ${ARTIFACT_CMD} --exclude-from=conf/artifact/exclude
+	ARTIFACT_CMD := $(ARTIFACT_CMD) --exclude-from=conf/artifact/exclude
 endif
 
 ifeq ($(ARTIFACT_INCLUDE_EXISTS),yes)
-	ARTIFACT_CMD := ${ARTIFACT_CMD} --files-from=conf/artifact/include
+	ARTIFACT_CMD := $(ARTIFACT_CMD) --files-from=conf/artifact/include
 else
-	ARTIFACT_CMD := ${ARTIFACT_CMD} *
+	ARTIFACT_CMD := $(ARTIFACT_CMD) *
 endif
 
 PHONY += artifact
@@ -20,7 +20,7 @@ PHONY += artifact
 artifact: RUN_ON := host
 artifact: ## Make tar.gz package from the current build
 	$(call step,Create artifact...)
-	@${ARTIFACT_CMD}
+	@$(ARTIFACT_CMD)
 
 PHONY += build
 build: $(BUILD_TARGETS) ## Build codebase(s)
@@ -40,13 +40,15 @@ build-production:
 
 PHONY += clean
 clean: ## Clean folders
-	$(call step,Clean folders:\n- Following folders will be removed: ${CLEAN_FOLDERS})
-	@rm -rf ${CLEAN_FOLDERS}
+	$(call step,Clean folders:$(NO_COLOR)$(CLEAN_FOLDERS))
+	@rm -rf $(CLEAN_FOLDERS)
+	$(call step,Do Git clean\n)
+	@git clean -fdx -e .idea
 
 PHONY += self-update
 self-update: ## Self-update makefiles from druidfi/tools
 	$(call step,Update makefiles from druidfi/tools)
-	@bash -c "$$(curl -fsSL ${UPDATE_SCRIPT_URL})"
+	@bash -c "$$(curl -fsSL $(UPDATE_SCRIPT_URL))"
 
 PHONY += shell-%
 shell-%: OPTS = $(INSTANCE_$*_OPTS)
@@ -58,5 +60,5 @@ shell-%: ## Login to remote instance
 
 PHONY += sync
 sync: ## Sync data from other environments
-	$(call group_step,Sync:${NO_COLOR} $(SYNC_TARGETS))
+	$(call group_step,Sync:$(NO_COLOR) $(SYNC_TARGETS))
 	@$(MAKE) $(SYNC_TARGETS) ENV=$(ENV)
