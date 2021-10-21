@@ -1,0 +1,4 @@
+download-dump DRUID_CLI_BIN=/usr/local/bin/druid-cli DUMPS_PROJECT=foobar
+---
+printf "\n⭐ \033[0;33mDownload & extract database dump...\033[0m\n"
+druid-cli dumps download foobar
