@@ -23,7 +23,7 @@ artifact: ## Make tar.gz package from the current build
 	@$(ARTIFACT_CMD)
 
 PHONY += build
-build: $(BUILD_TARGETS) ## Build codebase(s)
+build: ## Build codebase(s)
 	$(call group_step,Build ($(ENV)):${NO_COLOR} $(BUILD_TARGETS))
 	@$(MAKE) $(BUILD_TARGETS) ENV=$(ENV)
 
@@ -43,7 +43,7 @@ clean: ## Clean folders
 	$(call step,Clean folders:$(NO_COLOR)$(CLEAN_FOLDERS))
 	@rm -rf $(CLEAN_FOLDERS)
 	$(call step,Do Git clean\n)
-	@git clean -fdx -e .idea
+	@git clean -fdx -e .idea -e $(WEBROOT)/sites/default/files
 
 PHONY += self-update
 self-update: ## Self-update makefiles from druidfi/tools
