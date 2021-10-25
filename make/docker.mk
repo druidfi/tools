@@ -12,7 +12,7 @@ config: ## Show docker-compose config
 
 PHONY += down
 down: ## Tear down the environment
-	$(call docker_compose,down -v --remove-orphans,Tear down the environment...)
+	$(call docker_compose,down -v --remove-orphans --rmi local,Tear down the environment...)
 
 PHONY += ps
 ps: ## Show docker-compose ps
