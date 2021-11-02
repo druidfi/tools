@@ -1,4 +1,4 @@
-KUBECTL_BIN := $(shell which kubectl || echo no)
+KUBECTL_BIN := $(shell command -v kubectl || echo no)
 KUBECTL_NAMESPACE ?= foobar-namespace
 KUBECTL_SHELL ?= sh
 KUBECTL_EXEC_FLAGS ?= -n $(KUBECTL_NAMESPACE) -c $(KUBECTL_CONTAINER)
