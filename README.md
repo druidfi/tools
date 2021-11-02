@@ -16,7 +16,7 @@ Set of tools meant for ease the development.
 Download oneliner (source is [update.sh](update.sh)):
 
 ```
-bash -c "$(curl -fsSL -H 'Cache-Control: no-cache' https://git.io/fh771)"
+bash -c "$(curl -fsSL -H 'Cache-Control: no-cache' https://git.io/JP10q)"
 ```
 
 ## Project specific
