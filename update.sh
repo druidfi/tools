@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-VERSION=2021-11-02-07-42
+VERSION=2021-11-02-07-45
 DEBUG=0
 GITHUB=https://raw.githubusercontent.com
 REPOSITORY=druidfi/tools
-BRANCH=master
+BRANCH=main
 TARGET=tools/make
 PROJECT_MAKEFILE=Makefile.project.dist
 REPOSITORY_URL=https://github.com/druidfi/tools
