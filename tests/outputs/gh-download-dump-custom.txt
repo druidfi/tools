@@ -1,0 +1,4 @@
+gh-download-dump DUMP_SQL_EXISTS=yes GH_DUMP_ARTIFACT=yes DUMP_SQL_EXISTS=no
+---
+printf "\n⭐ \033[0;33mDownload database dump from repository artifacts\n\033[0m\n"
+gh run download -n latest-dump && printf "Downloaded dump.sql\n" || printf "\033[0;31mFailed\033[0m\n"
