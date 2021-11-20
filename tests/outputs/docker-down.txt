@@ -1,4 +1,4 @@
 down RUN_ON=docker
 ---
 printf "\n⭐ \033[0;33mTear down the environment...\n\033[0m\n"
-docker compose down -v --remove-orphans --rmi local
+docker-compose down -v --remove-orphans --rmi local
