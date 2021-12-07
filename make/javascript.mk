@@ -5,7 +5,7 @@ INSTALLED_NODE_VERSION := $(shell command -v node > /dev/null && node --version 
 NODE_BIN := $(shell command -v node || echo no)
 NPM_BIN := $(shell command -v npm || echo no)
 YARN_BIN := $(shell command -v yarn || echo no)
-NODE_VERSION ?= 14
+NODE_VERSION ?= 16
 NODE_IMG := druidfi/node:$(NODE_VERSION)
 
 PHONY += node-check
