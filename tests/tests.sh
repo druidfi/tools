@@ -31,6 +31,8 @@ do
       EXPECTED=$(tail -n +3 "${TEST_FILE}" )
     fi
 
+    EXPECTED=${EXPECTED/__PWD__/$(pwd)}
+
     OUTPUT=$(make -n --no-print-directory --directory=make ${MAKE_TARGET} | sed 's/^ *//;s/ *$//')
 
     if [ "${OUTPUT}" == "${EXPECTED}" ]

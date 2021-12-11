@@ -2,4 +2,4 @@ js-install INSTALLED_NODE_VERSION=10 NODE_VERSION=14 PACKAGE_JSON_EXISTS=yes
 ---
 printf "\n⭐ \033[0;33mDo yarn install...\033[0m\n"
 printf "\n   \033[0;33mUsing druidfi/node:14 Docker image...\033[0m\n"
-docker run --rm -v .:/app druidfi/node:14 /bin/bash -c "yarn --cwd . install --frozen-lockfile"
+docker run --rm -v __PWD__/make/.:/app druidfi/node:14 /bin/bash -c "yarn --cwd . install --frozen-lockfile"

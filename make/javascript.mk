@@ -39,6 +39,7 @@ endef
 else
 define node_run
 	$(call sub_step,Using $(NODE_IMG) Docker image...)
-	@docker run --rm -v $(PACKAGE_JSON_PATH):/app $(NODE_IMG) /bin/bash -c "$(JS_PACKAGE_MANAGER) --cwd $(PACKAGE_JSON_PATH) $(1)"
+	@docker run --rm -v ${CURDIR}/$(PACKAGE_JSON_PATH):/app $(NODE_IMG) \
+		/bin/bash -c "$(JS_PACKAGE_MANAGER) --cwd $(PACKAGE_JSON_PATH) $(1)"
 endef
 endif
