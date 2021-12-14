@@ -1,0 +1,5 @@
+js-install JS_PACKAGE_MANAGER=npm PACKAGE_JSON_PATH=custom PACKAGE_JSON_EXISTS=yes
+---
+printf "\n⭐ \033[0;33mDo npm install...\033[0m\n"
+printf "\n   \033[0;33mUsing local npm...\n\033[0m\n"
+npm --prefix custom install --engine-strict true

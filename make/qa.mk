@@ -12,7 +12,7 @@ PHONY += lint
 lint: lint-php lint-js ## Check code style
 
 PHONY += lint-js
-lint-js: DOCKER_NODE_IMG ?= node:8.16.0-alpine
+lint-js: DOCKER_NODE_IMG ?= node:$(NODE_VERSION)-alpine
 lint-js: WD := /app
 lint-js: ## Check code style for JS files
 	$(call step,Install linters...)

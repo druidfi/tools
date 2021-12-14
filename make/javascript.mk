@@ -8,16 +8,6 @@ NODE_BIN := $(shell command -v node || echo no)
 NPM_BIN := $(shell command -v npm || echo no)
 YARN_BIN := $(shell command -v yarn || echo no)
 NODE_VERSION ?= 16
-NODE_IMG := druidfi/node:$(NODE_VERSION)
-
-PHONY += node-check
-node-check: ## Check with Node to use
-ifeq ($(INSTALLED_NODE_VERSION),$(NODE_VERSION))
-	$(call step,Installed node is the same as target version ($(NODE_VERSION)): Use node on local.)
-else
-	$(call step,Installed node ($(INSTALLED_NODE_VERSION)) is NOT the same as target version ($(NODE_VERSION)): Use node on Docker $(NVM_VERSION))
-	$(call step,You can also use NVM to change your local node version)
-endif
 
 PHONY += js-install
 js-install: ## Install JS packages
@@ -33,14 +23,21 @@ js-outdated: ## Show outdated JS packages
 	$(call step,Show outdated JS packages with $(JS_PACKAGE_MANAGER)...)
 	$(call node_run,outdated)
 
-ifeq ($(INSTALLED_NODE_VERSION),$(NODE_VERSION))
 define node_run
 	$(call sub_step,Using local $(JS_PACKAGE_MANAGER)...\n)
 	@$(JS_PACKAGE_MANAGER) $(if $(filter $(JS_PACKAGE_MANAGER),yarn),$(JS_PACKAGE_MANAGER_CWD_FLAG_YARN),$(JS_PACKAGE_MANAGER_CWD_FLAG_NPM)) $(PACKAGE_JSON_PATH) $(1)
 endef
-else
-define node_run
-	$(call sub_step,Using $(NODE_IMG) Docker image...\n)
-	@docker run --rm -v ${CURDIR}/$(PACKAGE_JSON_PATH):/app $(NODE_IMG) /bin/bash -c "$(JS_PACKAGE_MANAGER) $(1)"
+
+define NODE_VERSION_REQUIRED
+
+
+🚫 You need to have Node version $(NODE_VERSION) on your host. You have $(INSTALLED_NODE_VERSION).
+
+   Use 'nvm use $(NODE_VERSION)' to switch the Node version.
+
+
 endef
+
+ifneq ($(INSTALLED_NODE_VERSION),$(NODE_VERSION))
+$(call error,$(NODE_VERSION_REQUIRED))
 endif
