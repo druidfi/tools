@@ -77,12 +77,13 @@ drush-status: ## Show Drupal status information
 	$(call drush,status)
 
 PHONY += drush-uli
+drush-uli: DRUPAL_UID ?=
 drush-uli: ## Get login link
 	$(call step,Login to your site with:\n)
 ifeq ($(DRUPAL_VERSION),7)
 	$(call drush,uli)
 else
-	$(call drush,uli admin/reports/status)
+	$(call drush,uli$(if $(DRUPAL_UID), --uid=$(DRUPAL_UID),) admin/reports/status)
 endif
 
 PHONY += drush-si
