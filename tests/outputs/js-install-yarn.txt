@@ -1,5 +1,5 @@
 js-install PACKAGE_JSON_PATH=custom PACKAGE_JSON_EXISTS=yes
 ---
 printf "\n⭐ \033[0;33mDo yarn install...\033[0m\n"
-printf "\n   \033[0;33mUsing local yarn...\033[0m\n"
+printf "\n   \033[0;33mUsing local yarn...\n\033[0m\n"
 yarn --cwd custom install --frozen-lockfile
