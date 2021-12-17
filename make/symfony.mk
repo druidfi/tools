@@ -53,7 +53,7 @@ fix-symfony: tools/php-cs-fixer/vendor ## Fix Symfony code style
 	$(call docker_run_cmd,tools/php-cs-fixer/vendor/bin/php-cs-fixer --ansi -vvvv fix src)
 
 PHONY += lint-symfony
-lint-symfony: PATHS := $(CURDIR)/src
+lint-symfony: PATHS := src
 lint-symfony: ## Lint Symfony code style
 	$(call step,Lint Symfony code style...\n)
 	$(call cs_symfony,$(PATHS))
