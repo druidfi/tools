@@ -17,15 +17,20 @@ DRUPAL_PROFILE ?= minimal
 DRUPAL_SYNC_FILES ?= yes
 DRUPAL_SYNC_SOURCE ?= production
 DRUPAL_VERSION ?= 8
+
 DRUSH_RSYNC_MODE ?= Pakzu
 DRUSH_RSYNC_OPTS ?=  -- --omit-dir-times --no-perms --no-group --no-owner --chmod=ugo=rwX
 DRUSH_RSYNC_EXCLUDE ?= css:ctools:js:php:tmp:tmp_php
+
 SYNC_TARGETS += drush-sync
+
+CS_INSTALLED := $(shell test -f vendor/bin/phpcs && echo yes || echo no)
+PHPCS_EXTS := inc,php,module,install,profile,theme
 LINT_PATHS_JS += ./$(WEBROOT)/modules/custom/*/js
 LINT_PATHS_JS += ./$(WEBROOT)/themes/custom/*/js
-LINT_PATHS_PHP += -v $(CURDIR)/drush:/app/drush:rw,consistent
-LINT_PATHS_PHP += -v $(CURDIR)/$(WEBROOT)/modules/custom:/app/$(WEBROOT)/modules/custom:rw,consistent
-LINT_PATHS_PHP += -v $(CURDIR)/$(WEBROOT)/themes/custom:/app/$(WEBROOT)/themes/custom:rw,consistent
+LINT_PATHS_PHP += drush
+LINT_PATHS_PHP += $(WEBROOT)/modules/custom
+LINT_PATHS_PHP += $(WEBROOT)/themes/custom
 LINT_PHP_TARGETS += lint-drupal
 FIX_TARGETS += fix-drupal
 
@@ -166,16 +171,16 @@ drush-download-dump: ## Download database dump to dump.sql
 	$(call drush,-Dssh.tty=0 @$(DRUPAL_SYNC_SOURCE) sql-dump --structure-tables-key=common > ${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
 
 PHONY += fix-drupal
-fix-drupal: VOLUMES := $(subst $(space),,$(LINT_PATHS_PHP))
+fix-drupal: PATHS := $(subst $(space),,$(LINT_PATHS_PHP))
 fix-drupal: ## Fix Drupal code style
-	$(call step,Fix Drupal code style...)
-	@docker run --rm -it $(VOLUMES) druidfi/qa:php-$(call get_php_version) bash -c "phpcbf --runtime-set drupal_core_version $(DRUPAL_VERSION) ."
+	$(call step,Fix Drupal code style with phpcbf...\n)
+	$(call cs,phpcbf,$(PATHS))
 
 PHONY += lint-drupal
-lint-drupal: VOLUMES := $(subst $(space),,$(LINT_PATHS_PHP))
+lint-drupal: PATHS := $(subst $(space),,$(LINT_PATHS_PHP))
 lint-drupal: ## Lint Drupal code style
-	$(call step,Lint Drupal code style with...)
-	@docker run --rm -it $(VOLUMES) druidfi/qa:php-$(call get_php_version) bash -c "phpcs --runtime-set drupal_core_version $(DRUPAL_VERSION) ."
+	$(call step,Lint Drupal code style with phpcs...\n)
+	$(call cs,phpcs,$(PATHS))
 
 PHONY += mmfix
 mmfix: MODULE := MISSING_MODULE
@@ -200,5 +205,16 @@ endif
 else
 define drush
 	@cd $(COMPOSER_JSON_PATH)/${WEBROOT} && drush --ansi --strict=0 $(1)
+endef
+endif
+
+ifeq ($(CS_INSTALLED),yes)
+define cs
+$(call docker_run_cmd,vendor/bin/$(1) --config-set installed_paths vendor/drupal/coder/coder_sniffer)
+$(call docker_run_cmd,vendor/bin/$(1) --standard=Drupal --extensions=$(PHPCS_EXTS) --ignore=node_modules --runtime-set drupal_core_version $(DRUPAL_VERSION) $(2))
+endef
+else
+define cs
+$(call warn,CodeSniffer is not installed!)
 endef
 endif
