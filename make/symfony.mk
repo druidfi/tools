@@ -48,15 +48,20 @@ fresh: ## Build fresh development environment
 	@$(MAKE) $(SF_FRESH_TARGETS)
 
 PHONY += fix-symfony
-fix-symfony: ## Fix Symfony code style
+fix-symfony: tools/php-cs-fixer/vendor ## Fix Symfony code style
 	$(call step,Fix Symfony code style in ./src ...\n)
-	@docker run --rm -it -v $(CURDIR)/src:/app/src:rw,consistent druidfi/qa:php-$(call get_php_version) bash -c "php-cs-fixer -vvvv fix src"
+	$(call docker_run_cmd,tools/php-cs-fixer/vendor/bin/php-cs-fixer --ansi -vvvv fix src)
 
 PHONY += lint-symfony
 lint-symfony: VOLUMES := $(CURDIR)/src:/app/src:rw,consistent
 lint-symfony: ## Lint Symfony code style
 	$(call step,Lint Symfony code style...\n)
 	@docker run --rm -it -v $(VOLUMES) druidfi/qa:php-$(call get_php_version) bash -c "phpcs ."
+
+tools/php-cs-fixer/vendor: COMPOSER_JSON_PATH := tools/php-cs-fixer
+tools/php-cs-fixer/vendor:
+	$(call step,Install php-cs-fixer...\n)
+	$(call composer,install)
 
 ifeq ($(RUN_ON),docker)
 define sf_console
