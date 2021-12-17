@@ -53,10 +53,10 @@ fix-symfony: tools/php-cs-fixer/vendor ## Fix Symfony code style
 	$(call docker_run_cmd,tools/php-cs-fixer/vendor/bin/php-cs-fixer --ansi -vvvv fix src)
 
 PHONY += lint-symfony
-lint-symfony: VOLUMES := $(CURDIR)/src:/app/src:rw,consistent
+lint-symfony: PATHS := $(CURDIR)/src
 lint-symfony: ## Lint Symfony code style
 	$(call step,Lint Symfony code style...\n)
-	@docker run --rm -it -v $(VOLUMES) druidfi/qa:php-$(call get_php_version) bash -c "phpcs ."
+	$(call cs_symfony,$(PATHS))
 
 tools/php-cs-fixer/vendor: COMPOSER_JSON_PATH := tools/php-cs-fixer
 tools/php-cs-fixer/vendor:
@@ -70,5 +70,15 @@ endef
 else
 define sf_console
 	@bin/console --ansi $(1)
+endef
+endif
+
+ifeq ($(CS_INSTALLED),yes)
+define cs_symfony
+$(call docker_run_cmd,vendor/bin/phpcs --ignore=node_modules $(1))
+endef
+else
+define cs_symfony
+$(call warn,CodeSniffer is not installed!)
 endef
 endif

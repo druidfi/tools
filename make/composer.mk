@@ -34,7 +34,3 @@ define composer
 	@composer --ansi --working-dir=$(COMPOSER_JSON_PATH) $(1)
 endef
 endif
-
-define get_php_version
-$(shell docker compose exec ${CLI_SERVICE} ${CLI_SHELL} -c "php -v | grep ^PHP | cut -d' ' -f2 | cut -c0-3")
-endef

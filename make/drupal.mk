@@ -24,7 +24,6 @@ DRUSH_RSYNC_EXCLUDE ?= css:ctools:js:php:tmp:tmp_php
 
 SYNC_TARGETS += drush-sync
 
-CS_INSTALLED := $(shell test -f vendor/bin/phpcs && echo yes || echo no)
 PHPCS_EXTS := inc,php,module,install,profile,theme
 LINT_PATHS_JS += ./$(WEBROOT)/modules/custom/*/js
 LINT_PATHS_JS += ./$(WEBROOT)/themes/custom/*/js
@@ -205,16 +204,5 @@ endif
 else
 define drush
 	@cd $(COMPOSER_JSON_PATH)/${WEBROOT} && drush --ansi --strict=0 $(1)
-endef
-endif
-
-ifeq ($(CS_INSTALLED),yes)
-define cs
-$(call docker_run_cmd,vendor/bin/$(1) --config-set installed_paths vendor/drupal/coder/coder_sniffer)
-$(call docker_run_cmd,vendor/bin/$(1) --standard=Drupal --extensions=$(PHPCS_EXTS) --ignore=node_modules --runtime-set drupal_core_version $(DRUPAL_VERSION) $(2))
-endef
-else
-define cs
-$(call warn,CodeSniffer is not installed!)
 endef
 endif

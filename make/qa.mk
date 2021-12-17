@@ -1,6 +1,7 @@
 TEST_TARGETS += test-phpunit
 FIX_TARGETS :=
 LINT_PHP_TARGETS :=
+CS_INSTALLED := $(shell test -f $(COMPOSER_JSON_PATH)/vendor/bin/phpcs && echo yes || echo no)
 
 PHONY += fix
 fix: ## Fix code style
@@ -56,3 +57,14 @@ test-phpunit-locally:
 define test_result
 	@echo "\n${YELLOW}${1}:${NO_COLOR} ${GREEN}${2}${NO_COLOR}"
 endef
+
+ifeq ($(CS_INSTALLED),yes)
+define cs
+$(call docker_run_cmd,vendor/bin/$(1) --config-set installed_paths vendor/drupal/coder/coder_sniffer)
+$(call docker_run_cmd,vendor/bin/$(1) --standard=Drupal --extensions=$(PHPCS_EXTS) --ignore=node_modules --runtime-set drupal_core_version $(DRUPAL_VERSION) $(2))
+endef
+else
+define cs
+$(call warn,CodeSniffer is not installed!)
+endef
+endif
