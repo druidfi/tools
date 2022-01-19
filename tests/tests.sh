@@ -32,6 +32,7 @@ do
     fi
 
     EXPECTED=${EXPECTED/__PWD__/$(pwd)}
+    EXPECTED=${EXPECTED/__HOME__/$(echo $HOME)}
 
     OUTPUT=$(make -n --no-print-directory --directory=make ${MAKE_TARGET} | sed 's/^ *//;s/ *$//')
 

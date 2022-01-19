@@ -1,5 +1,7 @@
 js-install PACKAGE_JSON_PATH=custom PACKAGE_JSON_EXISTS=yes
 ---
 printf "\n⭐ \033[0;33mDo yarn install...\033[0m\n"
-printf "\n   \033[0;33mUsing local yarn...\n\033[0m\n"
+printf "\n   \033[0;33mChange Node version to 16...\n\033[0m\n"
+. __HOME__/.nvm/nvm.sh && nvm use 16 || nvm install 16
+printf "\n   \033[0;33mRun 'yarn install --frozen-lockfile'...\n\033[0m\n"
 yarn --cwd custom install --frozen-lockfile

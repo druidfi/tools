@@ -4,6 +4,8 @@ JS_PACKAGE_MANAGER ?= yarn
 JS_PACKAGE_MANAGER_CWD_FLAG_NPM ?= --prefix
 JS_PACKAGE_MANAGER_CWD_FLAG_YARN ?= --cwd
 INSTALLED_NODE_VERSION := $(shell command -v node > /dev/null && node --version | cut -c2-3 || echo no)
+NVM_SH := $(HOME)/.nvm/nvm.sh
+NVM := $(shell test -f "$(NVM_SH)" && echo yes || echo no)
 NODE_BIN := $(shell command -v node || echo no)
 NPM_BIN := $(shell command -v npm || echo no)
 YARN_BIN := $(shell command -v yarn || echo no)
@@ -23,21 +25,23 @@ js-outdated: ## Show outdated JS packages
 	$(call step,Show outdated JS packages with $(JS_PACKAGE_MANAGER)...)
 	$(call node_run,outdated)
 
+ifeq ($(NVM),no)
 define node_run
-	$(call sub_step,Using local $(JS_PACKAGE_MANAGER)...\n)
+	$(call error,$(NVM_REQUIRED))
+endef
+else
+define node_run
+	$(call sub_step,Change Node version to $(NODE_VERSION)...\n)
+	@. $(NVM_SH) && nvm use $(NODE_VERSION) || nvm install $(NODE_VERSION)
+	$(call sub_step,Run '$(JS_PACKAGE_MANAGER) $(1)'...\n)
 	@$(JS_PACKAGE_MANAGER) $(if $(filter $(JS_PACKAGE_MANAGER),yarn),$(JS_PACKAGE_MANAGER_CWD_FLAG_YARN),$(JS_PACKAGE_MANAGER_CWD_FLAG_NPM)) $(PACKAGE_JSON_PATH) $(1)
 endef
+endif
 
-define NODE_VERSION_REQUIRED
+define NVM_REQUIRED
 
 
-🚫 You need to have Node version $(NODE_VERSION) on your host. You have $(INSTALLED_NODE_VERSION).
-
-   Use 'nvm use $(NODE_VERSION)' to switch the Node version.
+🚫 NVM is required to run $(JS_PACKAGE_MANAGER) commands and control Node versions!
 
 
 endef
-
-ifneq ($(INSTALLED_NODE_VERSION),$(NODE_VERSION))
-$(call error,$(NODE_VERSION_REQUIRED))
-endif
