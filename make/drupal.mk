@@ -16,7 +16,7 @@ endif
 DRUPAL_PROFILE ?= minimal
 DRUPAL_SYNC_FILES ?= yes
 DRUPAL_SYNC_SOURCE ?= production
-DRUPAL_VERSION ?= 8
+DRUPAL_VERSION ?= 9
 
 DRUSH_RSYNC_MODE ?= Pakzu
 DRUSH_RSYNC_OPTS ?=  -- --omit-dir-times --no-perms --no-group --no-owner --chmod=ugo=rwX
@@ -24,7 +24,9 @@ DRUSH_RSYNC_EXCLUDE ?= css:ctools:js:php:tmp:tmp_php
 
 SYNC_TARGETS += drush-sync
 
-PHPCS_EXTS := inc,php,module,install,profile,theme
+CS_EXTS := inc,php,module,install,profile,theme
+CS_STANDARD_PATHS := vendor/drupal/coder/coder_sniffer
+CS_STANDARDS := Drupal,DrupalPractice
 LINT_PATHS_JS += ./$(WEBROOT)/modules/custom/*/js
 LINT_PATHS_JS += ./$(WEBROOT)/themes/custom/*/js
 LINT_PATHS_PHP += drush
@@ -91,7 +93,7 @@ else
 endif
 
 PHONY += drush-si
-ifeq ($(DRUPAL_CONF_EXISTS)$(DRUPAL_VERSION),yes8)
+ifeq ($(DRUPAL_CONF_EXISTS)$(DRUPAL_VERSION),yes9)
     drush-si: DRUSH_SI := -y --existing-config
 else
     drush-si: DRUSH_SI := -y $(DRUPAL_PROFILE)
@@ -123,7 +125,7 @@ post-install: ## Run post-install Drush actions
 
 PHONY += drush-enable-modules
 drush-enable-modules: ## Enable Drupal modules
-	$(call step,Enable Drupal modules...)
+	$(call step,Enable Drupal modules...\n)
 ifneq ($(DRUPAL_ENABLE_MODULES),no)
 	$(call drush,en -y $(subst ",,$(DRUPAL_ENABLE_MODULES)))
 else
