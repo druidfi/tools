@@ -9,7 +9,7 @@ DOCKER_COMPOSE_YML_EXISTS := $(shell test -f docker-compose.yml && echo yes || e
 DRUIDFI_TOOLS_MAKE_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 ENV := dev
 PACKAGE_JSON_PATH ?= .
-PHP_BIN := $(shell command -v php)
+PHP_BIN := $(shell command -v php || echo no)
 UNAME_S := $(shell uname -s)
 # Shorten with https://git.io/ : https://raw.githubusercontent.com/druidfi/tools/main/update.sh
 UPDATE_SCRIPT_URL := https://git.io/JP10q
