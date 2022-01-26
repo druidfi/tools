@@ -1,7 +1,5 @@
 js-install INSTALLED_NODE_VERSION=14 NODE_VERSION=14 PACKAGE_JSON_EXISTS=yes
 ---
 printf "\n⭐ \033[0;33mDo yarn install...\033[0m\n"
-printf "\n   \033[0;33mChange Node version to 14...\n\033[0m\n"
-. __HOME__/.nvm/nvm.sh && nvm use 14 || nvm install 14
-printf "\n   \033[0;33mRun 'yarn install --frozen-lockfile'...\n\033[0m\n"
-yarn --cwd . install --frozen-lockfile
+printf "\n   \033[0;33mRun 'yarn install --frozen-lockfile' with Node 14...\n\033[0m\n"
+(. __HOME__/.nvm/nvm.sh && nvm use 14 || nvm install 14) && yarn --cwd . install --frozen-lockfile

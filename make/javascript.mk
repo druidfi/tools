@@ -31,10 +31,9 @@ define node_run
 endef
 else
 define node_run
-	$(call sub_step,Change Node version to $(NODE_VERSION)...\n)
-	@. $(NVM_SH) && nvm use $(NODE_VERSION) || nvm install $(NODE_VERSION)
-	$(call sub_step,Run '$(JS_PACKAGE_MANAGER) $(1)'...\n)
-	@$(JS_PACKAGE_MANAGER) $(if $(filter $(JS_PACKAGE_MANAGER),yarn),$(JS_PACKAGE_MANAGER_CWD_FLAG_YARN),$(JS_PACKAGE_MANAGER_CWD_FLAG_NPM)) $(PACKAGE_JSON_PATH) $(1)
+	$(call sub_step,Run '$(JS_PACKAGE_MANAGER) $(1)' with Node $(NODE_VERSION)...\n)
+	@(. $(NVM_SH) && nvm use $(NODE_VERSION) || nvm install $(NODE_VERSION)) && \
+		$(JS_PACKAGE_MANAGER) $(if $(filter $(JS_PACKAGE_MANAGER),yarn),$(JS_PACKAGE_MANAGER_CWD_FLAG_YARN),$(JS_PACKAGE_MANAGER_CWD_FLAG_NPM)) $(PACKAGE_JSON_PATH) $(1)
 endef
 endif
 
