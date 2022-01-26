@@ -1,5 +1,4 @@
 js-install PACKAGE_JSON_PATH=custom PACKAGE_JSON_EXISTS=yes
 ---
-printf "\n⭐ \033[0;33mDo yarn install...\033[0m\n"
-printf "\n   \033[0;33mRun 'yarn install --frozen-lockfile' with Node 16...\n\033[0m\n"
-. __HOME__/.nvm/nvm.sh && (nvm use 16 || nvm install 16) && yarn --cwd custom install --frozen-lockfile
+printf "\n⭐ \033[0;33mRun 'yarn install --frozen-lockfile' with Node 16...\n\033[0m\n"
+. __HOME__/.nvm/nvm.sh && (nvm which 16 > /dev/null 2>&1 || nvm install 16) && nvm exec 16 yarn --cwd custom install --frozen-lockfile

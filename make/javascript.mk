@@ -13,7 +13,6 @@ NODE_VERSION ?= 16
 
 PHONY += js-install
 js-install: ## Install JS packages
-	$(call step,Do $(JS_PACKAGE_MANAGER) install...)
 ifeq ($(JS_PACKAGE_MANAGER),yarn)
 	$(call node_run,install --frozen-lockfile)
 else
@@ -31,9 +30,9 @@ define node_run
 endef
 else
 define node_run
-	$(call sub_step,Run '$(JS_PACKAGE_MANAGER) $(1)' with Node $(NODE_VERSION)...\n)
-	@. $(NVM_SH) && (nvm use $(NODE_VERSION) || nvm install $(NODE_VERSION)) && \
-		$(JS_PACKAGE_MANAGER) $(if $(filter $(JS_PACKAGE_MANAGER),yarn),$(JS_PACKAGE_MANAGER_CWD_FLAG_YARN),$(JS_PACKAGE_MANAGER_CWD_FLAG_NPM)) $(PACKAGE_JSON_PATH) $(1)
+	$(call step,Run '$(JS_PACKAGE_MANAGER) $(1)' with Node $(NODE_VERSION)...\n)
+	@. $(NVM_SH) && (nvm which $(NODE_VERSION) > /dev/null 2>&1 || nvm install $(NODE_VERSION)) && \
+		nvm exec $(NODE_VERSION) $(JS_PACKAGE_MANAGER) $(if $(filter $(JS_PACKAGE_MANAGER),yarn),$(JS_PACKAGE_MANAGER_CWD_FLAG_YARN),$(JS_PACKAGE_MANAGER_CWD_FLAG_NPM)) $(PACKAGE_JSON_PATH) $(1)
 endef
 endif
 
