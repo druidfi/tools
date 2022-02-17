@@ -185,6 +185,13 @@ PHONY += drush-download-dump
 drush-download-dump: ## Download database dump to dump.sql
 	$(call drush,-Dssh.tty=0 @$(DRUPAL_SYNC_SOURCE) sql-dump --structure-tables-key=common > ${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
 
+PHONY += open-db-gui
+open-db-gui: DB_CONTAINER := $(COMPOSE_PROJECT_NAME)-db
+open-db-gui: DB_NAME := drupal
+open-db-gui: DB_USER := drupal
+open-db-gui: DB_PASS := drupal
+open-db-gui: --open-db-gui ## Open database with GUI tool
+
 PHONY += fix-drupal
 fix-drupal: PATHS := $(subst $(space),,$(LINT_PATHS_PHP))
 fix-drupal: ## Fix Drupal code style
