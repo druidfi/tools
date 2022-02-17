@@ -48,6 +48,19 @@ define copy
 	@cp $(1) $(2)
 endef
 
+SED_Darwin := sed -i ''
+SED_Linux := sed -i
+
+define replace_string
+	$(call output,Replace $(1) >> $(2) in $(3))
+	@$(SED_$(UNAME_S)) 's/$(1)/$(2)/g' $(3)
+endef
+
+define remove_string
+	$(call output,Remove $(1) from $(2))
+	@$(SED_$(UNAME_S)) '/$(1)/d' $(2)
+endef
+
 define run
 	@${1} && printf "${2}\n" || printf "${RED}${3}${NO_COLOR}\n"
 endef
