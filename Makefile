@@ -11,7 +11,8 @@ release: ## Make a new release of druidfi/tools
 	$(call step,Make a new release $(VERSION))
 	@sed -i '' "s/VERSION=.*/VERSION=$(VERSION)/g" update.sh
 	@git add update.sh
-#	@git commit -m "Updated version to $(VERSION)"
+	@git commit -m "Updated version to $(VERSION)"
+	@git push
 
 PHONY += test
 test: ## Run tests
