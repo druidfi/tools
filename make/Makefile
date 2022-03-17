@@ -11,8 +11,7 @@ ENV := dev
 PACKAGE_JSON_PATH ?= .
 PHP_BIN := $(shell command -v php || echo no)
 UNAME_S := $(shell uname -s)
-# Shorten with https://git.io/ : https://raw.githubusercontent.com/druidfi/tools/main/update.sh
-UPDATE_SCRIPT_URL := https://git.io/JP10q
+UPDATE_SCRIPT_URL := https://raw.githubusercontent.com/druidfi/tools/drupal7/update.sh
 WEBROOT ?= public
 
 # Detect app

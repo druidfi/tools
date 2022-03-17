@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-VERSION=2021-12-28-12-41
+VERSION=2022-03-17-12-00
 DEBUG=0
 GITHUB=https://raw.githubusercontent.com
 REPOSITORY=druidfi/tools
-BRANCH=main
+BRANCH=drupal7
 TARGET=tools/make
 PROJECT_MAKEFILE=Makefile.project.dist
 REPOSITORY_URL=https://github.com/druidfi/tools
