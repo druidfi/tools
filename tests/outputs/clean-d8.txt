@@ -1,4 +1,4 @@
-clean IS_DRUPAL=yes DRUPAL_VERSION=8
+clean IS_DRUPAL=yes
 ---
 printf "\n⭐ \033[0;33mClean folders:\033[0m public/core public/libraries public/modules/contrib public/profiles/contrib public/themes/contrib\033[0m\n"
 rm -rf  public/core public/libraries public/modules/contrib public/profiles/contrib public/themes/contrib

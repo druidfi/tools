@@ -1,4 +1,4 @@
-lint-drupal IS_DRUPAL=yes DRUPAL_VERSION=9 CS_INSTALLED=yes RUN_ON=docker
+lint-drupal IS_DRUPAL=yes CS_INSTALLED=yes RUN_ON=docker
 ---
 printf "\n⭐ \033[0;33mLint Drupal code style with phpcs...\n\033[0m\n"
 docker-compose exec -u root -T cli sh -c "vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer && echo "
