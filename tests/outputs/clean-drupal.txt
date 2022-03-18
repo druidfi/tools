@@ -1,0 +1,6 @@
+clean IS_DRUPAL=yes
+---
+printf "\n⭐ \033[0;33mClean folders:\033[0m  public/core public/modules/contrib public/profiles/contrib public/themes/contrib\n\033[0m\n"
+rm -rf  public/core public/modules/contrib public/profiles/contrib public/themes/contrib
+printf "\n⭐ \033[0;33mDo Git clean\n\033[0m\n"
+git clean -fdx -e .idea -e public/sites/default/files

@@ -3,7 +3,6 @@ DRUPAL_FRESH_TARGETS := up build sync post-install
 DRUPAL_NEW_TARGETS := up build drush-si drush-uli
 DRUPAL_POST_INSTALL_TARGETS := drush-deploy
 CLEAN_FOLDERS += ${WEBROOT}/core
-CLEAN_FOLDERS += ${WEBROOT}/libraries
 CLEAN_FOLDERS += ${WEBROOT}/modules/contrib
 CLEAN_FOLDERS += ${WEBROOT}/profiles/contrib
 CLEAN_FOLDERS += ${WEBROOT}/themes/contrib
@@ -54,9 +53,6 @@ drush-cim: ## Import configuration
 	$(call step,Import configuration...\n)
 	$(call drush,cim -y)
 
-PHONY += drush-cc
-drush-cc: drush-cr
-
 PHONY += drush-cr
 drush-cr: ## Clear caches
 	$(call step,Clearing caches...\n)
@@ -68,9 +64,10 @@ drush-status: ## Show Drupal status information
 
 PHONY += drush-uli
 drush-uli: DRUPAL_UID ?=
+drush-uli: DRUPAL_DESTINATION ?= admin/reports/status
 drush-uli: ## Get login link
 	$(call step,Login to your site with:\n)
-	$(call drush,uli$(if $(DRUPAL_UID), --uid=$(DRUPAL_UID),) admin/reports/status)
+	$(call drush,uli$(if $(DRUPAL_UID), --uid=$(DRUPAL_UID),) $(DRUPAL_DESTINATION))
 
 PHONY += drush-si
 ifeq ($(DRUPAL_CONF_EXISTS),yes)
@@ -128,7 +125,7 @@ PHONY += drush-sync-db
 drush-sync-db: ## Sync database
 ifeq ($(DUMP_SQL_EXISTS),yes)
 	$(call step,Import local SQL dump...)
-	$(call drush,sql-query --file=${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME),SQL dump imported)
+	$(call drush,sql-query --file=${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME) && echo 'SQL dump imported')
 else
 	$(call step,Sync database from @$(DRUPAL_SYNC_SOURCE)...)
 	$(call drush,sql-drop -y)
