@@ -1,5 +1,6 @@
 drush-sync IS_DRUPAL=yes DUMP_SQL_EXISTS=yes RUN_ON=docker
 ---
+docker-compose exec -u root -T cli sh -c "drush --ansi --strict=0 sql-drop -y"
 printf "\n⭐ \033[0;33mImport local SQL dump...\033[0m\n"
 docker-compose exec -u root -T cli sh -c "drush --ansi --strict=0 sql-query --file=/app/dump.sql && echo 'SQL dump imported'"
 printf "\n⭐ \033[0;33mSync files from @production...\033[0m\n"
