@@ -29,14 +29,11 @@ declare -a files=(
   "include.mk"
   "common.mk"
   "docker.mk"
-  "druid-cli.mk"
   "composer.mk"
   "javascript.mk"
   "drupal.mk"
-  "symfony.mk"
   "lagoon.mk"
   "qa.mk"
-  "wordpress.mk"
   "kubectl.mk"
 )
 
