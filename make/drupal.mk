@@ -1,7 +1,7 @@
 DRUPAL_CONF_EXISTS := $(shell test -f conf/cmi/core.extension.yml && echo yes || echo no)
 DRUPAL_FRESH_TARGETS := up build sync post-install
 DRUPAL_NEW_TARGETS := up build drush-si drush-uli
-DRUPAL_POST_INSTALL_TARGETS := drush-updb drush-cr
+DRUPAL_POST_INSTALL_TARGETS := drush-updb drush-cc
 DRUPAL_DISABLE_MODULES ?= no
 DRUPAL_ENABLE_MODULES ?= no
 DRUPAL_SYNC_FILES ?= yes
@@ -93,7 +93,7 @@ drush-sync: drush-sync-db drush-sync-files ## Sync database and files
 
 PHONY += drush-sync-db
 drush-sync-db: ## Sync database
-	$(call drush,sql-drop -y)
+	$(call drush,sql-drop --quiet -y)
 ifeq ($(DUMP_SQL_EXISTS),yes)
 	$(call step,Import local SQL dump...)
 	$(call drush,sql-query --file=${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME),SQL dump imported)

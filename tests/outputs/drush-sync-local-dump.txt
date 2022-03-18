@@ -1,6 +1,6 @@
 drush-sync IS_DRUPAL=yes DUMP_SQL_EXISTS=yes
 ---
-cd ./public && drush --ansi --strict=0 sql-drop -y
+cd ./public && drush --ansi --strict=0 sql-drop --quiet -y
 printf "\n⭐ \033[0;33mImport local SQL dump...\033[0m\n"
 cd ./public && drush --ansi --strict=0 sql-query --file=/app/dump.sql
 printf "\n⭐ \033[0;33mSync files from @production...\033[0m\n"
