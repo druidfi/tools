@@ -1,4 +1,0 @@
-lint-symfony IS_SYMFONY=yes CS_INSTALLED=yes RUN_ON=docker
----
-printf "\n⭐ \033[0;33mLint Symfony code style...\n\033[0m\n"
-docker-compose exec -u root -T cli sh -c "vendor/bin/phpcs --ignore=node_modules src && echo "

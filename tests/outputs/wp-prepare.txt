@@ -1,9 +1,0 @@
-prepare RUN_ON=docker IS_WP=yes WP_SYNC_SOURCE=prod WP_SYNC_SOURCE_DOMAIN=domain.tld WP_HOSTNAME=wordpress.tld
----
-printf "\n⭐ \033[0;33mDelete inactivated plugins\n\033[0m\n"
-docker-compose exec php sh -c "wp --color --path=/app/public plugin delete akismet hello"
-printf "\n⭐ \033[0;33mDelete inactivated themes\n\033[0m\n"
-docker-compose exec php sh -c "wp --color --path=/app/public theme delete twentynineteen twentyseventeen"
-printf "\n⭐ \033[0;33mReplace prod domain with local domain\n\033[0m\n"
-docker-compose exec php sh -c "wp --color --path=/app/public search-replace domain.tld wordpress.tld"
-printf "\n⭐ \033[0;33mCheck your site: https://wordpress.tld\033[0m\n"
