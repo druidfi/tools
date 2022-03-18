@@ -1,7 +1,7 @@
 DRUPAL_CONF_EXISTS := $(shell test -f conf/cmi/core.extension.yml && echo yes || echo no)
 DRUPAL_FRESH_TARGETS := up build sync post-install
 DRUPAL_NEW_TARGETS := up build drush-si drush-uli
-DRUPAL_POST_INSTALL_TARGETS := drush-deploy
+DRUPAL_POST_INSTALL_TARGETS := drush-post-install
 CLEAN_FOLDERS += ${WEBROOT}/core
 CLEAN_FOLDERS += ${WEBROOT}/modules/contrib
 CLEAN_FOLDERS += ${WEBROOT}/profiles/contrib
@@ -87,6 +87,14 @@ PHONY += drush-updb
 drush-updb: ## Run database updates
 	$(call step,Run database updates...\n)
 	$(call drush,updb -y)
+
+PHONY += drush-post-install
+drush-post-install:
+	$(call step,Run post install tasks...\n)
+	$(call drush,cim -y)
+	$(call drush,cr)
+	$(call drush,updb -y --no-cache-clear)
+	$(call drush,cr)
 
 PHONY += fresh
 fresh: ## Build fresh development environment and sync
