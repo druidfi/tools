@@ -131,7 +131,7 @@ drush-sync: drush-sync-db drush-sync-files ## Sync database and files
 
 PHONY += drush-sync-db
 drush-sync-db: ## Sync database
-	$(call drush,sql-drop -y)
+	$(call drush,sql-drop --quiet -y)
 ifeq ($(DUMP_SQL_EXISTS),yes)
 	$(call step,Import local SQL dump...)
 	$(call drush,sql-query --file=${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME) && echo 'SQL dump imported')
