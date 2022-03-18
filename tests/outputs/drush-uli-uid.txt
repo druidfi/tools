@@ -1,4 +1,0 @@
-drush-uli IS_DRUPAL=yes DRUPAL_VERSION=8 DRUPAL_UID=123
----
-printf "\n⭐ \033[0;33mLogin to your site with:\n\033[0m\n"
-cd ./public && drush --ansi --strict=0 uli --uid=123 admin/reports/status
