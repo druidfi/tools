@@ -39,6 +39,9 @@ declare -a files=(
 
 declare -a remove_files=(
   "amazeeio.mk"
+  "druid-cli.mk"
+  "symfony.mk"
+  "wordpress.mk"
 )
 
 main() {
