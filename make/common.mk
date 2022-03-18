@@ -40,8 +40,6 @@ build-production:
 
 PHONY += clean
 clean: ## Clean folders
-	$(call step,Clean folders:$(NO_COLOR)$(CLEAN_FOLDERS))
-	@rm -rf $(CLEAN_FOLDERS)
 	$(call step,Do Git clean\n)
 	@git clean -fdx -e .idea -e $(WEBROOT)/sites/default/files
 

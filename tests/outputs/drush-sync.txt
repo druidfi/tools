@@ -1,6 +1,10 @@
 drush-sync IS_DRUPAL=yes
 ---
+cd ./public && drush --ansi --strict=0 sql-drop -y
 printf "\n⭐ \033[0;33mSync database from @production...\033[0m\n"
 cd ./public && drush --ansi --strict=0 sql-sync -y --structure-tables-key=common @production @self
 printf "\n⭐ \033[0;33mSync files from @production...\033[0m\n"
-cd ./public && drush --ansi --strict=0 -y rsync --exclude-paths=css:ctools:js:php:tmp:tmp_php --mode=Pakzu @production:%files @self:%files -- --omit-dir-times --no-perms --no-group --no-owner --chmod=ugo=rwX
+chmod 0755 public/sites/default
+mkdir -p public/sites/default/files
+chmod 0777 public/sites/default/files
+cd ./public && drush --ansi --strict=0 -y rsync --exclude-paths=css:ctools:js:php:tmp:tmp_php --mode=Pakzu @production:%files @self:%files

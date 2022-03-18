@@ -44,12 +44,13 @@ jobs:
           test -f debug/tools/make/javascript.mk
           test -f debug/tools/make/Makefile
           test -f debug/tools/make/qa.mk
-          test -f debug/tools/make/symfony.mk
           test -f debug/tools/make/utils.mk
-          test -f debug/tools/make/wordpress.mk
 
       - name: Test that removed file does not exist in debug folder
-        run: test ! -f debug/tools/make/amazeeio.mk
+        run: |
+          test ! -f debug/tools/make/amazeeio.mk
+          test ! -f debug/tools/make/symfony.mk
+          test ! -f debug/tools/make/wordpress.mk
 
       - name: Diff main Makefile
         run: diff debug/Makefile make/Makefile.project.dist

@@ -1,4 +1,4 @@
 composer-install COMPOSER_JSON_EXISTS=yes
 ---
 printf "\n⭐ \033[0;33mDo Composer install...\n\033[0m\n"
-composer --ansi --working-dir=. install
+composer --ansi install

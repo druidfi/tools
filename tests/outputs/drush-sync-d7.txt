@@ -1,7 +1,7 @@
-drush-sync IS_DRUPAL=yes DRUPAL_VERSION=7
+drush-sync IS_DRUPAL=yes
 ---
-printf "\n⭐ \033[0;33mSync database from @production...\033[0m\n"
 cd ./public && drush --ansi --strict=0 sql-drop -y
+printf "\n⭐ \033[0;33mSync database from @production...\033[0m\n"
 cd ./public && drush --ansi --strict=0 sql-sync -y --structure-tables-key=common @production @self
 printf "\n⭐ \033[0;33mSync files from @production...\033[0m\n"
 chmod 0755 public/sites/default
