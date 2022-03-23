@@ -1,4 +1,3 @@
-BUILD_TARGETS := drupal-create-folders
 DRUPAL_CONF_EXISTS := $(shell test -f conf/cmi/core.extension.yml && echo yes || echo no)
 DRUPAL_FRESH_TARGETS := up build sync post-install
 DRUPAL_NEW_TARGETS := up build drush-si drush-uli
@@ -32,10 +31,6 @@ endif
 ifneq ($(DRUPAL_ENABLE_MODULES),no)
 	DRUPAL_POST_INSTALL_TARGETS += drush-enable-modules
 endif
-
-PHONY += drupal-create-folders
-drupal-create-folders:
-	@mkdir -p $(WEBROOT)/sites/default/files/translations
 
 PHONY += drupal-update
 drupal-update: ## Update Drupal core with Composer
