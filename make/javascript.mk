@@ -16,7 +16,7 @@ js-install: ## Install JS packages
 ifeq ($(JS_PACKAGE_MANAGER),yarn)
 	$(call node_run,install --frozen-lockfile)
 else
-	$(call node_run,install --engine-strict true)
+	$(call node_run,install --no-audit --no-fund --engine-strict true)
 endif
 
 PHONY += js-outdated

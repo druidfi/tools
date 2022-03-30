@@ -1,4 +1,4 @@
 js-install JS_PACKAGE_MANAGER=npm PACKAGE_JSON_PATH=custom PACKAGE_JSON_EXISTS=yes
 ---
-printf "\n⭐ \033[0;33mRun 'npm install --engine-strict true' with Node 16...\n\033[0m\n"
-. __HOME__/.nvm/nvm.sh && (nvm which 16 > /dev/null 2>&1 || nvm install 16) && nvm exec 16 npm --prefix custom install --engine-strict true
+printf "\n⭐ \033[0;33mRun 'npm install --no-audit --no-fund --engine-strict true' with Node 16...\n\033[0m\n"
+. /Users/markokorhonen/.nvm/nvm.sh && (nvm which 16 > /dev/null 2>&1 || nvm install 16) && nvm exec 16 npm --prefix custom install --no-audit --no-fund --engine-strict true
