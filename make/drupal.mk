@@ -2,7 +2,7 @@ BUILD_TARGETS += drupal-create-folders
 DRUPAL_CONF_EXISTS := $(shell test -f conf/cmi/core.extension.yml && echo yes || echo no)
 DRUPAL_FRESH_TARGETS := up build sync post-install
 DRUPAL_NEW_TARGETS := up build drush-si drush-uli
-DRUPAL_POST_INSTALL_TARGETS := drush-post-install
+DRUPAL_POST_INSTALL_TARGETS := drush-deploy
 CLEAN_EXCLUDE += $(WEBROOT)/sites/default/files
 DRUPAL_DISABLE_MODULES ?= no
 DRUPAL_ENABLE_MODULES ?= no
@@ -90,9 +90,9 @@ drush-updb: ## Run database updates
 	$(call step,Run database updates...\n)
 	$(call drush,updb -y)
 
-PHONY += drush-post-install
-drush-post-install:
-	$(call step,Run post install tasks...\n)
+PHONY += drush-reset-local
+drush-reset-local: ## Reset local configuration (cim, cr, updb, cr)
+	$(call step,Reset local configuration...\n)
 	$(call drush,cim -y)
 	$(call drush,cr)
 	$(call drush,updb -y --no-cache-clear)
