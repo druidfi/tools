@@ -42,16 +42,16 @@ DOCKER_PROJECT_ROOT := /app
 
 ## Default commands
 
-Command | Description
---- | ---
-make build | Build for dev env
-make build ENV=production | Build for specified env
-make debug | Show debug information
-make down | Tear down the environment
-make help | List all make commands
-make shell | Login to CLI container
-make self-update | Self-update all the tools from druidfi/tools. See [update.sh](update.sh).
-make up | Launch the environment
+| Command                   | Description                                                               |
+|---------------------------|---------------------------------------------------------------------------|
+| make build                | Build for dev env                                                         |
+| make build ENV=production | Build for specified env                                                   |
+| make debug                | Show debug information                                                    |
+| make down                 | Tear down the environment                                                 |
+| make help                 | List all make commands                                                    |
+| make shell                | Login to CLI container                                                    |
+| make self-update          | Self-update all the tools from druidfi/tools. See [update.sh](update.sh). |
+| make up                   | Launch the environment                                                    |
 
 ## Example on Makefile in your project root
 
@@ -99,7 +99,7 @@ ln -sf ../../hooks/pre-commit .git/hooks/pre-commit
 
 Run tests:
 
-```
+```bash
 make test
 ```
 
