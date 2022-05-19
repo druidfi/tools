@@ -29,7 +29,6 @@ declare -a files=(
   "include.mk"
   "common.mk"
   "docker.mk"
-  "druid-cli.mk"
   "composer.mk"
   "javascript.mk"
   "drupal.mk"
@@ -41,7 +40,7 @@ declare -a files=(
 )
 
 declare -a remove_files=(
-  "amazeeio.mk"
+  "druid-cli.mk"
 )
 
 main() {
