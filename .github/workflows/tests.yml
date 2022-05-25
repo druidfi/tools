@@ -23,6 +23,12 @@ jobs:
       - name: Show make version
         run: make --version
 
+      - name: Make sure we have docker binary (even if faked)
+        run: command -v docker > /dev/null 2>&1 || (touch /usr/local/bin/docker && chmod +x /usr/local/bin/docker)
+
+      - name: Show make debug
+        run: cd make && make debug
+
       - name: Run tests
         run: tests/tests.sh
 
