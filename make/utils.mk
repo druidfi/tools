@@ -31,6 +31,10 @@ define group_step
 	@printf "\n🌟 ${YELLOW}${1}${NO_COLOR}\n"
 endef
 
+define has
+$(shell command -v ${1} > /dev/null 2>&1 && echo yes || echo no)
+endef
+
 define step
 	@printf "\n⭐ ${YELLOW}${1}${NO_COLOR}\n"
 endef
