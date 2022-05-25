@@ -16,7 +16,7 @@ release: test ## Make a new release of druidfi/tools
 
 PHONY += test
 test: ## Run tests
-	$(call step,Run tests)
+	$(call step,Run tests\n)
 	@tests/tests.sh
 
 PHONY += test-linux
