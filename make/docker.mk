@@ -41,7 +41,7 @@ stop: ## Stop the environment
 PHONY += up
 up: pull ## Launch the environment
 	$(call step,Start up the container(s)...\n)
-	$(call docker_compose,up -d --remove-orphans --quiet-pull)
+	$(call docker_compose,up -d --remove-orphans)
 
 PHONY += shell
 shell: ## Login to CLI container
