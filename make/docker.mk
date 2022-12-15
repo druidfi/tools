@@ -39,7 +39,7 @@ stop: ## Stop the environment
 	$(call docker_compose,stop)
 
 PHONY += up
-up: pull ## Launch the environment
+up: ## Launch the environment
 	$(call step,Start up the container(s)...\n)
 	$(call docker_compose,up -d --remove-orphans)
 
