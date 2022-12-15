@@ -1,5 +1,5 @@
 drush-sync IS_DRUPAL=yes DRUPAL_SYNC_FILES=no
 ---
 drush --ansi --strict=0 sql-drop --quiet -y
-printf "\n⭐ \033[0;33mSync database from @production...\033[0m\n"
-drush --ansi --strict=0 sql-sync -y --structure-tables-key=common @production @self
+printf "\n⭐ \033[0;33mSync database from @main...\033[0m\n"
+drush --ansi --strict=0 sql-sync -y --structure-tables-key=common @main @self
