@@ -1,4 +1,5 @@
 clean IS_DRUPAL=yes
 ---
-printf "\n⭐ \033[0;33mDo Git clean\n\033[0m\n"
+printf "\n⭐ \033[0;33mCleanup loaded files...\n\033[0m\n"
+rm -rf vendor
 git clean -fdx -e .idea -e dump.sql -e .env.local -e public/sites/default/files
