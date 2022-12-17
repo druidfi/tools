@@ -38,6 +38,7 @@ endif
 
 PHONY += drupal-create-folders
 drupal-create-folders:
+	@mkdir -p $(WEBROOT)/sites/default/files/private
 	@mkdir -p $(WEBROOT)/sites/default/files/translations
 
 PHONY += drupal-update
@@ -157,7 +158,7 @@ drush-create-dump: ## Create database dump to dump.sql
 
 PHONY += drush-download-dump
 drush-download-dump: ## Download database dump to dump.sql
-	$(call drush,-Dssh.tty=0 @$(DRUPAL_SYNC_SOURCE) sql-dump --structure-tables-key=common > ${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
+	$(call drush,@$(DRUPAL_SYNC_SOURCE) sql-dump --structure-tables-key=common > ${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
 
 PHONY += open-db-gui
 open-db-gui: DB_CONTAINER := $(COMPOSE_PROJECT_NAME)-db
