@@ -20,6 +20,10 @@ jobs:
         with:
           fetch-depth: 1
 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
       - name: Show make version
         run: make --version
 
