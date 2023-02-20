@@ -9,6 +9,7 @@ DRUPAL_ENABLE_MODULES ?= no
 DRUPAL_PROFILE ?= minimal
 DRUPAL_SYNC_FILES ?= yes
 DRUPAL_SYNC_SOURCE ?= main
+DRUSH_CMD := drush --ansi --strict=0
 DRUSH_RSYNC_MODE ?= Pakzu
 DRUSH_RSYNC_OPTS ?=  -- --omit-dir-times --no-perms --no-group --no-owner --chmod=ugo=rwX
 DRUSH_RSYNC_EXCLUDE ?= css:ctools:js:php:tmp:tmp_php
@@ -23,6 +24,8 @@ LINT_PATHS_PHP += $(WEBROOT)/modules/custom
 LINT_PATHS_PHP += $(WEBROOT)/themes/custom
 LINT_PHP_TARGETS += lint-drupal
 FIX_TARGETS += fix-drupal
+DRUPAL_CREATE_FOLDERS := $(WEBROOT)/sites/default/files/private
+DRUPAL_CREATE_FOLDERS += $(WEBROOT)/sites/default/files/translations
 
 ifeq ($(GH_DUMP_ARTIFACT),yes)
 	DRUPAL_FRESH_TARGETS := gh-download-dump $(DRUPAL_FRESH_TARGETS)
@@ -38,8 +41,7 @@ endif
 
 PHONY += drupal-create-folders
 drupal-create-folders:
-	@mkdir -p $(WEBROOT)/sites/default/files/private
-	@mkdir -p $(WEBROOT)/sites/default/files/translations
+	@mkdir -p $(DRUPAL_CREATE_FOLDERS)
 
 PHONY += drupal-update
 drupal-update: ## Update Drupal core with Composer
@@ -193,10 +195,10 @@ mmfix:
 
 ifeq ($(RUN_ON),docker)
 define drush
-	$(call docker_run_cmd,drush --ansi --strict=0 $(1),$(2))
+	$(call docker_compose_exec,$(DRUSH_CMD) $(1),$(2))
 endef
 else
 define drush
-	@drush --ansi --strict=0 $(1)
+	@$(DRUSH_CMD) $(1)
 endef
 endif

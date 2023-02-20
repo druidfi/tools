@@ -1,0 +1,4 @@
+composer-install COMPOSER_JSON_EXISTS=yes RUN_ON=docker
+---
+printf "\n⭐ \033[0;33mDo Composer install...\n\033[0m\n"
+docker compose exec -u root -T cli sh -c "composer --ansi install"
