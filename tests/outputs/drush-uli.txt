@@ -1,4 +1,4 @@
 drush-uli IS_DRUPAL=yes
 ---
 printf "\n⭐ \033[0;33mLogin to your site with:\n\033[0m\n"
-drush --ansi --strict=0 uli admin/reports/status
+drush uli admin/reports/status

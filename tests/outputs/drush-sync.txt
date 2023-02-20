@@ -1,7 +1,7 @@
 drush-sync IS_DRUPAL=yes
 ---
-drush --ansi --strict=0 sql-drop --quiet -y
+drush sql-drop --quiet -y
 printf "\n⭐ \033[0;33mSync database from @main...\033[0m\n"
-drush --ansi --strict=0 sql-sync -y --structure-tables-key=common @main @self
+drush sql-sync -y --structure-tables-key=common @main @self
 printf "\n⭐ \033[0;33mSync files from @main...\033[0m\n"
-drush --ansi --strict=0 -y rsync --exclude-paths=css:ctools:js:php:tmp:tmp_php --mode=Pakzu @main:%files @self:%files -- --omit-dir-times --no-perms --no-group --no-owner --chmod=ugo=rwX
+drush -y rsync --exclude-paths=css:ctools:js:php:tmp:tmp_php --mode=Pakzu @main:%files @self:%files -- --omit-dir-times --no-perms --no-group --no-owner --chmod=ugo=rwX

@@ -1,7 +1,7 @@
 drush-sync IS_DRUPAL=yes DUMP_SQL_EXISTS=yes RUN_ON=docker
 ---
-docker compose exec -u root -T cli sh -c "drush --ansi --strict=0 sql-drop --quiet -y"
+docker compose exec cli sh -c "drush sql-drop --quiet -y"
 printf "\n⭐ \033[0;33mImport local SQL dump...\033[0m\n"
-docker compose exec -u root -T cli sh -c "drush --ansi --strict=0 sql-query --file=/app/dump.sql && echo 'SQL dump imported'"
+docker compose exec cli sh -c "drush sql-query --file=/app/dump.sql && echo 'SQL dump imported'"
 printf "\n⭐ \033[0;33mSync files from @main...\033[0m\n"
-docker compose exec -u root -T cli sh -c "drush --ansi --strict=0 -y rsync --exclude-paths=css:ctools:js:php:tmp:tmp_php --mode=Pakzu @main:%files @self:%files -- --omit-dir-times --no-perms --no-group --no-owner --chmod=ugo=rwX"
+docker compose exec cli sh -c "drush -y rsync --exclude-paths=css:ctools:js:php:tmp:tmp_php --mode=Pakzu @main:%files @self:%files -- --omit-dir-times --no-perms --no-group --no-owner --chmod=ugo=rwX"

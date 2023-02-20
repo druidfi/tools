@@ -23,7 +23,7 @@ debug: ## Show debug information
 	$(call dbg,DOCKER_PROJECT_ROOT,$(DOCKER_PROJECT_ROOT))
 	$(call dbg,DOCKER_COMPOSE_YML_EXISTS,$(DOCKER_COMPOSE_YML_EXISTS))
 	$(call dbg,CLI_SERVICE,$(CLI_SERVICE))
-	$(call dbg,CLI_USER,${CLI_USER})
+	$(call dbg,CLI_USER,$(if $(CLI_USER),$(CLI_USER),default user from CLI image))
 	$(call dbg,CLI_SHELL,${CLI_SHELL})
 	$(call dbg,ENV,${ENV})
 	$(call dbg,PHP on host,$(call has,php))

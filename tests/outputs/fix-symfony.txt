@@ -2,4 +2,4 @@ fix-symfony IS_SYMFONY=yes CS_INSTALLED=yes RUN_ON=docker
 ---
 printf "\n⭐ \033[0;33mInstall php-cs-fixer...\n\033[0m\n"
 printf "\n⭐ \033[0;33mFix Symfony code style in ./src ...\n\033[0m\n"
-docker compose exec -u root -T cli sh -c "tools/php-cs-fixer/vendor/bin/php-cs-fixer --ansi -vvvv fix src"
+docker compose exec cli sh -c "tools/php-cs-fixer/vendor/bin/php-cs-fixer --ansi -vvvv fix src"

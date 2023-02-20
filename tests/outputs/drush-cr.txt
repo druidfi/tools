@@ -1,4 +1,4 @@
 drush-cr IS_DRUPAL=yes
 ---
 printf "\n⭐ \033[0;33mClearing caches...\n\033[0m\n"
-drush --ansi --strict=0 cr
+drush cr

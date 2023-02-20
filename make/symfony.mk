@@ -64,11 +64,11 @@ tools/php-cs-fixer/vendor:
 
 ifeq ($(RUN_ON),docker)
 define sf_console
-	$(call docker_compose_exec,bin/console --ansi $(1))
+	$(call docker_compose_exec,bin/console $(1))
 endef
 else
 define sf_console
-	@bin/console --ansi $(1)
+	@bin/console $(1)
 endef
 endif
 

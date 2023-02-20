@@ -9,7 +9,6 @@ DRUPAL_ENABLE_MODULES ?= no
 DRUPAL_PROFILE ?= minimal
 DRUPAL_SYNC_FILES ?= yes
 DRUPAL_SYNC_SOURCE ?= main
-DRUSH_CMD := drush --ansi --strict=0
 DRUSH_RSYNC_MODE ?= Pakzu
 DRUSH_RSYNC_OPTS ?=  -- --omit-dir-times --no-perms --no-group --no-owner --chmod=ugo=rwX
 DRUSH_RSYNC_EXCLUDE ?= css:ctools:js:php:tmp:tmp_php
@@ -195,10 +194,10 @@ mmfix:
 
 ifeq ($(RUN_ON),docker)
 define drush
-	$(call docker_compose_exec,$(DRUSH_CMD) $(1),$(2))
+	$(call docker_compose_exec,drush $(1),$(2))
 endef
 else
 define drush
-	@$(DRUSH_CMD) $(1)
+	@drush $(1)
 endef
 endif
