@@ -1,4 +1,4 @@
-CLI_SERVICE := cli
+CLI_SERVICE := app
 CLI_SHELL := sh
 DOCKER_COMPOSE_YML_PATH ?= docker-compose.yml
 DOCKER_COMPOSE_YML_EXISTS := $(shell test -f $(DOCKER_COMPOSE_YML_PATH) && echo yes || echo no)

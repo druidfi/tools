@@ -14,7 +14,7 @@ endif
 
 PHONY += lagoon-env
 lagoon-env: ## Print Lagoon env variables
-	$(call docker,printenv | grep LAGOON_)
+	$(call docker_compose_exec,printenv | grep LAGOON_)
 
 PHONY += deploy-lagoon-%
 deploy-lagoon-%: ## Deploy lagoon branch
