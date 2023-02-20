@@ -25,7 +25,7 @@ set-files:
 	$(call step,Remove obsolete files)
 	@rm -f $(WEBROOT)/*.{txt,html} $(WEBROOT)/composer.json && printf "Files deleted.\n"
 	$(call step,Copy $(WP_CONF_PATH)/wp-config.php to $(WEBROOT)...)
-	@cp -v $(WP_CONF_PATH)/wp-config.php $(WEBROOT)/wp-config.php
+	$(call copy,$(WP_CONF_PATH)/wp-config.php,$(WEBROOT)/wp-config.php)
 
 PHONY += prepare
 prepare:
@@ -86,7 +86,7 @@ wp-plugins: ## List plugins
 	$(call wp,plugin list)
 
 define wp
-	@${DOCKER_COMPOSE_EXEC} php ${CLI_SHELL} -c "wp --color --path=$(DOCKER_PROJECT_ROOT)/$(WEBROOT) $(1)"
+	$(call docker_compose_exec,wp --color --path=$(DOCKER_PROJECT_ROOT)/$(WEBROOT) $(1))
 endef
 
 ifeq ($(WP_SYNC_SOURCE),)

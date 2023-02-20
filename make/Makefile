@@ -1,7 +1,6 @@
 .DEFAULT_GOAL := help
 
 BUILD_TARGETS :=
-CLEAN_EXCLUDE := .idea dump.sql .env.local
 COMPOSER_JSON_PATH ?= .
 DRUIDFI_TOOLS_MAKE_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 ENV := dev
@@ -19,12 +18,11 @@ include $(DRUIDFI_TOOLS_MAKE_DIR)include.mk
 
 PHONY += debug
 debug: ## Show debug information
-	@printf "\n${YELLOW}Debug starts:${NO_COLOR}\n\n"
+	@printf "\n$(YELLOW)Debug starts:$(NO_COLOR)\n\n"
 	$(call dbg,DOCKER,$(call has,docker))
-	$(call dbg,DOCKER_PROJECT_ROOT,${DOCKER_PROJECT_ROOT})
-	$(call dbg,DOCKER_COMPOSE_YML_EXISTS,${DOCKER_COMPOSE_YML_EXISTS})
-	$(call dbg,DOCKER_COMPOSE,${DOCKER_COMPOSE})
-	$(call dbg,CLI_SERVICE,${CLI_SERVICE})
+	$(call dbg,DOCKER_PROJECT_ROOT,$(DOCKER_PROJECT_ROOT))
+	$(call dbg,DOCKER_COMPOSE_YML_EXISTS,$(DOCKER_COMPOSE_YML_EXISTS))
+	$(call dbg,CLI_SERVICE,$(CLI_SERVICE))
 	$(call dbg,CLI_USER,${CLI_USER})
 	$(call dbg,CLI_SHELL,${CLI_SHELL})
 	$(call dbg,ENV,${ENV})

@@ -1,0 +1,4 @@
+composer-install COMPOSER_JSON_EXISTS=yes ENV=production
+---
+printf "\n⭐ \033[0;33mDo Composer install...\n\033[0m\n"
+composer --ansi install --no-dev --optimize-autoloader --prefer-dist
