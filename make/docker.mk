@@ -51,7 +51,7 @@ endif
 
 PHONY += ssh-check
 ssh-check: ## Check SSH keys on CLI container
-	$(call docker,ssh-add -L)
+	$(call docker_compose_exec,ssh-add -L)
 
 ifeq ($(RUN_ON),docker)
 define docker
