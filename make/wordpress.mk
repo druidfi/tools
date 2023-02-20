@@ -22,9 +22,9 @@ post-install: ## Run post-install actions
 
 PHONY += set-files
 set-files:
-	$(call step,Remove obsolete files)
+	$(call step,Remove obsolete files\n)
 	@rm -f $(WEBROOT)/*.{txt,html} $(WEBROOT)/composer.json && printf "Files deleted.\n"
-	$(call step,Copy $(WP_CONF_PATH)/wp-config.php to $(WEBROOT)...)
+	$(call step,Copy $(WP_CONF_PATH)/wp-config.php to $(WEBROOT)...\n)
 	$(call copy,$(WP_CONF_PATH)/wp-config.php,$(WEBROOT)/wp-config.php)
 
 PHONY += prepare
