@@ -43,7 +43,7 @@ test-phpunit: ## Run PHPUnit tests
 ifeq ($(CI),true)
 	vendor/bin/phpunit -c phpunit.xml.dist --testsuite $(TESTSUITES)
 else
-	$(call docker,${DOCKER_PROJECT_ROOT}/vendor/bin/phpunit -c $(DOCKER_PROJECT_ROOT)/phpunit.xml.dist \
+	$(call docker_compose_exec,${DOCKER_PROJECT_ROOT}/vendor/bin/phpunit -c $(DOCKER_PROJECT_ROOT)/phpunit.xml.dist \
 		--testsuite $(TESTSUITES))
 endif
 	$(call test_result,test-phpunit,"[OK]")
