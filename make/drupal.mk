@@ -40,7 +40,8 @@ endif
 
 PHONY += drupal-create-folders
 drupal-create-folders:
-	@mkdir -p $(DRUPAL_CREATE_FOLDERS)
+	$(call step,Create folders for Drupal...\n)
+	$(call docker_compose_exec,mkdir -v -p $(DRUPAL_CREATE_FOLDERS))
 
 PHONY += drupal-update
 drupal-update: ## Update Drupal core with Composer
