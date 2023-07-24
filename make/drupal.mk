@@ -176,12 +176,6 @@ fix-drupal: ## Fix Drupal code style
 	$(call step,Fix Drupal code style with phpcbf...\n)
 	$(call cs,phpcbf,$(PATHS))
 
-PHONY += fix-drupal-coder
-fix-drupal-coder: VERSION := 8.3.16
-fix-drupal-coder: ## Fix Drupal Coder loading
-	composer config repositories.drupal '{"type": "composer", "url": "https://packages.drupal.org/8"}'
-	composer config repositories.drupal/coder '{"type": "package", "package": {"name": "drupal/coder", "type": "phpcodesniffer-standard", "version": "$(VERSION)", "dist": {"type": "zip", "url": "https://ftp.drupal.org/files/projects/coder-$(VERSION).zip"}}}'
-
 PHONY += lint-drupal
 lint-drupal: PATHS := $(subst $(space),,$(LINT_PATHS_PHP))
 lint-drupal: ## Lint Drupal code style
