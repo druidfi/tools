@@ -163,11 +163,12 @@ drush-download-dump: ## Download database dump to dump.sql
 	$(call drush,@$(DRUPAL_SYNC_SOURCE) sql-dump --structure-tables-key=common > ${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME))
 
 PHONY += open-db-gui
-open-db-gui: DB_CONTAINER := $(COMPOSE_PROJECT_NAME)-db
-open-db-gui: DB_NAME := drupal
-open-db-gui: DB_USER := drupal
-open-db-gui: DB_PASS := drupal
-open-db-gui: --open-db-gui ## Open database with GUI tool
+open-db-gui: ## Open database with GUI tool
+	$(eval DB_SERVICE ?= db)
+	$(eval DB_NAME ?= drupal)
+	$(eval DB_USER ?= drupal)
+	$(eval DB_PASS ?= drupal)
+	@open mysql://$(DB_USER):$(DB_PASS)@$(shell docker compose port $(DB_SERVICE) 3306 | grep -v ::)/$(DB_NAME)
 
 PHONY += fix-drupal
 fix-drupal: PATHS := $(subst $(space),,$(LINT_PATHS_PHP))
