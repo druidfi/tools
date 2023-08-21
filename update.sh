@@ -35,12 +35,12 @@ declare -a files=(
   "symfony.mk"
   "lagoon.mk"
   "qa.mk"
-  "wordpress.mk"
   "kubectl.mk"
 )
 
 declare -a remove_files=(
   "druid-cli.mk"
+  "wordpress.mk"
 )
 
 main() {

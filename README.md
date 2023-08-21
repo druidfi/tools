@@ -15,7 +15,7 @@ Set of tools meant for ease the development.
 
 Download oneliner (source is [update.sh](update.sh)):
 
-```
+```shell
 bash -c "$(curl -fsSL -H 'Cache-Control: no-cache' https://git.io/JP10q)"
 ```
 
@@ -75,7 +75,7 @@ include $(PROJECT_DIR)/tools/make/Makefile
 
 Update general tools by downloading new versions of the files:
 
-```
+```shell
 make self-update
 ```
 
