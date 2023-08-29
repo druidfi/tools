@@ -11,9 +11,9 @@ fi
 
 NODE_VERSION=$(command -v node > /dev/null && node --version | cut -c2-3)
 
-if [ "${NODE_VERSION}" != 16 ]
+if [ "${NODE_VERSION}" != 20 ]
 then
-  printf "\n\e[0;31m❌ Use Node version 16 in tests, you have %s\e[0m\n\n" "${NODE_VERSION}"
+  printf "\n\e[0;31m❌ Use Node version 20 in tests, you have %s\e[0m\n\n" "${NODE_VERSION}"
   exit 1
 fi
 
