@@ -1,4 +1,4 @@
-lint-symfony IS_SYMFONY=yes CS_INSTALLED=yes RUN_ON=docker
+lint-symfony IS_SYMFONY=yes CS_FIXER_INSTALLED=yes RUN_ON=docker
 ---
 printf "\n⭐ \033[0;33mLint Symfony code style...\n\033[0m\n"
-docker compose exec app sh -c "vendor/bin/phpcs --ignore=node_modules src"
+docker compose exec app sh -c "vendor/bin/php-cs-fixer fix --dry-run --diff --ansi src"
