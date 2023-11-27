@@ -1,0 +1,4 @@
+drush-uli-123 IS_DRUPAL=yes
+---
+printf "\n⭐ \033[0;33mLogin to your site as user 123 with:\n\033[0m\n"
+drush uli --uid=123
