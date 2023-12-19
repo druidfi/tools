@@ -45,6 +45,7 @@ jobs:
 
       - name: Test that downloaded files exist in debug folder
         run: |
+          test -f debug/tools/make/ansible.mk
           test -f debug/tools/make/lagoon.mk
           test -f debug/tools/make/common.mk
           test -f debug/tools/make/composer.mk

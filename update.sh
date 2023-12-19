@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION=2023-09-09-20-17
+VERSION=2023-12-19-08-35
 DEBUG=0
 GITHUB=https://raw.githubusercontent.com
 REPOSITORY=druidfi/tools
@@ -36,6 +36,7 @@ declare -a files=(
   "lagoon.mk"
   "qa.mk"
   "kubectl.mk"
+  "ansible.mk"
 )
 
 declare -a remove_files=(
