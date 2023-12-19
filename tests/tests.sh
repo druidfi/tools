@@ -5,7 +5,7 @@ OS=$(uname -s)
 if [ "${OS}" == "Darwin" ]
 then
 
-  MAKE=/Library/Developer/CommandLineTools/usr/bin/make
+  MAKE=$(xcode-select -p)/usr/bin/make
 
 else
 
