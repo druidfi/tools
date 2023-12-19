@@ -2,12 +2,18 @@
 
 OS=$(uname -s)
 
-if [ "${OS}" == "Linux" ]
+if [ "${OS}" == "Darwin" ]
 then
 
-  echo "Running on ${OS}"
+  MAKE=/Library/Developer/CommandLineTools/usr/bin/make
+
+else
+
+  MAKE=$(command -v make)
 
 fi
+
+printf "Running on ${OS} with make at ${MAKE}\n\n"
 
 NODE_VERSION=$(command -v node > /dev/null && node --version | cut -c2-3)
 
@@ -33,6 +39,7 @@ do
 
     EXPECTED=${EXPECTED/__PWD__/$(pwd)}
     EXPECTED=${EXPECTED/__HOME__/$(echo $HOME)}
+    EXPECTED=${EXPECTED/__MAKE__/$(echo $MAKE)}
 
     OUTPUT=$(make -n --no-print-directory --directory=make ${MAKE_TARGET} | sed 's/^ *//;s/ *$//')
 

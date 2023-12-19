@@ -1,0 +1,7 @@
+provision-foobar HAS_ANSIBLE=yes
+---
+__MAKE__ ansible-install-roles
+printf "\n⭐ \033[0;33mAnsible: Install Ansible roles...\n\033[0m\n"
+ansible-galaxy install -r ansible/requirements.yml -p ansible/roles
+printf "\n⭐ \033[0;33mAnsible: Make provisioning by tag "foobar"...\n\033[0m\n"
+ansible-playbook -i ansible/inventory/production ansible/provision.yml --tags="foobar"

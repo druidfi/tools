@@ -36,6 +36,7 @@ declare -a files=(
   "lagoon.mk"
   "qa.mk"
   "kubectl.mk"
+  "ansible.mk"
 )
 
 declare -a remove_files=(
