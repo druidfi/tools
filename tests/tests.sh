@@ -9,7 +9,7 @@ then
 
 else
 
-  MAKE=$(command -v make)
+  MAKE=make
 
 fi
 
