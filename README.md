@@ -33,7 +33,7 @@ You can also add `tools/make/override.mk` to override variables.
 
 For example if you want to force certain CLI values for your local setup even if something is autodetected:
 
-```
+```makefile
 # Custom Docker CLI container
 CLI_SERVICE := app
 CLI_USER := druid
@@ -55,7 +55,7 @@ DOCKER_PROJECT_ROOT := /app
 
 ## Example on Makefile in your project root
 
-```
+```makefile
 PHONY :=
 PROJECT_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 
@@ -93,13 +93,13 @@ As one of the operations `make clean` will remove the `vendor` folder.
 
 Set Git hook. This will run tests pre-commit and if all is good, then update version.
 
-```
+```console
 ln -sf ../../hooks/pre-commit .git/hooks/pre-commit
 ```
 
 Run tests:
 
-```bash
+```console
 make test
 ```
 
