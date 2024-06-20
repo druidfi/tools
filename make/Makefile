@@ -9,6 +9,7 @@ RUN_ON := host
 UNAME_S := $(shell uname -s)
 # Shorten with https://git.io/ : https://raw.githubusercontent.com/druidfi/tools/main/update.sh
 UPDATE_SCRIPT_URL := https://git.io/JP10q
+UPDATE_CYPRESS_SCRIPT_URL := https://raw.githubusercontent.com/druidfi/cypress-testing/updater/update.sh
 WEBROOT ?= public
 
 include $(DRUIDFI_TOOLS_MAKE_DIR)utils.mk
