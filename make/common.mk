@@ -45,11 +45,6 @@ clean: ## Cleanup
 	@rm -rf vendor
 	@git clean -fdx $(foreach item,$(CLEAN_EXCLUDE),-e $(item))
 
-PHONY += cypress-update
-cypress-update: ## Update Cypress from druidfi/cypress-testing
-	$(call step,Update Cypress...\n)
-	@bash -c "$$(curl -fsSL $(UPDATE_CYPRESS_SCRIPT_URL))"
-
 PHONY += self-update
 self-update: ## Self-update makefiles from druidfi/tools
 	$(call step,Update makefiles from druidfi/tools\n)
