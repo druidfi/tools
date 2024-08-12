@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION=2024-06-11-15-02
+VERSION=2024-08-12-13-20
 DEBUG=0
 GITHUB=https://raw.githubusercontent.com
 REPOSITORY=druidfi/tools
