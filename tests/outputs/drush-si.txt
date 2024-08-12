@@ -1,0 +1,4 @@
+drush-si IS_DRUPAL=yes DRUPAL_SITE_EMAIL=noreply@domain.tld
+---
+printf "\n⭐ \033[0;33mDo Drush site:install...\n\033[0m\n"
+drush si -y minimal --site-mail=noreply@domain.tld
