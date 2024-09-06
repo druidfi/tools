@@ -1,5 +1,5 @@
-drush-sync IS_DRUPAL=yes DRUPAL_SYNC_FILES=no
+drush-sync IS_DRUPAL=yes DRUPAL_SYNC_FILES=no DUMP_SQL_EXISTS=yes
 ---
 drush sql-drop --quiet -y
-printf "\n⭐ \033[0;33mSync database from @main...\033[0m\n"
-drush sql-sync -y --structure-tables-key=common @main @self
+printf "\n⭐ \033[0;33mImport local SQL dump...\033[0m\n"
+drush sql-query --file=/app/dump.sql && echo 'SQL dump imported'

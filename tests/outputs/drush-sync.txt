@@ -1,7 +1,5 @@
-drush-sync IS_DRUPAL=yes
+drush-sync IS_DRUPAL=yes SYNC_TARGETS=yes DUMP_SQL_EXISTS=yes
 ---
 drush sql-drop --quiet -y
-printf "\n⭐ \033[0;33mSync database from @main...\033[0m\n"
-drush sql-sync -y --structure-tables-key=common @main @self
-printf "\n⭐ \033[0;33mSync files from @main...\033[0m\n"
-drush -y rsync --exclude-paths=css:ctools:js:php:tmp:tmp_php --mode=Pakzu @main:%files @self:%files -- --omit-dir-times --no-perms --no-group --no-owner --chmod=ugo=rwX
+printf "\n⭐ \033[0;33mImport local SQL dump...\033[0m\n"
+drush sql-query --file=/app/dump.sql && echo 'SQL dump imported'
