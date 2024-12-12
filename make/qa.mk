@@ -71,3 +71,15 @@ define cs
 $(call warn,CodeSniffer is not installed!)
 endef
 endif
+
+PHONY += cypress-init
+cypress-init: ## Init cypress
+	$(call step,Adding cypress-toolkit to the project...\n)
+	@git submodule add git@github.com:druidfi/cypress-toolkit.git
+
+PHONY += cypress-run-tests
+cypress-run-tests: ## Run cypress tests
+	@cd tests && \
+	chmod u+x $(NVM_SH) && \
+	$(NVM_SH) use $(NODE_VERSION) && \
+	npx cypress run
