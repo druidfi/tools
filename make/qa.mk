@@ -81,6 +81,11 @@ cypress-init: ## Init cypress
 	$(call step,Adding cypress-toolkit to the project...\n)
 	@git submodule add git@github.com:druidfi/cypress-toolkit.git
 
+PHONY += cypress-update
+cypress-update: ## Update cypress
+	$(call step,Update cypress-toolkit from github...\n)
+	@git submodule update --init --recursive
+
 PHONY += cypress-run-tests
 cypress-run-tests: ## Run cypress tests
 ifeq ($(CYPRESS_SETUP), yes)
