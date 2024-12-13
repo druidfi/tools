@@ -6,8 +6,6 @@ CS_CONF_EXISTS := $(shell test -f phpcs.xml.dist && echo yes || echo no)
 TESTSUITES ?= unit,kernel,functional
 CYPRESS_DIR = cypress-toolkit
 CYPRESS_SETUP = $(shell test -d $(CYPRESS_DIR) && echo yes || echo no)
-CYPRESS_PROJECT_TESTS_DIR = tests
-CYPRESS_PROJECT_TESTS =  $(shell test -d $(CYPRESS_PROJECT_TESTS_DIR) && echo yes || echo no)
 
 PHONY += fix
 fix: ## Fix code style
@@ -105,9 +103,5 @@ ifeq ($(CYPRESS_SETUP), yes)
 	@cd $(CYPRESS_DIR) && \
 	chmod u+x $(NVM_SH) && \
 	$(NVM_SH) use $(NODE_VERSION) && \
-	npx cypress run
-endif
-ifeq ($(CYPRESS_PROJECT_TESTS), yes)
-	@cd $(CYPRESS_PROJECT_TESTS_DIR) && \
 	npx cypress run
 endif
