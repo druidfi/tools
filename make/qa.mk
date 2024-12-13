@@ -81,10 +81,23 @@ cypress-init: ## Init cypress
 	$(call step,Adding cypress-toolkit to the project...\n)
 	@git submodule add git@github.com:druidfi/cypress-toolkit.git
 
+PHONY += cypress-install
+cypress-install: ## Init cypress
+	$(call step,Install npm packages\n)
+	@cd $(CYPRESS_DIR) && \
+	chmod u+x $(NVM_SH) && \
+	$(NVM_SH) use $(NODE_VERSION) && \
+	npm i --silence
+
 PHONY += cypress-update
 cypress-update: ## Update cypress
 	$(call step,Update cypress-toolkit from github...\n)
 	@git submodule update --init --recursive
+	$(call step,Update npm packages\n)
+	@cd $(CYPRESS_DIR) && \
+	chmod u+x $(NVM_SH) && \
+	$(NVM_SH) use $(NODE_VERSION) && \
+	npm update
 
 PHONY += cypress-run-tests
 cypress-run-tests: ## Run cypress tests
