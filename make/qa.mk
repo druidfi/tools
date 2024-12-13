@@ -77,7 +77,7 @@ endif
 PHONY += cypress-init
 cypress-init: ## Init cypress
 	$(call step,Adding cypress-toolkit to the project...\n)
-	@git submodule add git@github.com:druidfi/cypress-toolkit.git
+	@git clone --recursive git@github.com:druidfi/cypress-toolkit.git
 
 PHONY += cypress-install
 cypress-install: ## Init cypress
@@ -90,7 +90,7 @@ cypress-install: ## Init cypress
 PHONY += cypress-update
 cypress-update: ## Update cypress
 	$(call step,Update cypress-toolkit from github...\n)
-	@git submodule update --init --recursive
+	@git submodule update --init --remote --recursive
 	$(call step,Update npm packages\n)
 	@cd $(CYPRESS_DIR) && \
 	chmod u+x $(NVM_SH) && \
