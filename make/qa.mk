@@ -6,6 +6,8 @@ CS_CONF_EXISTS := $(shell test -f phpcs.xml.dist && echo yes || echo no)
 TESTSUITES ?= unit,kernel,functional
 CYPRESS_DIR = cypress-toolkit
 CYPRESS_SETUP = $(shell test -d $(CYPRESS_DIR) && echo yes || echo no)
+NVM_SH := $(HOME)/.nvm/nvm.sh
+NODE_VERSION ?= 20
 
 PHONY += fix
 fix: ## Fix code style
