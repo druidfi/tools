@@ -97,6 +97,12 @@ cypress-update: ## Update cypress
 	$(NVM_SH) use $(NODE_VERSION) && \
 	npm update
 
+PHONY += cypress-open
+cypress-open: ## Update cypress
+	$(call step,Open Cypress UI...\n)
+	@cd $(CYPRESS_DIR) && \
+	npx cypress open
+
 PHONY += cypress-run-tests
 cypress-run-tests: ## Run cypress tests
 ifeq ($(CYPRESS_SETUP), yes)
