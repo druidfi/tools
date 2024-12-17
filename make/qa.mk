@@ -82,7 +82,7 @@ cypress-init: ## Init cypress
 	@git clone --recursive git@github.com:druidfi/cypress-toolkit.git
 
 PHONY += cypress-install
-cypress-install: ## Init cypress
+cypress-install: ## Install Cypress packages
 	$(call step,Install npm packages\n)
 	@cd $(CYPRESS_DIR) && \
 	chmod u+x $(NVM_SH) && \
@@ -90,7 +90,7 @@ cypress-install: ## Init cypress
 	npm i --silence
 
 PHONY += cypress-update
-cypress-update: ## Update cypress
+cypress-update: ## Update Cypress packages
 	$(call step,Update cypress-toolkit from github...\n)
 	@git submodule update --init --remote --recursive
 	$(call step,Update npm packages\n)
@@ -100,13 +100,13 @@ cypress-update: ## Update cypress
 	npm update
 
 PHONY += cypress-open
-cypress-open: ## Update cypress
+cypress-open: ## Open Cypress UI
 	$(call step,Open Cypress UI...\n)
 	@cd $(CYPRESS_DIR) && \
 	npx cypress open
 
 PHONY += cypress-run-tests
-cypress-run-tests: ## Run cypress tests
+cypress-run-tests: ## Run Cypress tests
 ifeq ($(CYPRESS_SETUP), yes)
 	@cd $(CYPRESS_DIR) && \
 	chmod u+x $(NVM_SH) && \
