@@ -92,9 +92,9 @@ cypress-install: ## Install Cypress packages
 PHONY += cypress-update
 cypress-update: ## Update Cypress packages
 	$(call step,Update cypress-toolkit from github...\n)
-	@git submodule update --init --remote --recursive
-	$(call step,Update npm packages\n)
 	@cd $(CYPRESS_DIR) && \
+	git pull origin main
+	$(call step,Update npm packages\n)
 	chmod u+x $(NVM_SH) && \
 	$(NVM_SH) use $(NODE_VERSION) && \
 	npm update
