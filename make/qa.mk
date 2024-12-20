@@ -106,10 +106,21 @@ cypress-open: ## Open Cypress UI
 	npx cypress open
 
 PHONY += cypress-run-tests
-cypress-run-tests: ## Run Cypress tests
+cypress-run-tests: ## Run cypress tests
 ifeq ($(CYPRESS_SETUP), yes)
 	@cd $(CYPRESS_DIR) && \
 	chmod u+x $(NVM_SH) && \
-	$(NVM_SH) use $(NODE_VERSION) && \
-	npx cypress run
+	$(NVM_SH) use $(NODE_VERSION)
+	ifeq ($(CYPRESS_LOCAL_CONFIG),yes)
+		@cd ../CYPRESS_LOCAL_DIR && \
+		cypress run --config-file ../tests/cypress/cypress.config.js
+	else
+		npx cypress run
+	endif
+endif
+
+PHONY += cypress-remove
+cypress-remove: ## Run cypress tests
+ifeq ($(CYPRESS_SETUP), yes)
+	@rm -fR $(CYPRESS_DIR)
 endif
