@@ -94,7 +94,7 @@ cypress-update: ## Update Cypress packages
 	$(call step,Update cypress-toolkit from github...\n)
 	@cd $(CYPRESS_DIR) && \
 	git pull origin main
-	$(call step,Update npm packages\n)
+	$(call step,Update npm packages\n) && \
 	chmod u+x $(NVM_SH) && \
 	$(NVM_SH) use $(NODE_VERSION) && \
 	npm update
