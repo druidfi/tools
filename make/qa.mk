@@ -82,35 +82,39 @@ cypress-init: ## Init cypress
 	@git clone --recursive git@github.com:druidfi/cypress-toolkit.git
 
 PHONY += cypress-install
-cypress-install: ## Install Cypress packages
+cypress-install: ## Install cypress
 	$(call step,Install npm packages\n)
 	@cd $(CYPRESS_DIR) && \
 	chmod u+x $(NVM_SH) && \
-	$(NVM_SH) use $(NODE_VERSION) && \
+	. $(NVM_SH) && nvm use $(NODE_VERSION) && \
+	node -v && pwd \
 	npm i --silence
 
 PHONY += cypress-update
-cypress-update: ## Update Cypress packages
+cypress-update: ## Update cypress
 	$(call step,Update cypress-toolkit from github...\n)
+	@git submodule update --init --remote --recursive
+	$(call step,Update npm packages\n)
 	@cd $(CYPRESS_DIR) && \
-	git pull origin main
-	$(call step,Update npm packages\n) && \
 	chmod u+x $(NVM_SH) && \
-	$(NVM_SH) use $(NODE_VERSION) && \
+	. $(NVM_SH) && nvm use $(NODE_VERSION) && \
+	node -v && \
 	npm update
 
 PHONY += cypress-open
-cypress-open: ## Open Cypress UI
+cypress-open: ## Update cypress
 	$(call step,Open Cypress UI...\n)
 	@cd $(CYPRESS_DIR) && \
+	. $(NVM_SH) && nvm use $(NODE_VERSION) && \
+	node -v && \
 	npx cypress open
 
 PHONY += cypress-run-tests
 cypress-run-tests: ## Run cypress tests
 ifeq ($(CYPRESS_SETUP), yes)
 	@cd $(CYPRESS_DIR) && \
-	chmod u+x $(NVM_SH) && \
-	$(NVM_SH) use $(NODE_VERSION)
+	. $(NVM_SH) && nvm use $(NODE_VERSION) && \
+	node -v \
 	ifeq ($(CYPRESS_LOCAL_CONFIG),yes)
 		@cd ../CYPRESS_LOCAL_DIR && \
 		cypress run --config-file ../tests/cypress/cypress.config.js
