@@ -87,7 +87,7 @@ cypress-install: ## Install cypress
 	@cd $(CYPRESS_DIR) && \
 	chmod u+x $(NVM_SH) && \
 	. $(NVM_SH) && nvm use $(NODE_VERSION) && \
-	node -v && pwd \
+	node -v && pwd && \
 	npm i --silence
 
 PHONY += cypress-update
