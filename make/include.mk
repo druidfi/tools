@@ -35,7 +35,7 @@ endif
 # Hosting systems
 #
 
-LAGOON := $(shell test -f .lagoon.yml && echo yes || echo no)
+LAGOON ?= $(shell test -f .lagoon.yml && echo yes || echo no)
 
 ifeq ($(LAGOON),yes)
 	SYSTEM := LAGOON
@@ -47,13 +47,13 @@ ifeq ($(SYSTEM),LAGOON)
 include $(DRUIDFI_TOOLS_MAKE_DIR)lagoon.mk
 endif
 
-COMPOSER_JSON_EXISTS := $(shell test -f $(COMPOSER_JSON_PATH)/composer.json && echo yes || echo no)
+COMPOSER_JSON_EXISTS ?= $(shell test -f $(COMPOSER_JSON_PATH)/composer.json && echo yes || echo no)
 
 ifeq ($(COMPOSER_JSON_EXISTS),yes)
 include $(DRUIDFI_TOOLS_MAKE_DIR)composer.mk
 endif
 
-PACKAGE_JSON_EXISTS := $(shell test -f $(PACKAGE_JSON_PATH)/package.json && echo yes || echo no)
+PACKAGE_JSON_EXISTS ?= $(shell test -f $(PACKAGE_JSON_PATH)/package.json && echo yes || echo no)
 
 ifeq ($(PACKAGE_JSON_EXISTS),yes)
 include $(DRUIDFI_TOOLS_MAKE_DIR)javascript.mk
