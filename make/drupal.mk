@@ -48,6 +48,7 @@ PHONY += drupal-create-folders
 drupal-create-folders:
 	$(call step,Create folders for Drupal...\n)
 	$(call docker_compose_exec,mkdir -v -p $(DRUPAL_CREATE_FOLDERS))
+	@for folder in $(DRUPAL_CREATE_FOLDERS); do echo "$$folder"; done
 
 PHONY += drupal-update
 drupal-update: ## Update Drupal core with Composer
