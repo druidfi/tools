@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# Use Volta to ensure Node.js v20 is used, re-exec if needed
+if command -v volta > /dev/null && [ -z "${_VOLTA_INVOKED}" ]; then
+  export _VOLTA_INVOKED=1
+  exec volta run --node 20 -- bash "$0" "$@"
+fi
+
 OS=$(uname -s)
 
 if [ "${OS}" == "Darwin" ]
@@ -20,6 +26,7 @@ NODE_VERSION=$(command -v node > /dev/null && node --version | cut -c2-3)
 if [ "${NODE_VERSION}" != 20 ]
 then
   printf "\n\e[0;31m❌ Use Node version 20 in tests, you have %s\e[0m\n\n" "${NODE_VERSION}"
+  printf "\e[0;33mInstall Volta (volta.sh) to manage Node versions automatically.\e[0m\n\n"
   exit 1
 fi
 
