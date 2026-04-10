@@ -1,4 +1,4 @@
-js-install INSTALLED_NODE_VERSION=18 NODE_VERSION=18 PACKAGE_JSON_EXISTS=yes
+js-install INSTALLED_NODE_VERSION=18 NODE_VERSION=18 PACKAGE_JSON_EXISTS=yes NVM=yes
 ---
 printf "\n⭐ \033[0;33mRun 'yarn install --frozen-lockfile' with Node 18...\n\033[0m\n"
 . __HOME__/.nvm/nvm.sh && (nvm which 18 > /dev/null 2>&1 || nvm install 18) && nvm exec 18 yarn --cwd . install --frozen-lockfile

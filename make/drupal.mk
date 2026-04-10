@@ -152,7 +152,7 @@ drush-sync-db: ## Sync database
 	$(call drush,sql-drop --quiet -y)
 ifeq ($(DUMP_SQL_EXISTS),yes)
 	$(call step,Import local SQL dump...)
-	$(call drush,sql-query --file=${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME) && echo 'SQL dump imported')
+	$(call drush,sql-query --file=$(DOCKER_PROJECT_ROOT)/$(DUMP_SQL_FILENAME) && echo 'SQL dump imported')
 else
 ifeq ($(SYNC_FROM_REMOTE),yes)
 	$(call step,Sync database from @$(DRUPAL_SYNC_SOURCE)...)
