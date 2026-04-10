@@ -4,6 +4,12 @@ LINT_PHP_TARGETS :=
 CS_INSTALLED := $(shell test -f $(COMPOSER_JSON_PATH)/vendor/bin/phpcs && echo yes || echo no)
 CS_CONF_EXISTS := $(shell test -f phpcs.xml.dist && echo yes || echo no)
 TESTSUITES ?= unit,kernel,functional
+UPDATE_CYPRESS_SCRIPT_URL := https://raw.githubusercontent.com/druidfi/cypress-testing/main/update.sh
+
+PHONY += cypress-update
+cypress-update: ## Update Cypress from druidfi/cypress-testing
+	$(call step,Update Cypress...\n)
+	@bash -c "$$(curl -fsSL $(UPDATE_CYPRESS_SCRIPT_URL))"
 
 PHONY += fix
 fix: ## Fix code style
