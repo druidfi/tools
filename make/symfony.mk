@@ -57,6 +57,10 @@ lint-symfony: ## Lint Symfony code style
 	$(call step,Lint Symfony code style...\n)
 	$(call cs_symfony,fix --dry-run --diff --ansi --verbose src)
 
+PHONY += update-symfony-docker
+update-symfony-docker: ## Update Symfony Docker files from upstream
+	@curl -sSL https://raw.githubusercontent.com/druidfi/tools/main/scripts/symfony/update.sh | sh -s
+
 ifeq ($(RUN_ON),docker)
 define sf_console
 	$(call docker_compose_exec,bin/console $(1))
