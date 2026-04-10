@@ -4,6 +4,10 @@ LINT_PHP_TARGETS :=
 CS_INSTALLED := $(shell test -f $(COMPOSER_JSON_PATH)/vendor/bin/phpcs && echo yes || echo no)
 CS_CONF_EXISTS := $(shell test -f phpcs.xml.dist && echo yes || echo no)
 TESTSUITES ?= unit,kernel,functional
+CYPRESS_DIR = cypress-toolkit
+CYPRESS_SETUP = $(shell test -d $(CYPRESS_DIR) && echo yes || echo no)
+NVM_SH := $(HOME)/.nvm/nvm.sh
+NODE_VERSION ?= 20
 
 PHONY += fix
 fix: ## Fix code style
@@ -70,4 +74,57 @@ else
 define cs
 $(call warn,CodeSniffer is not installed!)
 endef
+endif
+
+PHONY += cypress-init
+cypress-init: ## Init cypress
+	$(call step,Adding cypress-toolkit to the project...\n)
+	@git clone --recursive git@github.com:druidfi/cypress-toolkit.git
+
+PHONY += cypress-install
+cypress-install: ## Install cypress
+	$(call step,Install npm packages\n)
+	@cd $(CYPRESS_DIR) && \
+	chmod u+x $(NVM_SH) && \
+	. $(NVM_SH) && nvm use $(NODE_VERSION) && \
+	node -v && pwd && \
+	npm i --silence
+
+PHONY += cypress-update
+cypress-update: ## Update cypress
+	$(call step,Update cypress-toolkit from github...\n)
+	@git submodule update --init --remote --recursive
+	$(call step,Update npm packages\n)
+	@cd $(CYPRESS_DIR) && \
+	chmod u+x $(NVM_SH) && \
+	. $(NVM_SH) && nvm use $(NODE_VERSION) && \
+	node -v && \
+	npm update
+
+PHONY += cypress-open
+cypress-open: ## Update cypress
+	$(call step,Open Cypress UI...\n)
+	@cd $(CYPRESS_DIR) && \
+	. $(NVM_SH) && nvm use $(NODE_VERSION) && \
+	node -v && \
+	npx cypress open
+
+PHONY += cypress-run-tests
+cypress-run-tests: ## Run cypress tests
+ifeq ($(CYPRESS_SETUP), yes)
+	@cd $(CYPRESS_DIR) && \
+	. $(NVM_SH) && nvm use $(NODE_VERSION) && \
+	node -v \
+	ifeq ($(CYPRESS_LOCAL_CONFIG),yes)
+		@cd ../CYPRESS_LOCAL_DIR && \
+		cypress run --config-file ../tests/cypress/cypress.config.js
+	else
+		npx cypress run
+	endif
+endif
+
+PHONY += cypress-remove
+cypress-remove: ## Run cypress tests
+ifeq ($(CYPRESS_SETUP), yes)
+	@rm -fR $(CYPRESS_DIR)
 endif
