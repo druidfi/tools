@@ -1,0 +1,4 @@
+js-install PACKAGE_JSON_PATH=custom PACKAGE_JSON_EXISTS=yes NODE_VERSION=20 NODE_MANAGER=volta
+---
+printf "\n⭐ \033[0;33mRun 'yarn install --frozen-lockfile' with Node 20...\n\033[0m\n"
+volta run --node 20 yarn --cwd custom install --frozen-lockfile

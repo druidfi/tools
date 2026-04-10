@@ -1,4 +1,4 @@
-js-install JS_PACKAGE_MANAGER=npm PACKAGE_JSON_PATH=custom PACKAGE_JSON_EXISTS=yes NODE_VERSION=20 NVM=yes
+js-install JS_PACKAGE_MANAGER=npm PACKAGE_JSON_PATH=custom PACKAGE_JSON_EXISTS=yes NODE_VERSION=20 NODE_MANAGER=nvm
 ---
 printf "\n⭐ \033[0;33mRun 'npm install --no-audit --no-fund --engine-strict true' with Node 20...\n\033[0m\n"
 . __HOME__/.nvm/nvm.sh && (nvm which 20 > /dev/null 2>&1 || nvm install 20) && nvm exec 20 npm --prefix custom install --no-audit --no-fund --engine-strict true

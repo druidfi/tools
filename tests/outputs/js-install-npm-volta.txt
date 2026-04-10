@@ -1,0 +1,4 @@
+js-install JS_PACKAGE_MANAGER=npm PACKAGE_JSON_PATH=custom PACKAGE_JSON_EXISTS=yes NODE_VERSION=20 NODE_MANAGER=volta
+---
+printf "\n⭐ \033[0;33mRun 'npm install --no-audit --no-fund --engine-strict true' with Node 20...\n\033[0m\n"
+volta run --node 20 npm --prefix custom install --no-audit --no-fund --engine-strict true
