@@ -1,0 +1,4 @@
+js-install JS_PACKAGE_MANAGER=pnpm PACKAGE_JSON_PATH=custom PACKAGE_JSON_EXISTS=yes NODE_VERSION=20 NODE_MANAGER=volta
+---
+printf "\n⭐ \033[0;33mRun 'pnpm install --frozen-lockfile' with Volta...\n\033[0m\n"
+(cd custom && pnpm install --frozen-lockfile)
