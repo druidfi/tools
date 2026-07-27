@@ -1,5 +1,4 @@
-BUILD_TARGETS += js-install
-JS_PACKAGE_MANAGER ?= yarn
+JS_PACKAGE_MANAGER ?= pnpm
 JS_PACKAGE_MANAGER_CWD_FLAG_NPM ?= --prefix
 JS_PACKAGE_MANAGER_CWD_FLAG_YARN ?= --cwd
 JS_PACKAGE_MANAGER_CWD_FLAG_PNPM ?= --dir
@@ -20,6 +19,10 @@ else ifeq ($(NVM),yes)
   NODE_MANAGER ?= nvm
 else
   NODE_MANAGER ?= none
+endif
+
+ifneq ($(JS_PACKAGE_MANAGER),pnpm)
+BUILD_TARGETS += js-install
 endif
 
 PHONY += js-install
