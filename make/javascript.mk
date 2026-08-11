@@ -10,7 +10,7 @@ NODE_BIN := $(shell command -v node || echo no)
 NPM_BIN := $(shell command -v npm || echo no)
 YARN_BIN := $(shell command -v yarn || echo no)
 PNPM_BIN := $(shell command -v pnpm || echo no)
-NODE_VERSION ?= 16
+NODE_VERSION ?= 24
 
 # Auto-detect node manager: prefer Volta over NVM. Override with NODE_MANAGER=volta|nvm
 ifneq ($(VOLTA_BIN),no)
@@ -19,10 +19,6 @@ else ifeq ($(NVM),yes)
   NODE_MANAGER ?= nvm
 else
   NODE_MANAGER ?= none
-endif
-
-ifneq ($(JS_PACKAGE_MANAGER),pnpm)
-BUILD_TARGETS += js-install
 endif
 
 PHONY += js-install
