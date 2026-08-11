@@ -5,13 +5,18 @@ SSH_PRODUCTION ?= production.host
 
 PHONY += --get-current-build
 --get-current-build:
+	$(call step,Get current Build...)
 	$(eval BUILD := $(shell ssh $(SSH) "docker inspect -f '{{ index .Config.Labels \"gha.build\" }}' $(PROJECT)-$(INSTANCE)"))
+	$(call sub_step,Current Build is $(BUILD)\n)
 
 PHONY += --deploy
 --deploy: --get-current-build
-	BUILD=$(BUILD) op run --env-file="./.env.$(INSTANCE)" -- docker compose config
-	BUILD=$(BUILD) op run --env-file="./.env.$(INSTANCE)" -- docker compose up --wait --remove-orphans
-	ssh $(SSH) docker exec $(PROJECT)-$(INSTANCE) drush --ansi deploy
+	$(call step,Validate Docker Compose config...\n)
+	@BUILD=$(BUILD) op run --env-file="./.env.$(INSTANCE)" -- docker compose config
+	$(call step,Deploy Build $(BUILD) on $(INSTANCE)...\n)
+	@BUILD=$(BUILD) op run --env-file="./.env.$(INSTANCE)" -- docker compose up --wait --remove-orphans
+	$(call step,Run post-deploy tasks...\n)
+	@ssh $(SSH) docker exec $(PROJECT)-$(INSTANCE) drush --ansi deploy
 
 PHONY += deploy-testing
 deploy-testing: INSTANCE := test
