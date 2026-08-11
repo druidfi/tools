@@ -8,13 +8,15 @@ DRUPAL_DISABLE_MODULES ?= no
 DRUPAL_ENABLE_MODULES ?= no
 DRUPAL_PROFILE ?= minimal
 DRUPAL_SITE_EMAIL ?= maintenance@druid.fi
-DRUPAL_SYNC_FILES ?= yes
+DRUPAL_SYNC_FILES ?= no
 DRUPAL_SYNC_SOURCE ?= main
 DRUSH_RSYNC_MODE ?= Pakzu
 DRUSH_RSYNC_OPTS ?=  -- --omit-dir-times --no-perms --no-group --no-owner --chmod=ugo=rwX
 DRUSH_RSYNC_EXCLUDE ?= css:ctools:js:php:tmp:tmp_php
 SYNC_TARGETS += drush-sync
 SYNC_FROM_REMOTE ?= no
+DRUPAL_THEME_NAME ?= $(firstword $(notdir $(wildcard $(WEBROOT)/themes/custom/*)))
+DRUPAL_THEME_PATH := $(shell pwd)/$(WEBROOT)/themes/custom/$(DRUPAL_THEME_NAME)
 CS_EXTS := inc,php,module,install,profile,theme
 CS_STANDARD_PATHS := vendor/drupal/coder/coder_sniffer,vendor/slevomat/coding-standard
 CS_STANDARDS := Drupal,DrupalPractice
@@ -186,6 +188,16 @@ open-db-gui: ## Open database with GUI tool
 	$(eval DB_PASS ?= drupal)
 	@open mysql://$(DB_USER):$(DB_PASS)@$(shell docker compose port $(DB_SERVICE) 3306 | grep -v ::)/$(DB_NAME)
 
+PHONY += drupal-build-theme
+drupal-build-theme:
+	$(call step,Build theme $(DRUPAL_THEME_NAME)...\n)
+	@cd $(DRUPAL_THEME_PATH) && pnpm run build
+
+PHONY += drupal-watch-theme
+drupal-watch-theme:
+	$(call step,Watch theme $(DRUPAL_THEME_NAME)...\n)
+	@cd $(DRUPAL_THEME_PATH) && pnpm run dev
+
 PHONY += fix-drupal
 fix-drupal: PATHS := $(subst $(space),,$(LINT_PATHS_PHP))
 fix-drupal: ## Fix Drupal code style
@@ -197,12 +209,6 @@ lint-drupal: PATHS := $(subst $(space),,$(LINT_PATHS_PHP))
 lint-drupal: ## Lint Drupal code style
 	$(call step,Lint Drupal code style with phpcs...\n)
 	$(call cs,phpcs,$(PATHS))
-
-PHONY += mmfix
-mmfix: MODULE := MISSING_MODULE
-mmfix:
-	$(call step,Remove missing module '$(MODULE)'\n)
-	$(call drush,sql-query \"DELETE FROM key_value WHERE collection='system.schema' AND name='$(MODULE)';\",Module was removed)
 
 ifeq ($(RUN_ON),docker)
 define drush
