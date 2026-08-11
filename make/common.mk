@@ -1,27 +1,8 @@
-ARTIFACT_INCLUDE_EXISTS := $(shell test -f conf/artifact/include && echo yes || echo no)
-ARTIFACT_EXCLUDE_EXISTS := $(shell test -f conf/artifact/exclude && echo yes || echo no)
-ARTIFACT_CMD := tar -hczf artifact.tar.gz
 DUMP_SQL_FILENAME ?= dump.sql
 DUMP_SQL_EXISTS := $(shell test -f $(DUMP_SQL_FILENAME) && echo yes || echo no)
 SSH_OPTS ?= -o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
 CLEAN_EXCLUDE := .idea $(DUMP_SQL_FILENAME) .env.local
-
-ifeq ($(ARTIFACT_EXCLUDE_EXISTS),yes)
-	ARTIFACT_CMD := $(ARTIFACT_CMD) --exclude-from=conf/artifact/exclude
-endif
-
-ifeq ($(ARTIFACT_INCLUDE_EXISTS),yes)
-	ARTIFACT_CMD := $(ARTIFACT_CMD) --files-from=conf/artifact/include
-else
-	ARTIFACT_CMD := $(ARTIFACT_CMD) *
-endif
-
-PHONY += artifact
-# This command can always be run on host
-artifact: RUN_ON := host
-artifact: ## Make tar.gz package from the current build
-	$(call step,Create artifact...\n)
-	@$(ARTIFACT_CMD)
+PROJECT ?= myproject
 
 PHONY += build
 build: ## Build codebase(s)

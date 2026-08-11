@@ -1,4 +1,0 @@
-artifact
----
-printf "\n⭐ \033[0;33mCreate artifact...\n\033[0m\n"
-tar -hczf artifact.tar.gz *
