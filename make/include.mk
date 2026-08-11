@@ -35,15 +35,20 @@ endif
 # Hosting systems
 #
 
+DRUID_CLOUD ?= $(shell test -f compose.live.yaml && echo yes || echo no)
 LAGOON ?= $(shell test -f .lagoon.yml && echo yes || echo no)
 
-ifeq ($(LAGOON),yes)
+ifeq ($(DRUID_CLOUD),yes)
+	SYSTEM := DRUID_CLOUD
+else ifeq ($(LAGOON),yes)
 	SYSTEM := LAGOON
 else
 	SYSTEM := WHOKNOWS
 endif
 
-ifeq ($(SYSTEM),LAGOON)
+ifeq ($(SYSTEM),DRUID_CLOUD)
+include $(DRUIDFI_TOOLS_MAKE_DIR)druid_cloud.mk
+else ifeq ($(SYSTEM),LAGOON)
 include $(DRUIDFI_TOOLS_MAKE_DIR)lagoon.mk
 endif
 

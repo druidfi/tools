@@ -1,0 +1,45 @@
+SSH_USER ?= deployment
+SSH_TESTING ?= testing.host
+SSH_STAGING ?= staging.host
+SSH_PRODUCTION ?= production.host
+
+PHONY += --get-current-build
+--get-current-build:
+	$(eval BUILD := $(shell ssh $(SSH) "docker inspect -f '{{ index .Config.Labels \"gha.build\" }}' $(PROJECT)-$(INSTANCE)"))
+
+PHONY += --deploy
+--deploy: --get-current-build
+	BUILD=$(BUILD) op run --env-file="./.env.$(INSTANCE)" -- docker compose config
+	BUILD=$(BUILD) op run --env-file="./.env.$(INSTANCE)" -- docker compose up --wait --remove-orphans
+	ssh $(SSH) docker exec $(PROJECT)-$(INSTANCE) drush --ansi deploy
+
+PHONY += deploy-testing
+deploy-testing: INSTANCE := test
+deploy-testing: SSH := $(SSH_TESTING)
+deploy-testing: --deploy ## Deploy to Testing
+
+PHONY += deploy-staging
+deploy-staging: INSTANCE := stg
+deploy-staging: SSH := $(SSH_STAGING)
+deploy-staging: --deploy ## Deploy to Staging
+
+PHONY += deploy-production
+deploy-production: INSTANCE := prod
+deploy-production: SSH := $(SSH_PRODUCTION)
+deploy-production: --deploy ## Deploy to Production
+
+PHONY += --shell-remote
+--shell-remote:
+	@ssh $(SSH)
+
+PHONY += shell-testing
+shell-testing: SSH := $(SSH_TESTING)
+shell-testing: --shell-remote ## Shell into Testing
+
+PHONY += shell-staging
+shell-staging: SSH := $(SSH_STAGING)
+shell-staging: --shell-remote ## Shell into Staging
+
+PHONY += shell-production
+shell-production: SSH := $(SSH_PRODUCTION)
+shell-production: --shell-remote ## Shell into Production

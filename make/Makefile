@@ -34,6 +34,7 @@ debug: ## Show debug information
 	$(call dbg,COMPOSER_JSON_EXISTS,${COMPOSER_JSON_EXISTS})
 	$(call dbg,IS_DRUPAL,${IS_DRUPAL})
 	$(call dbg,IS_SYMFONY,${IS_SYMFONY})
+	$(call dbg,DRUID_CLOUD,${DRUID_CLOUD})
 	$(call dbg,LAGOON,${LAGOON})
 	$(call dbg,SYSTEM,${SYSTEM})
 	$(call dbg,WEBROOT,${WEBROOT})

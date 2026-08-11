@@ -37,6 +37,7 @@ declare -a files=(
   "qa.mk"
   "kubectl.mk"
   "ansible.mk"
+  "druid_cloud.mk"
 )
 
 declare -a remove_files=(
