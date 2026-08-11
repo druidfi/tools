@@ -15,17 +15,17 @@ PHONY += --deploy
 
 PHONY += deploy-testing
 deploy-testing: INSTANCE := test
-deploy-testing: SSH := $(SSH_TESTING)
+deploy-testing: SSH := $(SSH_USER)@$(SSH_TESTING)
 deploy-testing: --deploy ## Deploy to Testing
 
 PHONY += deploy-staging
 deploy-staging: INSTANCE := stg
-deploy-staging: SSH := $(SSH_STAGING)
+deploy-staging: SSH := $(SSH_USER)@$(SSH_STAGING)
 deploy-staging: --deploy ## Deploy to Staging
 
 PHONY += deploy-production
 deploy-production: INSTANCE := prod
-deploy-production: SSH := $(SSH_PRODUCTION)
+deploy-production: SSH := $(SSH_USER)@$(SSH_PRODUCTION)
 deploy-production: --deploy ## Deploy to Production
 
 PHONY += --shell-remote
@@ -33,13 +33,13 @@ PHONY += --shell-remote
 	@ssh $(SSH)
 
 PHONY += shell-testing
-shell-testing: SSH := $(SSH_TESTING)
+shell-testing: SSH := $(SSH_USER)@$(SSH_TESTING)
 shell-testing: --shell-remote ## Shell into Testing
 
 PHONY += shell-staging
-shell-staging: SSH := $(SSH_STAGING)
+shell-staging: SSH := $(SSH_USER)@$(SSH_STAGING)
 shell-staging: --shell-remote ## Shell into Staging
 
 PHONY += shell-production
-shell-production: SSH := $(SSH_PRODUCTION)
+shell-production: SSH := $(SSH_USER)@$(SSH_PRODUCTION)
 shell-production: --shell-remote ## Shell into Production
