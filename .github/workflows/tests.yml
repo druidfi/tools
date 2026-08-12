@@ -1,9 +1,19 @@
 name: Tests
 
-on: [push]
+on:
+  push:
+    paths:
+      - 'make/**'
+      - 'tests/**'
+      - 'update.sh'
+      - '.github/workflows/tests.yml'
 
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
 
