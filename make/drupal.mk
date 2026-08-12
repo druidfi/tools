@@ -210,12 +210,6 @@ lint-drupal: ## Lint Drupal code style
 	$(call step,Lint Drupal code style with phpcs...\n)
 	$(call cs,phpcs,$(PATHS))
 
-ifeq ($(RUN_ON),docker)
 define drush
 	$(call docker_compose_exec,drush $(1),$(2))
 endef
-else
-define drush
-	@drush $(1)
-endef
-endif

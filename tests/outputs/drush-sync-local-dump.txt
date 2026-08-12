@@ -1,4 +1,4 @@
-drush-sync IS_DRUPAL=yes DUMP_SQL_EXISTS=yes RUN_ON=docker
+drush-sync IS_DRUPAL=yes DUMP_SQL_EXISTS=yes
 ---
 docker compose exec app sh -c "drush sql-drop --quiet -y"
 printf "\n⭐ \033[0;33mImport local SQL dump...\033[0m\n"

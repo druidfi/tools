@@ -50,11 +50,13 @@ case:
 | `qa.mk` | always |
 | `kubectl.mk` | **never automatic** — must be included explicitly, see [COMMANDS.md](COMMANDS.md#kubernetes-makekubectlmk-opt-in--not-auto-loaded) |
 
-`RUN_ON` (`docker` vs `host`) is similarly auto-detected in `docker.mk`: `docker`
-when a `compose.yaml` exists and you're not already running inside a container
-(`/.dockerenv` present), `host` otherwise. Every wrapped tool call (`drush`,
-`composer`, `bin/console`, php-cs-fixer, phpcs) branches on `RUN_ON` so the same
-`make` target works both inside and outside the container.
+Commands are meant to run from outside the app container only. `make/Makefile`
+checks `DOCKER_ENV` (`/.dockerenv` present) before anything else loads — if
+you're already inside the container, `make` aborts immediately with
+`Run these commands outside Docker container`, for every target, not just the
+Docker-wrapped ones. Otherwise every wrapped tool call (`drush`, `composer`,
+`bin/console`, php-cs-fixer, phpcs) execs into the container via
+`docker compose exec`.
 
 Any of the detection variables (`IS_DRUPAL`, `IS_SYMFONY`, `HAS_ANSIBLE`,
 `DRUID_CLOUD`, `LAGOON`, `COMPOSER_JSON_EXISTS`, `PACKAGE_JSON_EXISTS`) can be
@@ -69,7 +71,6 @@ Run `make debug` to print the resolved values for the current project.
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `RUN_ON` | auto | `docker` or `host` |
 | `WEBROOT` | `public` | Web root directory |
 | `COMPOSER_JSON_PATH` | `.` | Where `composer.json` lives |
 | `PACKAGE_JSON_PATH` | `.` | Where `package.json` lives |

@@ -61,15 +61,9 @@ PHONY += update-symfony-docker
 update-symfony-docker: ## Update Symfony Docker files from upstream
 	@curl -sSL https://raw.githubusercontent.com/druidfi/tools/main/scripts/symfony/update.sh | sh -s
 
-ifeq ($(RUN_ON),docker)
 define sf_console
 	$(call docker_compose_exec,bin/console $(1))
 endef
-else
-define sf_console
-	@bin/console $(1)
-endef
-endif
 
 ifeq ($(CS_FIXER_INSTALLED),yes)
 define cs_symfony

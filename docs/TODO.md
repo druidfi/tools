@@ -4,62 +4,13 @@ Living list of known bugs, inconsistencies, and refactoring ideas found while
 working on this framework. Not prioritized against a roadmap — pick up
 whatever's relevant when touching that area.
 
-## Planned: drop `RUN_ON` / host-execution support
-
-Commands are meant to run outside the app container only. `RUN_ON`
-(host-vs-docker dual-path execution) earns its weight nowhere near what it
-costs in lines/branches across the framework. Replace it with one check: are
-we inside the container right now? If yes, print
-`Run these commands outside Docker container` and stop. If no, always exec
-into the container — no more "host" branch.
-
-**Touch points** (every `ifeq ($(RUN_ON),docker)` / host-else pair):
-
-- `make/Makefile` — drop `RUN_ON := host` default var.
-- `make/docker.mk`:
-  - Remove `RUN_ON` autodetection block (`DOCKER_ENV` sets `RUN_ON`,
-    `DOCKER_COMPOSE_YML_EXISTS` sets `RUN_ON`). Keep `DOCKER_ENV` itself
-    (`test -f /.dockerenv`) — it's the one check we keep.
-  - `shell` target: replace the `ifeq ($(RUN_ON),docker)` / else-warn pair
-    with `ifeq ($(DOCKER_ENV),yes)` → warn + stop, else exec.
-  - `docker_compose_exec` macro: same collapse — single definition, guarded
-    by `DOCKER_ENV`, no host fallback branch (drop the `@$(1) && echo $(2)`
-    direct-execution branch entirely).
-  - `docker_compose` macro: same collapse for `up`/`down`/`ps`/`stop`/`pull`/
-    `config`.
-  - `docker` macro (lines ~62-69): dead code already — grepped, nothing
-    calls `$(call docker,...)` anywhere in the framework. Delete outright,
-    don't bother collapsing it.
-- `make/composer.mk` — `composer` macro: drop the `ifeq ($(RUN_ON),docker)`
-  branch, keep only the `docker_compose_exec` version.
-- `make/drupal.mk` — `drush` macro: same collapse.
-- `make/symfony.mk` — `sf_console` macro: same collapse.
-- `make/qa.mk` — `cs` and `test-phpunit` already call `docker_compose_exec`
-  unconditionally (no `RUN_ON` branch of their own) — no change needed there
-  beyond whatever `docker_compose_exec` becomes.
-
-**Net result:** one variable removed (`RUN_ON`), one message
-(`Run these commands outside Docker container`) instead of scattered
-`$(DOCKER_WARNING_INSIDE)` / silent host-exec branches, and every wrapped
-macro (`composer`, `drush`, `sf_console`, `docker_compose_exec`,
-`docker_compose`) drops from two `ifeq` branches to one unconditional body.
-`docs/CONFIGURATION.md` and `docs/COMMANDS.md` need the `RUN_ON` references
-removed once this lands.
-
-**Watch for:** `make/qa.mk`'s `test-phpunit` branches on `CI=true` to run
-`vendor/bin/phpunit` directly on the runner instead of through Docker — that
-stays as-is, it's a separate concern from `RUN_ON` (CI runners aren't "inside
-the app container" in the sense this refactor cares about).
-
 ## Planned: QA total refactor
 
 `make/qa.mk` (`lint`, `lint-php`, `lint-js`, `fix`, `test`, `test-phpunit`,
 `test-phpunit-locally`, the `cs`/`test_result` macros) needs a ground-up
 rework — no detailed shape yet, flagging it so nobody invests in the current
 structure. Related known issues to fold in when this starts: the `lint-js`
-wrong-variable bug and `test-phpunit-locally` `PHONY`/help gaps listed below,
-plus whatever falls out of the `RUN_ON` removal above (`cs` and `test-phpunit`
-both call `docker_compose_exec`).
+wrong-variable bug and `test-phpunit-locally` `PHONY`/help gaps listed below.
 
 ## Planned: `V=1` verbose mode to show suppressed commands
 

@@ -34,10 +34,9 @@ From `make/common.mk` and `make/utils.mk`.
 | `make shell` | Log in to the CLI container (`CLI_SERVICE`, `CLI_SHELL`) |
 | `make ssh-check` | Check SSH keys forwarded into the CLI container |
 
-`RUN_ON` is auto-detected: `docker` when a `compose.yaml` exists and you're not
-already inside a container, `host` otherwise. Commands like `drush`, `composer`,
-`bin/console` transparently run inside the container or on the host depending
-on this.
+Every wrapped tool call (`drush`, `composer`, `bin/console`, php-cs-fixer,
+phpcs) always execs into the container. `make` itself refuses to run at all
+from inside the container — see [CONFIGURATION.md](CONFIGURATION.md#auto-detection--conditional-loading).
 
 ## Drupal (`make/drupal.mk`, loaded when `<WEBROOT>/sites/default/settings.php` exists)
 

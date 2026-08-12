@@ -4,11 +4,16 @@ BUILD_TARGETS :=
 COMPOSER_JSON_PATH ?= .
 DRUIDFI_TOOLS_MAKE_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 PACKAGE_JSON_PATH ?= .
-RUN_ON := host
 UNAME_S := $(shell uname -s)
 # Shorten with https://git.io/ : https://raw.githubusercontent.com/druidfi/tools/main/update.sh
 UPDATE_SCRIPT_URL := https://git.io/JP10q
 WEBROOT ?= public
+
+DOCKER_ENV := $(shell test -f /.dockerenv && echo yes || echo no)
+
+ifeq ($(DOCKER_ENV),yes)
+$(error Run these commands outside Docker container)
+endif
 
 include $(DRUIDFI_TOOLS_MAKE_DIR)utils.mk
 
@@ -26,7 +31,6 @@ debug: ## Show debug information
 	$(call dbg,CLI_SHELL,${CLI_SHELL})
 	$(call dbg,PHP on host,$(call has,php))
 	$(call dbg,PHP_BIN,$(shell command -v php || echo no))
-	$(call dbg,RUN_ON,${RUN_ON})
 	$(call dbg,Composer on host,$(call has,composer))
 	$(call dbg,COMPOSER_BIN,$(shell command -v composer || echo no))
 	$(call dbg,COMPOSER_JSON_EXISTS,${COMPOSER_JSON_EXISTS})
@@ -37,9 +41,4 @@ debug: ## Show debug information
 	$(call dbg,SYSTEM,${SYSTEM})
 	$(call dbg,WEBROOT,${WEBROOT})
 	$(call dbg,UNAME_S,${UNAME_S})
-ifeq ($(RUN_ON),docker)
-	@printf "\n${YELLOW}Assumption: We should run on Docker and not on host${NO_COLOR}\n"
-else
-	@printf "\n${YELLOW}Assumption: We should run on host and not on Docker${NO_COLOR}\n"
-endif
 	@printf "\n${GREEN}End of debug.${NO_COLOR}\n"

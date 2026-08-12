@@ -1,4 +1,4 @@
 drush-uli IS_DRUPAL=yes DRUPAL_UID=123
 ---
 printf "\n⭐ \033[0;33mLogin to your site with:\n\033[0m\n"
-drush uli --uid=123 admin/reports/status
+docker compose exec app sh -c "drush uli --uid=123 admin/reports/status"

@@ -20,12 +20,6 @@ composer-outdated: ## Show outdated Composer packages
 	$(call step,Show outdated Composer packages...\n)
 	$(call composer,outdated --direct)
 
-ifeq ($(RUN_ON),docker)
 define composer
 	$(call docker_compose_exec,composer --ansi$(if $(filter $(COMPOSER_JSON_PATH),.),, --working-dir=$(COMPOSER_JSON_PATH)) $(1))
 endef
-else
-define composer
-	@composer --ansi$(if $(filter $(COMPOSER_JSON_PATH),.),, --working-dir=$(COMPOSER_JSON_PATH)) $(1)
-endef
-endif
