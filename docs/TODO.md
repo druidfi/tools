@@ -61,6 +61,49 @@ wrong-variable bug and `test-phpunit-locally` `PHONY`/help gaps listed below,
 plus whatever falls out of the `RUN_ON` removal above (`cs` and `test-phpunit`
 both call `docker_compose_exec`).
 
+## Planned: drop common `shell-%` in favor of hosting-specific shell targets
+
+`make/common.mk` carries a generic `shell-%` pattern target (`OPTS`/`USER`/
+`HOST`/`EXTRA` pulled from `INSTANCE_$*_OPTS`/`_USER`/`_HOST`/`_EXTRA`) plus
+the shared `SSH_OPTS` default, meant as a hosting-agnostic "shell into a named
+remote instance" primitive. In practice only `lagoon.mk` feeds it
+(`INSTANCE_prod_*`, `INSTANCE_test_*` → `make shell-prod`, `make shell-test`).
+`druid_cloud.mk` never uses it — it already defines its own concrete
+`shell-testing`/`shell-staging`/`shell-production` targets via a private
+`--shell-remote` target and `SSH_USER`/`SSH_TESTING`/`SSH_STAGING`/
+`SSH_PRODUCTION`. Two mechanisms doing the same job, one of them abstracted
+for a single caller — collapse to one per hosting system.
+
+**Plan:**
+
+- `make/common.mk` — delete the `shell-%` pattern target. Decide whether
+  `SSH_OPTS` moves to `lagoon.mk` (its only real consumer) or gets dropped in
+  favor of Lagoon defining its own SSH flags inline like Druid Cloud does.
+- `make/lagoon.mk` — replace `INSTANCE_prod_*`/`INSTANCE_test_*` +
+  `shell-%` with concrete `shell-prod`/`shell-test` targets, mirroring the
+  `druid_cloud.mk` `--shell-remote` pattern (private helper target + two
+  public targets setting `SSH`/user/host per environment).
+
+  Lagoon SSH user is `<project>-<branch>`, e.g. `taitoliitto-arvi-master` for
+  prod (`master` branch). Current `INSTANCE_prod_USER ?= project-name-branch`
+  is a literal placeholder string, not a template — every consuming project
+  has to override the whole user string per environment today. The concrete
+  targets should build it from parts instead: existing `PROJECT` var (already
+  in `common.mk`, default `myproject`) + a per-environment branch var (e.g.
+  `LAGOON_PROD_BRANCH ?= master`, `LAGOON_TEST_BRANCH`), so
+  `USER := $(PROJECT)-$(LAGOON_PROD_BRANCH)` — one var to override
+  (`PROJECT`) instead of the whole user string, and the branch convention is
+  visible instead of buried in a placeholder default.
+- `make/druid_cloud.mk` — no change; already hosting-specific.
+
+**Docs to update once this lands:** `docs/COMMANDS.md` (`shell-<name>` row
+under Core, Lagoon section's targets), `docs/CONFIGURATION.md` (`SSH_OPTS`,
+`INSTANCE_*` references).
+
+**Watch for:** any consumer project overriding `INSTANCE_*_*` directly in
+`override.mk`/`.env` for Lagoon — those need to move to whatever concrete
+target/vars replace them.
+
 ## Bugs
 
 - **`DOCKER_COMPOSE_YML_PATH` override is dead.** `make/docker.mk` `docker_compose`
