@@ -19,6 +19,12 @@ Download oneliner (source is [update.sh](update.sh)):
 bash -c "$(curl -fsSL -H 'Cache-Control: no-cache' https://git.io/JP10q)"
 ```
 
+## Documentation
+
+- [docs/COMMANDS.md](docs/COMMANDS.md) — full `make` command reference, grouped by feature (Docker, Drupal, Symfony, Composer, JavaScript, QA, Ansible, Druid Cloud, Lagoon, Kubernetes)
+- [docs/CONFIGURATION.md](docs/CONFIGURATION.md) — how loading/auto-detection works, all configuration variables, and how to override or extend the framework in your project
+- [docs/TODO.md](docs/TODO.md) — known bugs, inconsistencies, and refactoring ideas
+
 ## Project specific
 
 Makefiles: you can add project specific Make files to `tools/make/project`.
@@ -26,6 +32,9 @@ Makefiles: you can add project specific Make files to `tools/make/project`.
 See the example below to see how they are loaded with:
 
 `-include $(PROJECT_DIR)/tools/make/project/*.mk`.
+
+See [docs/CONFIGURATION.md](docs/CONFIGURATION.md#extending-with-project-specific-make-files)
+for how to add new targets or hook into composite targets like `build`/`test`/`lint`/`fix`/`sync`.
 
 ### Override variables
 
@@ -40,7 +49,13 @@ CLI_USER := druid
 DOCKER_PROJECT_ROOT := /app
 ```
 
+Full variable reference: [docs/CONFIGURATION.md](docs/CONFIGURATION.md#key-variables).
+
 ## Default commands
+
+Always-available commands only — see [docs/COMMANDS.md](docs/COMMANDS.md) for
+the complete list, including Docker, Drupal, Symfony, and hosting-specific
+commands that load automatically based on project type.
 
 | Command                   | Description                                                               |
 |---------------------------|---------------------------------------------------------------------------|

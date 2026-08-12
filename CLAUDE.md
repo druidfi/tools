@@ -8,6 +8,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 PHP/Node projects. The same command (e.g., `make build`, `make shell`) works whether the developer is inside Docker or
 on the host — the framework detects the environment automatically.
 
+End-user-facing docs (full command list, all config variables, how to override/extend in a consuming project) live in
+[docs/COMMANDS.md](docs/COMMANDS.md) and [docs/CONFIGURATION.md](docs/CONFIGURATION.md), linked from the root README.
+Keep those in sync when adding/changing targets or variables here.
+
 ## Repository Commands
 
 ```bash
@@ -47,9 +51,11 @@ include $(PROJECT_DIR)/tools/make/Makefile
    - `drupal.mk` — if `$(WEBROOT)/sites/default/settings.php` exists
    - `symfony.mk` — if `config/bundles.php` exists
    - `ansible.mk` — if `ansible/` directory exists
-   - `lagoon.mk` — if `.lagoon.yml` exists
+   - `druid_cloud.mk` — if `compose.live.yaml` exists
+   - `lagoon.mk` — if `.lagoon.yml` exists (checked only when `compose.live.yaml` is absent)
    - `composer.mk` — if `composer.json` exists
    - `javascript.mk` — if `package.json` exists
+   - `kubectl.mk` — **not** auto-included; opt-in only, see `docs/CONFIGURATION.md`
 
 ### Variable Override Hierarchy
 
