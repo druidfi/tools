@@ -1,6 +1,5 @@
 DUMP_SQL_FILENAME ?= dump.sql
 DUMP_SQL_EXISTS := $(shell test -f $(DUMP_SQL_FILENAME) && echo yes || echo no)
-SSH_OPTS ?= -o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
 CLEAN_EXCLUDE := .idea $(DUMP_SQL_FILENAME) .env.local
 PROJECT ?= myproject
 
@@ -19,14 +18,6 @@ PHONY += self-update
 self-update: ## Self-update makefiles from druidfi/tools
 	$(call step,Update makefiles from druidfi/tools\n)
 	@bash -c "$$(curl -fsSL $(UPDATE_SCRIPT_URL))"
-
-PHONY += shell-%
-shell-%: OPTS = $(INSTANCE_$*_OPTS)
-shell-%: USER = $(INSTANCE_$*_USER)
-shell-%: HOST = $(INSTANCE_$*_HOST)
-shell-%: EXTRA = $(INSTANCE_$*_EXTRA)
-shell-%: ## Login to remote instance
-	ssh $(OPTS) $(USER)@$(HOST) $(EXTRA)
 
 PHONY += sync
 sync: ## Sync data from other environments

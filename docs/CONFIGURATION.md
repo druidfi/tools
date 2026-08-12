@@ -76,7 +76,6 @@ Run `make debug` to print the resolved values for the current project.
 | `PROJECT` | `myproject` | Project identifier, used in remote build lookups |
 | `DUMP_SQL_FILENAME` | `dump.sql` | Local DB dump filename |
 | `CLEAN_EXCLUDE` | `.idea $(DUMP_SQL_FILENAME) .env.local` | Paths `make clean` should not remove |
-| `SSH_OPTS` | lenient SSH options | Used by `shell-<name>` and Druid Cloud deploy targets |
 | `UPDATE_SCRIPT_URL` | druidfi/tools `update.sh` | Where `make self-update` pulls from |
 
 ### Docker (`make/docker.mk`)
@@ -150,7 +149,9 @@ Run `make debug` to print the resolved values for the current project.
 |---|---|
 | `LAGOON_PROJECT` | Lagoon project name used by `lagoon` CLI calls |
 | `LAGOON_SECRETS` | Space-separated list of variable names to push with `set-lagoon-secrets-<env>` (values read from `.env.local.lagoon`) |
-| `INSTANCE_prod_*`, `INSTANCE_test_*` | Host/user/opts for `shell-<name>` |
+| `SSH_OPTS` | lenient SSH options | Base SSH flags, extended with Lagoon's port/tty flags |
+| `LAGOON_SSH_HOST` | `ssh.lagoon.amazeeio.cloud` | SSH host for `shell-prod`/`shell-test` |
+| `LAGOON_PROD_BRANCH` / `LAGOON_TEST_BRANCH` | `main` / `dev` | Branch name used to build the Lagoon SSH user: `$(PROJECT)-<branch>`. Older projects use `master` for prod — override in `override.mk` |
 
 ### Kubernetes (`make/kubectl.mk`, opt-in)
 

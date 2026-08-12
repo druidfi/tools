@@ -19,7 +19,6 @@ From `make/common.mk` and `make/utils.mk`.
 | `make self-update` | Re-download the `tools/make/*` framework files from druidfi/tools |
 | `make sync` | Sync data from other environments, runs `SYNC_TARGETS` |
 | `make gh-download-dump` | Download a DB dump from GitHub Actions artifacts (`gh run download`) |
-| `make shell-<name>` | SSH into a configured remote instance (`INSTANCE_<name>_*` vars) |
 | `make lt` | Open a localtunnel (`npm install -g localtunnel` required) |
 
 ## Docker (`make/docker.mk`, loaded when the `docker` binary exists)
@@ -146,6 +145,7 @@ Requires the 1Password CLI (`op`) and SSH access; hosts/user configured via
 | `make deploy-lagoon-<branch>` | `lagoon deploy branch -b <branch>` |
 | `make set-lagoon-secrets-<env>` | Push `LAGOON_SECRETS` (read from `.env.local.lagoon`) to environment `<env>` |
 | `make list-lagoon-vars-<env>` | List Lagoon variables for environment `<env>` |
+| `make shell-prod` / `make shell-test` | SSH into the Lagoon prod/test environment (`PROJECT`-`LAGOON_PROD_BRANCH`/`LAGOON_TEST_BRANCH` as SSH user) |
 
 When Lagoon is detected, `SYNC_FROM_REMOTE` defaults to `yes` and Drupal sync
 targets pull from Lagoon automatically.
