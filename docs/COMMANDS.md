@@ -14,10 +14,7 @@ From `make/common.mk` and `make/utils.mk`.
 |---|---|
 | `make help` | List all make commands |
 | `make debug` | Show detected environment and variables |
-| `make build` | Build codebase(s) for `ENV` (default `dev`), runs `BUILD_TARGETS` |
-| `make build-dev` | Alias for `build` |
-| `make build-testing` | `build` with `ENV=testing` |
-| `make build-production` | `build` with `ENV=production` |
+| `make build` | Build codebase(s), runs `BUILD_TARGETS` |
 | `make clean` | Remove `vendor/` and git-clean untracked files (see `CLEAN_EXCLUDE`) |
 | `make self-update` | Re-download the `tools/make/*` framework files from druidfi/tools |
 | `make sync` | Sync data from other environments, runs `SYNC_TARGETS` |
@@ -90,7 +87,7 @@ on this.
 
 | Command | Description |
 |---|---|
-| `make composer-install` | Install packages (adds `--no-dev --optimize-autoloader --prefer-dist` when `ENV=production`) |
+| `make composer-install` | Install packages |
 | `make composer-update` | Update packages |
 | `make composer-outdated` | Show outdated direct dependencies |
 | `make composer-info` | `composer info` |

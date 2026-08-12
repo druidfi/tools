@@ -6,19 +6,8 @@ PROJECT ?= myproject
 
 PHONY += build
 build: ## Build codebase(s)
-	$(call group_step,Build ($(ENV)):${NO_COLOR} $(BUILD_TARGETS))
-	@$(MAKE) $(BUILD_TARGETS) ENV=$(ENV)
-
-PHONY += build-dev
-build-dev: build
-
-PHONY += build-testing
-build-testing:
-	@$(MAKE) build ENV=testing
-
-PHONY += build-production
-build-production:
-	@$(MAKE) build ENV=production
+	$(call group_step,Build:${NO_COLOR} $(BUILD_TARGETS))
+	@$(MAKE) $(BUILD_TARGETS)
 
 PHONY += clean
 clean: ## Cleanup
@@ -42,7 +31,7 @@ shell-%: ## Login to remote instance
 PHONY += sync
 sync: ## Sync data from other environments
 	$(call group_step,Sync:$(NO_COLOR) $(SYNC_TARGETS))
-	@$(MAKE) $(SYNC_TARGETS) ENV=$(ENV)
+	@$(MAKE) $(SYNC_TARGETS)
 
 PHONY += gh-download-dump
 gh-download-dump: GH_FLAGS += $(if $(GH_ARTIFACT),-n $(GH_ARTIFACT),-n latest-dump)

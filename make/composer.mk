@@ -1,5 +1,4 @@
 BUILD_TARGETS += composer-install
-COMPOSER_PROD_FLAGS := --no-dev --optimize-autoloader --prefer-dist
 
 PHONY += composer-info
 composer-info: ## Composer info
@@ -14,7 +13,7 @@ composer-update: ## Update Composer packages
 PHONY += composer-install
 composer-install: ## Install Composer packages
 	$(call step,Do Composer install...\n)
-	$(call composer,install$(if $(filter production,$(ENV)), $(COMPOSER_PROD_FLAGS),))
+	$(call composer,install)
 
 PHONY += composer-outdated
 composer-outdated: ## Show outdated Composer packages

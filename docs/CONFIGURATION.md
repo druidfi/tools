@@ -26,7 +26,7 @@ include $(PROJECT_DIR)/tools/make/Makefile              # 3. the framework itsel
 Later steps win. This gives four ways to customize behavior, from lightest to
 heaviest:
 
-1. **`.env` / `.env.local`** — plain `KEY=value` pairs, e.g. `ENV=production`. `.env.local` is meant to be gitignored, for machine-local values.
+1. **`.env` / `.env.local`** — plain `KEY=value` pairs, e.g. `WEBROOT=web`. `.env.local` is meant to be gitignored, for machine-local values.
 2. **`tools/make/override.mk`** — override any variable the framework or its feature files set (see below).
 3. **`tools/make/project/*.mk`** — add wholly new targets, or hook into existing composite targets (`BUILD_TARGETS`, `TEST_TARGETS`, etc).
 4. **A project-specific root `CLAUDE.md`** — not a runtime mechanism, but where you document *why* 1–3 were used, per the harmonization guidance in the monorepo root `CLAUDE.md`.
@@ -69,7 +69,6 @@ Run `make debug` to print the resolved values for the current project.
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `ENV` | `dev` | Build environment; passed through to `make build`, affects Composer flags |
 | `RUN_ON` | auto | `docker` or `host` |
 | `WEBROOT` | `public` | Web root directory |
 | `COMPOSER_JSON_PATH` | `.` | Where `composer.json` lives |
@@ -173,7 +172,7 @@ KUBECTL_NAMESPACE := my-project-prod
 ```
 
 For values that differ per developer machine rather than per project, prefer
-`.env.local` (gitignored) instead — e.g. a personal `GH_REPO` or `ENV` default.
+`.env.local` (gitignored) instead — e.g. a personal `GH_REPO` default.
 
 ## Extending with project-specific make files
 

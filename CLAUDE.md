@@ -73,7 +73,6 @@ From lowest to highest precedence:
 | `CLI_SERVICE` | Docker service for `make shell` | `app` |
 | `DOCKER_PROJECT_ROOT` | Working dir inside container | `/app` |
 | `WEBROOT` | Web root directory | `public` |
-| `ENV` | Build environment | `dev` |
 | `IS_DRUPAL` / `IS_SYMFONY` | Type detection flags | auto |
 
 ### PHONY Accumulator Pattern

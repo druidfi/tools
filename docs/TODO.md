@@ -51,41 +51,6 @@ removed once this lands.
 stays as-is, it's a separate concern from `RUN_ON` (CI runners aren't "inside
 the app container" in the sense this refactor cares about).
 
-## Planned: drop `ENV`-specific builds
-
-`ENV` (`dev`/`testing`/`production`) dates from when the same repo was cloned
-onto local, testing, and production hosts and `make build ENV=$env` picked the
-build flavor per host. Not needed here — collapse to one build.
-
-**Touch points:**
-
-- `make/Makefile` — drop `ENV := dev` default var.
-- `make/common.mk`:
-  - `build` target: drop `ENV=$(ENV)` from the `group_step` message and the
-    recursive `$(MAKE) $(BUILD_TARGETS)` call.
-  - `build-dev` / `build-testing` / `build-production` targets: delete all
-    three, only plain `build` remains.
-  - `sync` target: drop `ENV=$(ENV)` from the recursive `$(MAKE)
-    $(SYNC_TARGETS)` call — `ENV` isn't used by any current `SYNC_TARGETS`
-    member (`drush-sync` and friends in `drupal.mk` don't branch on it).
-- `make/composer.mk` — `composer-install`: drop the
-  `$(if $(filter production,$(ENV)), $(COMPOSER_PROD_FLAGS),)` branch. Decide
-  separately whether `COMPOSER_PROD_FLAGS`
-  (`--no-dev --optimize-autoloader --prefer-dist`) should become the
-  permanent default, a dedicated `composer-install-prod` target, or get
-  dropped — whichever it is, `composer-install` no longer varies by `ENV`.
-
-**Docs to update once this lands:** `README.md` (`make build ENV=production`
-row), `docs/COMMANDS.md` (`build`/`build-dev`/`build-testing`/
-`build-production` rows, `composer-install` row), `docs/CONFIGURATION.md`
-(`ENV` variable row and the `.env`/`ENV=production` example), and this repo's
-`CLAUDE.md` (`ENV` in the key-variables table).
-
-**Watch for:** any `tools/make/project/*.mk` files in consumer projects that
-call `make build ENV=...` or branch their own `BUILD_TARGETS` steps on `ENV`
-— those break silently once the var stops being threaded through. Worth a
-grep across the monorepo before landing this.
-
 ## Bugs
 
 - **`DOCKER_COMPOSE_YML_PATH` override is dead.** `make/docker.mk` `docker_compose`

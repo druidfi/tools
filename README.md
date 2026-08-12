@@ -59,8 +59,7 @@ commands that load automatically based on project type.
 
 | Command                   | Description                                                               |
 |---------------------------|---------------------------------------------------------------------------|
-| make build                | Build for dev env                                                         |
-| make build ENV=production | Build for specified env                                                   |
+| make build                | Build codebase(s)                                                         |
 | make debug                | Show debug information                                                    |
 | make down                 | Tear down the environment                                                 |
 | make help                 | List all make commands                                                    |

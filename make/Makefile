@@ -3,7 +3,6 @@
 BUILD_TARGETS :=
 COMPOSER_JSON_PATH ?= .
 DRUIDFI_TOOLS_MAKE_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
-ENV := dev
 PACKAGE_JSON_PATH ?= .
 RUN_ON := host
 UNAME_S := $(shell uname -s)
@@ -25,7 +24,6 @@ debug: ## Show debug information
 	$(call dbg,CLI_SERVICE,$(CLI_SERVICE))
 	$(call dbg,CLI_USER,$(if $(CLI_USER),$(CLI_USER),default user from CLI image))
 	$(call dbg,CLI_SHELL,${CLI_SHELL})
-	$(call dbg,ENV,${ENV})
 	$(call dbg,PHP on host,$(call has,php))
 	$(call dbg,PHP_BIN,$(shell command -v php || echo no))
 	$(call dbg,RUN_ON,${RUN_ON})
