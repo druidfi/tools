@@ -51,6 +51,16 @@ removed once this lands.
 stays as-is, it's a separate concern from `RUN_ON` (CI runners aren't "inside
 the app container" in the sense this refactor cares about).
 
+## Planned: QA total refactor
+
+`make/qa.mk` (`lint`, `lint-php`, `lint-js`, `fix`, `test`, `test-phpunit`,
+`test-phpunit-locally`, the `cs`/`test_result` macros) needs a ground-up
+rework — no detailed shape yet, flagging it so nobody invests in the current
+structure. Related known issues to fold in when this starts: the `lint-js`
+wrong-variable bug and `test-phpunit-locally` `PHONY`/help gaps listed below,
+plus whatever falls out of the `RUN_ON` removal above (`cs` and `test-phpunit`
+both call `docker_compose_exec`).
+
 ## Bugs
 
 - **`DOCKER_COMPOSE_YML_PATH` override is dead.** `make/docker.mk` `docker_compose`

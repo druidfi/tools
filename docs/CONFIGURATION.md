@@ -120,6 +120,9 @@ Run `make debug` to print the resolved values for the current project.
 
 ### QA (`make/qa.mk`)
 
+> Total refactor planned for this file — see [TODO.md](TODO.md#planned-qa-total-refactor).
+> Variables below describe current behavior, subject to change.
+
 | Variable | Default | Purpose |
 |---|---|---|
 | `TESTSUITES` | `unit,kernel,functional` | PHPUnit `--testsuite` value |

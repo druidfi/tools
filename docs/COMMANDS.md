@@ -104,6 +104,9 @@ see [CONFIGURATION.md](CONFIGURATION.md#javascript--node).
 
 ## QA (`make/qa.mk`, always available)
 
+> Total refactor planned for this file — see [TODO.md](TODO.md#planned-qa-total-refactor).
+> Targets/vars below describe current behavior, subject to change.
+
 | Command | Description |
 |---|---|
 | `make test` | Run `TEST_TARGETS` (`test-phpunit` by default) |
