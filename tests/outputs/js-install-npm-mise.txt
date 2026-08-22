@@ -1,0 +1,4 @@
+js-install JS_PACKAGE_MANAGER=npm PACKAGE_JSON_PATH=custom PACKAGE_JSON_EXISTS=yes NODE_VERSION=20 NODE_MANAGER=mise
+---
+printf "\n⭐ \033[0;33mRun 'npm install --no-audit --no-fund --engine-strict true' with mise...\n\033[0m\n"
+(cd custom && mise install && mise exec -- npm install --no-audit --no-fund --engine-strict true)

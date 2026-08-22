@@ -17,6 +17,13 @@ SYNC_TARGETS += drush-sync
 SYNC_FROM_REMOTE ?= no
 DRUPAL_THEME_NAME ?= $(firstword $(notdir $(wildcard $(WEBROOT)/themes/custom/*)))
 DRUPAL_THEME_PATH := $(shell pwd)/$(WEBROOT)/themes/custom/$(DRUPAL_THEME_NAME)
+
+# Point JS tooling (js-install, js-outdated, drupal-build-theme, drupal-watch-theme) at the
+# theme's package.json when there is no root package.json to take precedence.
+ifeq ($(shell test -f package.json && echo yes),yes)
+else ifneq ($(wildcard $(DRUPAL_THEME_PATH)/package.json),)
+PACKAGE_JSON_PATH := $(DRUPAL_THEME_PATH)
+endif
 CS_EXTS := inc,php,module,install,profile,theme
 CS_STANDARD_PATHS := vendor/drupal/coder/coder_sniffer,vendor/slevomat/coding-standard
 CS_STANDARDS := Drupal,DrupalPractice
@@ -191,12 +198,12 @@ open-db-gui: ## Open database with GUI tool
 PHONY += drupal-build-theme
 drupal-build-theme:
 	$(call step,Build theme $(DRUPAL_THEME_NAME)...\n)
-	@cd $(DRUPAL_THEME_PATH) && pnpm run build
+	$(call node_run,run build)
 
 PHONY += drupal-watch-theme
 drupal-watch-theme:
 	$(call step,Watch theme $(DRUPAL_THEME_NAME)...\n)
-	@cd $(DRUPAL_THEME_PATH) && pnpm run dev
+	$(call node_run,run dev)
 
 PHONY += fix-drupal
 fix-drupal: PATHS := $(subst $(space),,$(LINT_PATHS_PHP))

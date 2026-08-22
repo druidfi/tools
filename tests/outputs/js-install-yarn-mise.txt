@@ -1,0 +1,4 @@
+js-install JS_PACKAGE_MANAGER=yarn PACKAGE_JSON_PATH=custom PACKAGE_JSON_EXISTS=yes NODE_VERSION=20 NODE_MANAGER=mise
+---
+printf "\n⭐ \033[0;33mRun 'yarn install --frozen-lockfile' with mise...\n\033[0m\n"
+(cd custom && mise install && mise exec -- yarn install --frozen-lockfile)
