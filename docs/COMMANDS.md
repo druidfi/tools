@@ -88,6 +88,7 @@ from inside the container — see [CONFIGURATION.md](CONFIGURATION.md#auto-detec
 | `make composer-install` | Install packages |
 | `make composer-update` | Update packages |
 | `make composer-outdated` | Show outdated direct dependencies |
+| `make composer-audit` | Check installed packages for security vulnerabilities |
 | `make composer-info` | `composer info` |
 
 ## JavaScript (`make/javascript.mk`, loaded when `package.json` exists)

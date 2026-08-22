@@ -20,6 +20,11 @@ composer-outdated: ## Show outdated Composer packages
 	$(call step,Show outdated Composer packages...\n)
 	$(call composer,outdated --direct)
 
+PHONY += composer-audit
+composer-audit: ## Check installed packages for security vulnerabilities
+	$(call step,Check installed packages for security vulnerabilities...\n)
+	$(call composer,audit)
+
 define composer
 	$(call docker_compose_exec,composer --ansi$(if $(filter $(COMPOSER_JSON_PATH),.),, --working-dir=$(COMPOSER_JSON_PATH)) $(1))
 endef

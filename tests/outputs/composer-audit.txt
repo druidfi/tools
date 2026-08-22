@@ -1,0 +1,4 @@
+composer-audit COMPOSER_JSON_EXISTS=yes
+---
+printf "\n⭐ \033[0;33mCheck installed packages for security vulnerabilities...\n\033[0m\n"
+docker compose exec app sh -c "composer --ansi audit"
