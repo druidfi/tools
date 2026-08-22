@@ -1,9 +1,5 @@
 include $(DRUIDFI_TOOLS_MAKE_DIR)common.mk
-
-ifeq ($(call has,docker),yes)
 include $(DRUIDFI_TOOLS_MAKE_DIR)docker.mk
-endif
-
 include $(DRUIDFI_TOOLS_MAKE_DIR)qa.mk
 
 #
@@ -40,17 +36,17 @@ LAGOON ?= $(shell test -f .lagoon.yml && echo yes || echo no)
 
 ifeq ($(DRUID_CLOUD),yes)
 	SYSTEM := DRUID_CLOUD
+	include $(DRUIDFI_TOOLS_MAKE_DIR)druid_cloud.mk
 else ifeq ($(LAGOON),yes)
 	SYSTEM := LAGOON
+	include $(DRUIDFI_TOOLS_MAKE_DIR)lagoon.mk
 else
 	SYSTEM := WHOKNOWS
 endif
 
-ifeq ($(SYSTEM),DRUID_CLOUD)
-include $(DRUIDFI_TOOLS_MAKE_DIR)druid_cloud.mk
-else ifeq ($(SYSTEM),LAGOON)
-include $(DRUIDFI_TOOLS_MAKE_DIR)lagoon.mk
-endif
+#
+# Package managers
+#
 
 COMPOSER_JSON_EXISTS ?= $(shell test -f $(COMPOSER_JSON_PATH)/composer.json && echo yes || echo no)
 
