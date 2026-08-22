@@ -16,7 +16,7 @@ ifeq ($(shell command -v lt || echo no),no)
 	$(call warn,Install localtunnel with: ${YELLOW}npm install -g localtunnel${NO_COLOR})
 else
 	$(call step,Open localtunnel. Use CTRL+C to close localtunnel.\n)
-	@lt --port 443 --subdomain $(COMPOSE_PROJECT_NAME) --local-https --allow-invalid-cert
+	$(AT)lt --port 443 --subdomain $(COMPOSE_PROJECT_NAME) --local-https --allow-invalid-cert
 endif
 
 define dbg
@@ -70,5 +70,5 @@ define remove_string
 endef
 
 define run
-	@${1} && printf "${2}\n" || (printf "${RED}${3}${NO_COLOR}\n" && exit 1)
+	$(AT)${1} && printf "${2}\n" || (printf "${RED}${3}${NO_COLOR}\n" && exit 1)
 endef

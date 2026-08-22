@@ -49,5 +49,5 @@ define docker_compose_exec
 endef
 
 define docker_compose
-	@docker compose$(if $(filter $(DOCKER_COMPOSE_YML_PATH),$(DOCKER_COMPOSE_YML_PATH)),, -f $(DOCKER_COMPOSE_YML_PATH)) $(1)
+	$(AT)docker compose$(if $(filter $(DOCKER_COMPOSE_YML_PATH),$(DOCKER_COMPOSE_YML_PATH)),, -f $(DOCKER_COMPOSE_YML_PATH)) $(1)
 endef

@@ -6,6 +6,11 @@ so which commands become available) depends on auto-detection — see
 
 Run `make help` in any project for the live list of targets actually available there.
 
+**Debugging:** every wrapped tool call (`docker compose`, `drush`, `composer`, `bin/console`,
+`ssh`, etc.) runs silently by default. Add `V=1` (or `VERBOSE=1`) to any command to echo the
+real command being run, e.g. `make up V=1`. Use `make -n <target>` for a dry run that shows the
+recipe without executing it, and `make debug` to print the detected environment/variables.
+
 ## Core (always available)
 
 From `make/common.mk` and `make/utils.mk`.

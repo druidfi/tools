@@ -193,7 +193,7 @@ open-db-gui: ## Open database with GUI tool
 	$(eval DB_NAME ?= drupal)
 	$(eval DB_USER ?= drupal)
 	$(eval DB_PASS ?= drupal)
-	@open mysql://$(DB_USER):$(DB_PASS)@$(shell docker compose port $(DB_SERVICE) 3306 | grep -v ::)/$(DB_NAME)
+	$(AT)open mysql://$(DB_USER):$(DB_PASS)@$(shell docker compose port $(DB_SERVICE) 3306 | grep -v ::)/$(DB_NAME)
 
 PHONY += drupal-build-theme
 drupal-build-theme:

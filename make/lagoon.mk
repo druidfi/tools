@@ -31,17 +31,17 @@ shell-test: --shell-lagoon ## Shell into Lagoon test
 PHONY += deploy-lagoon-%
 deploy-lagoon-%: ## Deploy lagoon branch
 	$(call step,Deploy Lagoon branch $*...\n)
-	@lagoon -p $(LAGOON_PROJECT) deploy branch -b $*
+	$(AT)lagoon -p $(LAGOON_PROJECT) deploy branch -b $*
 
 PHONY += set-lagoon-secrets-%
 set-lagoon-secrets-%: ## Set Lagoon secrets
 		$(call step,Set Lagoon secrets on $*...\n)
-		@$(foreach secret,$(LAGOON_SECRETS),$(call set_lagoon_secret,$(secret),$*))
+		$(AT)$(foreach secret,$(LAGOON_SECRETS),$(call set_lagoon_secret,$(secret),$*))
 
 PHONY += list-lagoon-vars-%
 list-lagoon-vars-%: ## List variables from Lagoon
 		$(call step,List variables from Lagoon on $*...\n)
-		@lagoon -p $(LAGOON_PROJECT) list v --reveal -e $*
+		$(AT)lagoon -p $(LAGOON_PROJECT) list v --reveal -e $*
 
 define set_lagoon_secret
 printf "Setting secret on ${2}: %s = %s \n" "${1}" "${${1}}";

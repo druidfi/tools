@@ -59,7 +59,7 @@ lint-symfony: ## Lint Symfony code style
 
 PHONY += update-symfony-docker
 update-symfony-docker: ## Update Symfony Docker files from upstream
-	@curl -sSL https://raw.githubusercontent.com/druidfi/tools/main/scripts/symfony/update.sh | sh -s
+	$(AT)curl -sSL https://raw.githubusercontent.com/druidfi/tools/main/scripts/symfony/update.sh | sh -s
 
 define sf_console
 	$(call docker_compose_exec,bin/console $(1))

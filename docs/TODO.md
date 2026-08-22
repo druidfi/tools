@@ -12,31 +12,6 @@ rework — no detailed shape yet, flagging it so nobody invests in the current
 structure. Related known issues to fold in when this starts: the `lint-js`
 wrong-variable bug and `test-phpunit-locally` `PHONY`/help gaps listed below.
 
-## Planned: `V=1` verbose mode to show suppressed commands
-
-Every recipe line is hardcoded `@cmd` (~57 lines across `make/*.mk`), so the
-actual command run is never echoed — only the `step`/`sub_step`/`group_step`
-banner text. Right now the only way to see the real command is `make -n
-<target>` (dry run, doesn't execute). Add the standard kernel-Makefile-style
-toggle instead: an `AT` variable that's `@` by default and empty when `V=1`
-(or `VERBOSE=1`) is passed, so `make <target> V=1` runs for real *and* echoes
-every command.
-
-**Plan:**
-
-- `make/Makefile` (or `utils.mk`): `AT := @` by default;
-  `ifeq ($(V)$(VERBOSE),)` stays as-is, else `AT :=`. Exact var name/gating
-  logic TBD — just needs one flip point.
-- Replace hardcoded `@` with `$(AT)` on the commands that actually matter
-  (the wrapped tool calls — `docker compose ...`, `drush ...`, `composer
-  ...`, `bin/console ...`, `ssh ...` — not the cosmetic `step`/`warn` print
-  macros in `utils.mk`, which should stay silent-banner regardless of `V`).
-  Touches most `.mk` files; do it file by file, not all at once.
-
-**Docs to update once this lands:** `docs/COMMANDS.md` or
-`docs/CONFIGURATION.md` gets a short "debugging: `make <target> V=1`" note
-next to the existing `make -n` / `make debug` guidance.
-
 ## Bugs
 
 - **`DOCKER_COMPOSE_YML_PATH` override is dead.** `make/docker.mk` `docker_compose`

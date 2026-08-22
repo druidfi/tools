@@ -40,17 +40,17 @@ js-outdated: ## Show outdated JS packages
 ifeq ($(NODE_MANAGER),mise)
 define node_run
 	$(call step,Run '$(JS_PACKAGE_MANAGER) $(1)' with mise...\n)
-	@(cd $(PACKAGE_JSON_PATH) && mise install && mise exec -- $(JS_PACKAGE_MANAGER) $(1))
+	$(AT)(cd $(PACKAGE_JSON_PATH) && mise install && mise exec -- $(JS_PACKAGE_MANAGER) $(1))
 endef
 else ifeq ($(NODE_MANAGER),volta)
 define node_run
 	$(call step,Run '$(JS_PACKAGE_MANAGER) $(1)' with Volta...\n)
-	@(cd $(PACKAGE_JSON_PATH) && $(JS_PACKAGE_MANAGER) $(1))
+	$(AT)(cd $(PACKAGE_JSON_PATH) && $(JS_PACKAGE_MANAGER) $(1))
 endef
 else ifeq ($(NODE_MANAGER),nvm)
 define node_run
 	$(call step,Run '$(JS_PACKAGE_MANAGER) $(1)' with Node $(NODE_VERSION)...\n)
-	@. $(NVM_SH) && (nvm which $(NODE_VERSION) > /dev/null 2>&1 || nvm install $(NODE_VERSION)) && \
+	$(AT). $(NVM_SH) && (nvm which $(NODE_VERSION) > /dev/null 2>&1 || nvm install $(NODE_VERSION)) && \
 		nvm exec $(NODE_VERSION) $(JS_PACKAGE_MANAGER) $(if $(filter $(JS_PACKAGE_MANAGER),yarn),$(JS_PACKAGE_MANAGER_CWD_FLAG_YARN),$(if $(filter $(JS_PACKAGE_MANAGER),pnpm),$(JS_PACKAGE_MANAGER_CWD_FLAG_PNPM),$(JS_PACKAGE_MANAGER_CWD_FLAG_NPM))) $(PACKAGE_JSON_PATH) $(1)
 endef
 else

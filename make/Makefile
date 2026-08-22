@@ -1,5 +1,12 @@
 .DEFAULT_GOAL := help
 
+# Verbose mode: `make <target> V=1` (or VERBOSE=1) echoes the wrapped tool
+# calls instead of just the step banners.
+AT := @
+ifneq ($(V)$(VERBOSE),)
+AT :=
+endif
+
 BUILD_TARGETS :=
 COMPOSER_JSON_PATH ?= .
 DRUIDFI_TOOLS_MAKE_DIR := $(dir $(lastword $(MAKEFILE_LIST)))

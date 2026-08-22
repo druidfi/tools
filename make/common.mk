@@ -11,13 +11,13 @@ build: ## Build codebase(s)
 PHONY += clean
 clean: ## Cleanup
 	$(call step,Cleanup loaded files...\n)
-	@rm -rf vendor
-	@git clean -fdx $(foreach item,$(CLEAN_EXCLUDE),-e $(item))
+	$(AT)rm -rf vendor
+	$(AT)git clean -fdx $(foreach item,$(CLEAN_EXCLUDE),-e $(item))
 
 PHONY += self-update
 self-update: ## Self-update makefiles from druidfi/tools
 	$(call step,Update makefiles from druidfi/tools\n)
-	@bash -c "$$(curl -fsSL $(UPDATE_SCRIPT_URL))"
+	$(AT)bash -c "$$(curl -fsSL $(UPDATE_SCRIPT_URL))"
 
 PHONY += sync
 sync: ## Sync data from other environments
