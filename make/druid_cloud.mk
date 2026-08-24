@@ -10,13 +10,11 @@ PHONY += --get-current-build
 	$(call sub_step,Current Build is $(BUILD)\n)
 
 PHONY += --deploy
---deploy: --get-current-build
+--deploy:: --get-current-build
 	$(call step,Validate Docker Compose config...\n)
 	$(AT)BUILD=$(BUILD) op run --env-file="./.env.$(INSTANCE)" -- docker compose config
 	$(call step,Deploy Build $(BUILD) on $(INSTANCE)...\n)
 	$(AT)BUILD=$(BUILD) op run --env-file="./.env.$(INSTANCE)" -- docker compose up --wait --remove-orphans
-	$(call step,Run post-deploy tasks...\n)
-	$(AT)ssh $(SSH) docker exec $(PROJECT)-$(INSTANCE) drush --ansi deploy
 
 PHONY += deploy-testing
 deploy-testing: INSTANCE := test

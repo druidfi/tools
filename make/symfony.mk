@@ -43,6 +43,12 @@ sf-update: ## Update Symfony packages with Composer
 	$(call step,Update Symfony packages with Composer...\n)
 	$(call composer,update -W "doctrine/*" "symfony/*" "twig/*" --no-scripts)
 
+PHONY += --deploy
+--deploy::
+	$(call step,Run post-deploy tasks...\n)
+	$(AT)BUILD=$(BUILD) op run --env-file="./.env.$(INSTANCE)" -- docker compose exec $(CLI_SERVICE) bin/console --ansi cache:clear
+	$(AT)BUILD=$(BUILD) op run --env-file="./.env.$(INSTANCE)" -- docker compose exec $(CLI_SERVICE) bin/console --ansi about
+
 PHONY += fresh
 fresh: ## Build fresh development environment
 	@$(MAKE) $(SF_FRESH_TARGETS)

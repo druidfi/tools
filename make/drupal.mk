@@ -110,6 +110,11 @@ drush-deploy: ## Run Drush deploy
 	$(call step,Run Drush deploy...\n)
 	$(call drush,deploy)
 
+PHONY += --deploy
+--deploy::
+	$(call step,Run post-deploy tasks...\n)
+	$(AT)BUILD=$(BUILD) op run --env-file="./.env.$(INSTANCE)" -- docker compose exec $(CLI_SERVICE) drush --ansi deploy
+
 PHONY += drush-updb
 drush-updb: ## Run database updates
 	$(call step,Run database updates...\n)
