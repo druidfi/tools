@@ -54,7 +54,7 @@ jobs:
 
       # Debug mode downloads files from this branch to ./debug folder
       - name: Run updater
-        run: ./update.sh --debug --branch ${GITHUB_REF##*/}
+        run: ./update.sh --debug --branch "${GITHUB_REF_NAME}"
 
       - name: Test that downloaded files exist in debug folder
         run: |
