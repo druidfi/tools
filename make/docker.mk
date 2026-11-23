@@ -4,6 +4,15 @@ CLI_SHELL := sh
 DOCKER_COMPOSE_YML_PATH ?= compose.yaml
 DOCKER_COMPOSE_YML_EXISTS := $(shell test -f $(DOCKER_COMPOSE_YML_PATH) && echo yes || echo no)
 DOCKER_PROJECT_ROOT ?= /app
+# Pass host Composer credentials (GitHub token, private repos) into the CLI container.
+# Order: existing COMPOSER_AUTH env > Composer auth.json > GitHub CLI token (gh auth token).
+# Passed by name (-e COMPOSER_AUTH) so the token never appears in process arguments.
+COMPOSER_AUTH_FILE ?= $(or $(COMPOSER_HOME),$(HOME)/.composer)/auth.json
+COMPOSER_AUTH ?= $(shell \
+	if [ -f $(COMPOSER_AUTH_FILE) ]; then cat $(COMPOSER_AUTH_FILE); \
+	elif command -v gh >/dev/null 2>&1 && t=$$(gh auth token 2>/dev/null) && [ -n "$$t" ]; then \
+		printf '{"github-oauth":{"github.com":"%s"}}' "$$t"; fi)
+export COMPOSER_AUTH
 
 PHONY += config
 config: ## Show docker-compose config
@@ -37,14 +46,14 @@ up: ## Launch the environment
 
 PHONY += shell
 shell: ## Login to CLI container
-	$(call docker_compose,exec $(CLI_SERVICE) $(CLI_SHELL))
+	$(call docker_compose,exec -e COMPOSER_AUTH $(CLI_SERVICE) $(CLI_SHELL))
 
 PHONY += ssh-check
 ssh-check: ## Check SSH keys on CLI container
 	$(call docker_compose_exec,ssh-add -L)
 
 define docker_compose_exec
-	$(call docker_compose,exec$(if $(CLI_USER), -u $(CLI_USER),) $(CLI_SERVICE) $(CLI_SHELL) -c "$(1)")
+	$(call docker_compose,exec -e COMPOSER_AUTH$(if $(CLI_USER), -u $(CLI_USER),) $(CLI_SERVICE) $(CLI_SHELL) -c "$(1)")
 	$(if $(2),@echo "$(2)",)
 endef
 
