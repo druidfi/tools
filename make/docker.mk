@@ -6,14 +6,17 @@ DOCKER_COMPOSE_YML_EXISTS := $(shell test -f $(DOCKER_COMPOSE_YML_PATH) && echo 
 DOCKER_PROJECT_ROOT ?= /app
 # Pass host Composer credentials (GitHub token, private repos) into the CLI container.
 # Order: existing COMPOSER_AUTH env > Composer auth.json > GitHub CLI token (gh auth token).
+# auth.json is looked up like Composer does: COMPOSER_AUTH_FILE if set, else $COMPOSER_HOME,
+# else ${XDG_CONFIG_HOME:-~/.config}/composer (Linux default), then ~/.composer (macOS default).
 # Passed by name (-e COMPOSER_AUTH) so the token never appears in process arguments.
-COMPOSER_AUTH_FILE ?= $(or $(COMPOSER_HOME),$(HOME)/.composer)/auth.json
-# Simply expanded (:=) so the $(shell) runs once at parse time, not on every recipe line
+COMPOSER_AUTH_CANDIDATES = $(if $(COMPOSER_AUTH_FILE),"$(COMPOSER_AUTH_FILE)",$(if $(COMPOSER_HOME),"$(COMPOSER_HOME)/auth.json",\
+	"$${XDG_CONFIG_HOME:-$$HOME/.config}/composer/auth.json" "$$HOME/.composer/auth.json"))
+# Simply expanded (:=) so the $(shell) runs once at parse time, not once per target
 # (an exported recursive variable is re-expanded each time make builds a child environment).
 ifndef COMPOSER_AUTH
 COMPOSER_AUTH := $(shell \
-	if [ -f $(COMPOSER_AUTH_FILE) ]; then cat $(COMPOSER_AUTH_FILE); \
-	elif command -v gh >/dev/null 2>&1 && t=$$(gh auth token 2>/dev/null) && [ -n "$$t" ]; then \
+	for f in $(COMPOSER_AUTH_CANDIDATES); do [ -f "$$f" ] && { cat "$$f"; exit 0; }; done; \
+	if command -v gh >/dev/null 2>&1 && t=$$(gh auth token 2>/dev/null) && [ -n "$$t" ]; then \
 		printf '{"github-oauth":{"github.com":"%s"}}' "$$t"; fi)
 endif
 export COMPOSER_AUTH
