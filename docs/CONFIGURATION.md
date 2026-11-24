@@ -88,6 +88,8 @@ Run `make debug` to print the resolved values for the current project.
 | `CLI_USER` | unset | Container user for exec'd commands, e.g. `druid` |
 | `DOCKER_PROJECT_ROOT` | `/app` | Working directory inside the container |
 | `DOCKER_COMPOSE_YML_PATH` | `compose.yaml` | Compose file path |
+| `COMPOSER_AUTH` | auto | Composer credentials (JSON) passed into the CLI container with `-e COMPOSER_AUTH`, so the token never shows up in process arguments. If unset, it is read from the first `auth.json` found (see `COMPOSER_AUTH_FILE`), else built from `gh auth token`. Evaluated once per `make` run |
+| `COMPOSER_AUTH_FILE` | auto | Explicit `auth.json` path. If unset, the lookup follows Composer: `$COMPOSER_HOME/auth.json`, else `${XDG_CONFIG_HOME:-~/.config}/composer/auth.json`, then `~/.composer/auth.json` |
 
 ### Drupal (`make/drupal.mk`)
 
