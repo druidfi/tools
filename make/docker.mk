@@ -8,10 +8,14 @@ DOCKER_PROJECT_ROOT ?= /app
 # Order: existing COMPOSER_AUTH env > Composer auth.json > GitHub CLI token (gh auth token).
 # Passed by name (-e COMPOSER_AUTH) so the token never appears in process arguments.
 COMPOSER_AUTH_FILE ?= $(or $(COMPOSER_HOME),$(HOME)/.composer)/auth.json
-COMPOSER_AUTH ?= $(shell \
+# Simply expanded (:=) so the $(shell) runs once at parse time, not on every recipe line
+# (an exported recursive variable is re-expanded each time make builds a child environment).
+ifndef COMPOSER_AUTH
+COMPOSER_AUTH := $(shell \
 	if [ -f $(COMPOSER_AUTH_FILE) ]; then cat $(COMPOSER_AUTH_FILE); \
 	elif command -v gh >/dev/null 2>&1 && t=$$(gh auth token 2>/dev/null) && [ -n "$$t" ]; then \
 		printf '{"github-oauth":{"github.com":"%s"}}' "$$t"; fi)
+endif
 export COMPOSER_AUTH
 
 PHONY += config
